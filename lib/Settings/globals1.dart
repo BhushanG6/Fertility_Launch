@@ -1,0 +1,27 @@
+int currentvalue = 0;
+var currentvalue2 = 0;
+var currentvalue3 = 0;
+var currentvalue4 = 0;
+var currentvalue5 = 0;
+bool d11=false;
+bool d12=false;
+bool d13=false;
+bool d14=false;
+bool d15=false;
+bool d16=false;
+bool d21=false;
+bool d22=false;
+bool d23=false;
+bool d24=false;
+bool d25=false;
+bool d26=false;
+bool d31=false;
+bool d32=false;
+bool d33=false;
+bool d34=false;
+bool d35=false;
+bool d36=false;
+
+bool pad=false;
+bool tampons=false;
+bool cloth=false;

@@ -36,6 +36,7 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
 
   final player = AudioCache();
   bool _valueS = false;
+  InputState callmethode=new InputState();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -59,7 +60,9 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
                     ),
                     InkWell(
                       onTap: () {
+                        postSetting();
                         Navigator.pop(context);
+                      
                       },
                       child: Text(
                         "Done",

@@ -1,10 +1,6 @@
 import 'package:audioplayers/audio_cache.dart';
 import 'package:flutter/material.dart';
-int currentvalue = 0;
-var currentvalue2 = 0;
-var currentvalue3 = 0;
-var currentvalue4 = 0;
-var currentvalue5 = 0;
+
 bool dm = false;
 bool sw = false;
 String p12 = '';

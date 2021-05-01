@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../bottom_navigator.dart';
 import 'globals.dart' as globals;
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'globals1.dart' as globals1;
 
 class RemainderAgain extends StatefulWidget {
   int start_day;
@@ -67,6 +69,87 @@ class _RemainderAgainState extends State<RemainderAgain> {
   var selectedsanitary = 'Nothing';
 
   String no_stages = '';
+
+  bool d11 = false;
+  bool d12 = false;
+  bool d13 = false;
+  bool d14 = false;
+  bool d15 = false;
+  bool d16 = false;
+  bool d21 = false;
+  bool d22 = false;
+  bool d23 = false;
+  bool d24 = false;
+  bool d25 = false;
+  bool d26 = false;
+  bool d31 = false;
+  bool d32 = false;
+  bool d33 = false;
+  bool d34 = false;
+  bool d35 = false;
+  bool d36 = false;
+
+  void initState() {
+    super.initState();
+    getStatus();
+  }
+
+  void getStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      pad = (prefs.getBool('pad') ?? false);
+      tampons = (prefs.getBool('tampons') ?? false);
+      cloth = (prefs.getBool('cloth') ?? false);
+      globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
+      globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
+      globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
+      globals1.d14 = d14 = (prefs.getBool('4times1') ?? false);
+      globals1.d15 = d15 = (prefs.getBool('5hours1') ?? false);
+      globals1.d16 = d16 = (prefs.getBool('2hours1') ?? false);
+      globals1.d21 = d21 = (prefs.getBool('once2') ?? false);
+      globals1.d22 = d22 = (prefs.getBool('twice2') ?? false);
+      globals1.d23 = d23 = (prefs.getBool('thrice2') ?? false);
+      globals1.d24 = d24 = (prefs.getBool('4times2') ?? false);
+      globals1.d25 = d25 = (prefs.getBool('5hours2') ?? false);
+      globals1.d26 = d26 = (prefs.getBool('2hours2') ?? false);
+      globals1.d31 = d31 = (prefs.getBool('once3') ?? false);
+      globals1.d32 = d32 = (prefs.getBool('twice3') ?? false);
+      globals1.d33 = d33 = (prefs.getBool('thrice3') ?? false);
+      globals1.d34 = d34 = (prefs.getBool('4times3') ?? false);
+      globals1.d35 = d35 = (prefs.getBool('5hours3') ?? false);
+      globals1.d36 = d36 = (prefs.getBool('2hours3') ?? false);
+    });
+  }
+
+  void setStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    prefs.setBool('val_pad', val_pads);
+    prefs.setBool('pad', pad);
+    prefs.setBool('tampons', tampons);
+    prefs.setBool('cloth', cloth);
+    globals1.pad = pad;
+    globals1.tampons = tampons;
+    globals1.cloth = cloth;
+    prefs.setBool('once1', d11);
+    prefs.setBool('twice1', d12);
+    prefs.setBool('thrice1', d13);
+    prefs.setBool('4times1', d14);
+    prefs.setBool('5hours1', d15);
+    prefs.setBool('2hours1', d16);
+    prefs.setBool('once2', d21);
+    prefs.setBool('twice2', d22);
+    prefs.setBool('thrice2', d23);
+    prefs.setBool('4times2', d24);
+    prefs.setBool('5hours2', d25);
+    prefs.setBool('2hours2', d26);
+    prefs.setBool('once3', d31);
+    prefs.setBool('twice3', d32);
+    prefs.setBool('thrice3', d33);
+    prefs.setBool('4times3', d34);
+    prefs.setBool('5hours3', d35);
+    prefs.setBool('2hours3', d36);
+  }
 
   showAlertDialog(String para, Function setState2) {
     // set up the buttons
@@ -389,12 +472,13 @@ class _RemainderAgainState extends State<RemainderAgain> {
                           GestureDetector(
                             onTap: () {
                               if (pad == false) {
-                                inside_sanitary("pad", setState2);
+                                inside_sanitary1("pad", setState2);
                               } else {
                                 showAlertDialog("pad", setState2);
                               }
                               cloth = false;
                               tampons = false;
+                              setStatus();
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -421,12 +505,13 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                 custom_checkbox(pad, () {
                                   setState2(() {
                                     if (pad == false) {
-                                      inside_sanitary("pad", setState2);
+                                      inside_sanitary1("pad", setState2);
                                     } else {
                                       showAlertDialog("pad", setState2);
                                     }
                                     cloth = false;
                                     tampons = false;
+                                    setStatus();
                                   });
                                 })
                               ],
@@ -436,7 +521,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                           GestureDetector(
                             onTap: () {
                               if (tampons == false)
-                                inside_sanitary("tampons", setState2);
+                                inside_sanitary2("tampons", setState2);
                               else
                                 showAlertDialog("tampons", setState2);
 
@@ -469,7 +554,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                   setState2(() {
                                     //tampons = !tampons;
                                     if (tampons == false)
-                                      inside_sanitary("tampons", setState2);
+                                      inside_sanitary2("tampons", setState2);
                                     else
                                       showAlertDialog("tampons", setState2);
 
@@ -484,7 +569,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                           GestureDetector(
                             onTap: () {
                               if (cloth == false)
-                                inside_sanitary("cloth", setState2);
+                                inside_sanitary3("cloth", setState2);
                               else
                                 showAlertDialog("cloth", setState2);
 
@@ -516,7 +601,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                 custom_checkbox(cloth, () {
                                   setState2(() {
                                     if (cloth == false)
-                                      inside_sanitary("cloth", setState2);
+                                      inside_sanitary3("cloth", setState2);
                                     else
                                       showAlertDialog("cloth", setState2);
 
@@ -1807,15 +1892,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
         });
   }
 
-  /////////////
-  void inside_sanitary(String para, Function setState2) {
-    bool d1 = false;
-    bool d2 = false;
-    bool d3 = false;
-    bool d4 = false;
-    bool d5 = false;
-    bool d6 = false;
-
+  void inside_sanitary3(String para, Function setState2) {
     showModalBottomSheet(
         clipBehavior: Clip.none,
         elevation: 10,
@@ -1868,9 +1945,9 @@ class _RemainderAgainState extends State<RemainderAgain> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Expanded(
-                          flex:0,
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
+                          flex: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1882,7 +1959,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                       child: Text(
                                         'Cancel',
                                         style: TextStyle(
-                                            color: Color.fromRGBO(46, 154, 215, 1),
+                                            color:
+                                                Color.fromRGBO(46, 154, 215, 1),
                                             fontSize: 17),
                                       )),
                                   Spacer(),
@@ -1894,304 +1972,248 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                             if (pad == true) val_pads = true;
                                           } else if (para == 'tampons') {
                                             tampons = !tampons;
-                                            if (tampons == true) val_pads = true;
+                                            if (tampons == true)
+                                              val_pads = true;
                                           } else {
                                             cloth = !cloth;
                                             if (cloth == true) val_pads = true;
                                           }
+                                          setStatus();
                                         });
                                         Navigator.pop(context);
                                       },
                                       child: Text(
                                         'Save',
                                         style: TextStyle(
-                                            color: Color.fromRGBO(46, 154, 215, 1),
+                                            color:
+                                                Color.fromRGBO(46, 154, 215, 1),
                                             fontSize: 17),
                                       )),
-                                         
-                                      
                                 ],
                               ),
-                               SizedBox(
-                            height: 20,
-                          ),
-                                Text('Your Average',
-                                    style: TextStyle(
-                                        fontSize: 28,
-                                        fontWeight: FontWeight.w600)),
-                                SizedBox(height: 3),
-                                Text(
-                                    'This shall be reminded only during your period days',
-                                    style: TextStyle(
-                                        fontSize: 13,
-                                        fontWeight: FontWeight.w400)),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text('Your Average',
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w600)),
+                              SizedBox(height: 3),
+                              Text(
+                                  'This shall be reminded only during your period days',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400)),
                             ],
                           ),
                         ),
-                                                  SizedBox(height: 35),
-
+                        SizedBox(height: 35),
                         Expanded(
-
-                                                  child: ScrollConfiguration(
-                                                         behavior: new ScrollBehavior()
+                          child: ScrollConfiguration(
+                            behavior: new ScrollBehavior()
                               ..buildViewportChrome(
                                   context, null, AxisDirection.down),
-                                                                                                      child: SingleChildScrollView(
-                                                      child: Container(
-                                              //padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                              
-                                GestureDetector(
-                                  onTap: () {
-                                    selectedsanitary = 'Once a day';
-                                    setState5(() {
-                                      d1 = !d1;
-                                      d2 = false;
-                                      d3 = false;
-                                      d4 = false;
-                                      d5 = false;
-                                      d6 = false;
-                                    });
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Text('Once a day',
-                                            style: d1
-                                                ? TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w600)
-                                                : TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight: FontWeight.w400,
-                                                        color: Theme.of(context)
-                                                                    .brightness !=
-                                                                Brightness.light
-                                                            ? Color.fromRGBO(
-                                                                158, 158, 158, 1)
-                                                            : null)),
-                                      ),
-                                      Spacer(),
-                                      custom_checkbox3(d1, () {
+                            child: SingleChildScrollView(
+                              child: Container(
+                                //padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
                                         selectedsanitary = 'Once a day';
                                         setState5(() {
-                                          d1 = !d1;
-                                          d2 = false;
-                                          d3 = false;
-                                          d4 = false;
-                                          d5 = false;
-                                          d6 = false;
+                                          d31 = !d31;
+                                          d32 = false;
+                                          d33 = false;
+                                          d34 = false;
+                                          d35 = false;
+                                          d36 = false;
                                         });
-                                      }),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 39),
-                                GestureDetector(
-                                  onTap: () {
-                                    selectedsanitary = 'Twice a day';
-
-                                    setState5(() {
-                                      d2 = !d2;
-                                      d1 = false;
-                                      d3 = false;
-                                      d4 = false;
-                                      d5 = false;
-                                      d6 = false;
-                                    });
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Text('Twice a day',
-                                            style: d2
-                                                ? TextStyle(
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Once a day',
+                                                style: d31
+                                                    ? TextStyle(
                                                         fontSize: 18,
-                                                        fontWeight: FontWeight.w600)
-                                                : TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
                                                         fontSize: 18,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                         color: Theme.of(context)
                                                                     .brightness !=
                                                                 Brightness.light
                                                             ? Color.fromRGBO(
-                                                                158, 158, 158, 1)
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
                                                             : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d31, () {
+                                            selectedsanitary = 'Once a day';
+                                            setState5(() {
+                                              d31 = !d31;
+                                              d32 = false;
+                                              d33 = false;
+                                              d34 = false;
+                                              d35 = false;
+                                              d36 = false;
+                                            });
+                                          }),
+                                        ],
                                       ),
-                                      Spacer(),
-                                      custom_checkbox3(d2, () {
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
                                         selectedsanitary = 'Twice a day';
 
                                         setState5(() {
-                                          d2 = !d2;
-                                          d1 = false;
-                                          d3 = false;
-                                          d4 = false;
-                                          d5 = false;
-                                          d6 = false;
+                                          d32 = !d32;
+                                          d31 = false;
+                                          d33 = false;
+                                          d34 = false;
+                                          d35 = false;
+                                          d36 = false;
                                         });
-                                      }),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 39),
-                                GestureDetector(
-                                  onTap: () {
-                                    selectedsanitary = 'Thrice a day';
-
-                                    setState5(() {
-                                      d3 = !d3;
-                                      d1 = false;
-                                      d2 = false;
-                                      d4 = false;
-                                      d5 = false;
-                                      d6 = false;
-                                    });
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.only(top: 15),
-                                        child: Text('Thrice a day',
-                                            style: d3
-                                                ? TextStyle(
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Twice a day',
+                                                style: d32
+                                                    ? TextStyle(
                                                         fontSize: 18,
-                                                        fontWeight: FontWeight.w600)
-                                                : TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
                                                         fontSize: 18,
-                                                        fontWeight: FontWeight.w400,
+                                                        fontWeight:
+                                                            FontWeight.w400,
                                                         color: Theme.of(context)
                                                                     .brightness !=
                                                                 Brightness.light
                                                             ? Color.fromRGBO(
-                                                                158, 158, 158, 1)
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
                                                             : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d32, () {
+                                            selectedsanitary = 'Twice a day';
+
+                                            setState5(() {
+                                              d32 = !d32;
+                                              d31 = false;
+                                              d33 = false;
+                                              d34 = false;
+                                              d35 = false;
+                                              d36 = false;
+                                            });
+                                          }),
+                                        ],
                                       ),
-                                      Spacer(),
-                                      custom_checkbox3(d3, () {
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
                                         selectedsanitary = 'Thrice a day';
 
                                         setState5(() {
-                                          d3 = !d3;
-                                          d1 = false;
-                                          d2 = false;
-                                          d4 = false;
-                                          d5 = false;
-                                          d6 = false;
+                                          d33 = !d33;
+                                          d31 = false;
+                                          d32 = false;
+                                          d34 = false;
+                                          d35 = false;
+                                          d36 = false;
                                         });
-                                      }),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 39),
-                                GestureDetector(
-                                  onTap: () {
-                                    selectedsanitary = '4 times a day';
-
-                                    setState5(() {
-                                      d4 = !d4;
-                                      d1 = false;
-                                      d3 = false;
-                                      d2 = false;
-                                      d5 = false;
-                                      d6 = false;
-                                    });
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
+                                      },
+                                      child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
                                           Padding(
                                             padding:
                                                 const EdgeInsets.only(top: 15),
-                                            child: Text('4 times a day',
-                                                style: d4
-                                                        ? TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.w600)
-                                                        : TextStyle(
-                                                            fontSize: 18,
-                                                            fontWeight:
-                                                                FontWeight.w400,
-                                                            color: Theme.of(context)
-                                                                        .brightness !=
-                                                                    Brightness.light
-                                                                ? Color.fromRGBO(
-                                                                    158,
-                                                                    158,
-                                                                    158,
-                                                                    1)
-                                                                : null)),
+                                            child: Text('Thrice a day',
+                                                style: d33
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
                                           ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            'Advisable',
-                                            style: TextStyle(
-                                                color: Color.fromRGBO(
-                                                        128, 215, 114, 1),
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500),
-                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d33, () {
+                                            selectedsanitary = 'Thrice a day';
+
+                                            setState5(() {
+                                              d33 = !d33;
+                                              d31 = false;
+                                              d32 = false;
+                                              d34 = false;
+                                              d35 = false;
+                                              d36 = false;
+                                            });
+                                          }),
                                         ],
                                       ),
-                                      Spacer(),
-                                      custom_checkbox3(d4, () {
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
                                         selectedsanitary = '4 times a day';
 
                                         setState5(() {
-                                          d4 = !d4;
-                                          d1 = false;
-                                          d3 = false;
-                                          d2 = false;
-                                          d5 = false;
-                                          d6 = false;
+                                          d34 = !d34;
+                                          d31 = false;
+                                          d33 = false;
+                                          d32 = false;
+                                          d35 = false;
+                                          d36 = false;
                                         });
-                                      }),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 20),
-                                GestureDetector(
-                                  onTap: () {
-                                    selectedsanitary = 'Every 5th Hour';
-
-                                    setState5(() {
-                                      d5 = !d5;
-                                      d1 = false;
-                                      d3 = false;
-                                      d2 = false;
-                                      d4 = false;
-                                      d6 = false;
-                                    });
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
+                                      },
+                                      child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 15),
-                                            child: Text('Every 5th Hour',
-                                                style: d5
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('4 times a day',
+                                                    style: d34
                                                         ? TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:
@@ -2202,68 +2224,71 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                                 FontWeight.w400,
                                                             color: Theme.of(context)
                                                                         .brightness !=
-                                                                    Brightness.light
-                                                                ? Color.fromRGBO(
-                                                                    158,
-                                                                    158,
-                                                                    158,
-                                                                    1)
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
                                                                 : null)),
-                                          ),
-                                          SizedBox(height: 5),
-                                          Text(
-                                            'Advisable',
-                                            style: TextStyle(
-                                                color: Color.fromRGBO(
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                'Advisable',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
                                                         128, 215, 114, 1),
-                                                fontSize: 13,
-                                                fontWeight: FontWeight.w500),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
                                           ),
+                                          Spacer(),
+                                          custom_checkbox3(d34, () {
+                                            selectedsanitary = '4 times a day';
+
+                                            setState5(() {
+                                              d34 = !d34;
+                                              d31 = false;
+                                              d33 = false;
+                                              d32 = false;
+                                              d35 = false;
+                                              d36 = false;
+                                            });
+                                          }),
                                         ],
                                       ),
-                                      Spacer(),
-                                      custom_checkbox3(d5, () {
+                                    ),
+                                    SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: () {
                                         selectedsanitary = 'Every 5th Hour';
 
                                         setState5(() {
-                                          d5 = !d5;
-                                          d1 = false;
-                                          d3 = false;
-                                          d2 = false;
-                                          d4 = false;
-                                          d6 = false;
+                                          d35 = !d35;
+                                          d31 = false;
+                                          d33 = false;
+                                          d32 = false;
+                                          d34 = false;
+                                          d36 = false;
                                         });
-                                      }),
-                                    ],
-                                  ),
-                                ),
-                                SizedBox(height: 21),
-                                GestureDetector(
-                                  onTap: () {
-                                    selectedsanitary = 'Every 2 Hour';
-
-                                    setState5(() {
-                                      d6 = !d6;
-                                      d1 = false;
-                                      d3 = false;
-                                      d2 = false;
-                                      d4 = false;
-                                      d5 = false;
-                                    });
-                                  },
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
+                                      },
+                                      child: Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 15),
-                                            child: Text('Every 2 Hour',
-                                                style: d6
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('Every 5th Hour',
+                                                    style: d35
                                                         ? TextStyle(
                                                             fontSize: 18,
                                                             fontWeight:
@@ -2274,39 +2299,1173 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                                 FontWeight.w400,
                                                             color: Theme.of(context)
                                                                         .brightness !=
-                                                                    Brightness.light
-                                                                ? Color.fromRGBO(
-                                                                    158,
-                                                                    158,
-                                                                    158,
-                                                                    1)
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
                                                                 : null)),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                'Advisable',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        128, 215, 114, 1),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
                                           ),
+                                          Spacer(),
+                                          custom_checkbox3(d35, () {
+                                            selectedsanitary = 'Every 5th Hour';
+
+                                            setState5(() {
+                                              d35 = !d35;
+                                              d31 = false;
+                                              d33 = false;
+                                              d32 = false;
+                                              d34 = false;
+                                              d36 = false;
+                                            });
+                                          }),
                                         ],
                                       ),
-                                      Spacer(),
-                                      custom_checkbox3(d6, () {
+                                    ),
+                                    SizedBox(height: 21),
+                                    GestureDetector(
+                                      onTap: () {
                                         selectedsanitary = 'Every 2 Hour';
 
                                         setState5(() {
-                                          d6 = !d6;
-                                          d1 = false;
-                                          d3 = false;
-                                          d2 = false;
-                                          d4 = false;
-                                          d5 = false;
+                                          d36 = !d36;
+                                          d31 = false;
+                                          d33 = false;
+                                          d32 = false;
+                                          d34 = false;
+                                          d35 = false;
                                         });
-                                      }),
-                                    ],
-                                  ),
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('Every 2 Hour',
+                                                    style: d36
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d36, () {
+                                            selectedsanitary = 'Every 2 Hour';
+
+                                            setState5(() {
+                                              d36 = !d36;
+                                              d31 = false;
+                                              d33 = false;
+                                              d32 = false;
+                                              d34 = false;
+                                              d35 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    /////////////////
+                                  ],
                                 ),
-                                SizedBox(height: 20),
-                                /////////////////
-                              ],
+                              ),
                             ),
                           ),
-                                                    ),
-                                                  ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        });
+  }
+
+  void inside_sanitary2(String para, Function setState2) {
+    showModalBottomSheet(
+        clipBehavior: Clip.none,
+        elevation: 10,
+        barrierColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        )),
+        isScrollControlled: true,
+        isDismissible: false,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.transparent //Colors.white.withOpacity(0.6)
+            : Colors.transparent,
+        //radius: 50,
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              //stream: null,
+              builder: (context, setState5) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              //padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40)),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color.fromRGBO(0, 0, 0, 0.6)
+                            : Color.fromRGBO(255, 255, 255, 0.6),
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color.fromRGBO(33, 33, 33, 0)
+                            : Color.fromRGBO(255, 255, 255, 0.8),
+                      ],
+                    )),
+                    height: 496,
+                    // margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(46, 154, 215, 1),
+                                            fontSize: 17),
+                                      )),
+                                  Spacer(),
+                                  InkWell(
+                                      onTap: () {
+                                        setState2(() {
+                                          if (para == "pad") {
+                                            pad = !pad;
+                                            if (pad == true) val_pads = true;
+                                          } else if (para == 'tampons') {
+                                            tampons = !tampons;
+                                            if (tampons == true)
+                                              val_pads = true;
+                                          } else {
+                                            cloth = !cloth;
+                                            if (cloth == true) val_pads = true;
+                                          }
+                                          setStatus();
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Save',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(46, 154, 215, 1),
+                                            fontSize: 17),
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text('Your Average',
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w600)),
+                              SizedBox(height: 3),
+                              Text(
+                                  'This shall be reminded only during your period days',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400)),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 35),
+                        Expanded(
+                          child: ScrollConfiguration(
+                            behavior: new ScrollBehavior()
+                              ..buildViewportChrome(
+                                  context, null, AxisDirection.down),
+                            child: SingleChildScrollView(
+                              child: Container(
+                                //padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Once a day';
+                                        setState5(() {
+                                          d21 = !d21;
+                                          d22 = false;
+                                          d23 = false;
+                                          d24 = false;
+                                          d25 = false;
+                                          d26 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Once a day',
+                                                style: d21
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d21, () {
+                                            selectedsanitary = 'Once a day';
+                                            setState5(() {
+                                              d21 = !d21;
+                                              d22 = false;
+                                              d23 = false;
+                                              d24 = false;
+                                              d25 = false;
+                                              d26 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Twice a day';
+
+                                        setState5(() {
+                                          d22 = !d22;
+                                          d21 = false;
+                                          d23 = false;
+                                          d24 = false;
+                                          d25 = false;
+                                          d26 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Twice a day',
+                                                style: d22
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d22, () {
+                                            selectedsanitary = 'Twice a day';
+
+                                            setState5(() {
+                                              d22 = !d22;
+                                              d21 = false;
+                                              d23 = false;
+                                              d24 = false;
+                                              d25 = false;
+                                              d26 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Thrice a day';
+
+                                        setState5(() {
+                                          d23 = !d23;
+                                          d21 = false;
+                                          d22 = false;
+                                          d24 = false;
+                                          d25 = false;
+                                          d26 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Thrice a day',
+                                                style: d23
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d23, () {
+                                            selectedsanitary = 'Thrice a day';
+
+                                            setState5(() {
+                                              d23 = !d23;
+                                              d21 = false;
+                                              d22 = false;
+                                              d24 = false;
+                                              d25 = false;
+                                              d26 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = '4 times a day';
+
+                                        setState5(() {
+                                          d24 = !d24;
+                                          d21 = false;
+                                          d23 = false;
+                                          d22 = false;
+                                          d25 = false;
+                                          d26 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('4 times a day',
+                                                    style: d24
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                'Advisable',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        128, 215, 114, 1),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d24, () {
+                                            selectedsanitary = '4 times a day';
+
+                                            setState5(() {
+                                              d24 = !d24;
+                                              d21 = false;
+                                              d23 = false;
+                                              d22 = false;
+                                              d25 = false;
+                                              d26 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Every 5th Hour';
+
+                                        setState5(() {
+                                          d25 = !d25;
+                                          d21 = false;
+                                          d23 = false;
+                                          d22 = false;
+                                          d24 = false;
+                                          d26 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('Every 5th Hour',
+                                                    style: d25
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                'Advisable',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        128, 215, 114, 1),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d25, () {
+                                            selectedsanitary = 'Every 5th Hour';
+
+                                            setState5(() {
+                                              d25 = !d25;
+                                              d21 = false;
+                                              d23 = false;
+                                              d22 = false;
+                                              d24 = false;
+                                              d26 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 21),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Every 2 Hour';
+
+                                        setState5(() {
+                                          d26 = !d26;
+                                          d21 = false;
+                                          d23 = false;
+                                          d22 = false;
+                                          d24 = false;
+                                          d25 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('Every 2 Hour',
+                                                    style: d26
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d26, () {
+                                            selectedsanitary = 'Every 2 Hour';
+
+                                            setState5(() {
+                                              d26 = !d26;
+                                              d21 = false;
+                                              d23 = false;
+                                              d22 = false;
+                                              d24 = false;
+                                              d25 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    /////////////////
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            );
+          });
+        });
+  }
+
+  /////////////
+  void inside_sanitary1(String para, Function setState2) {
+    showModalBottomSheet(
+        clipBehavior: Clip.none,
+        elevation: 10,
+        barrierColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        )),
+        isScrollControlled: true,
+        isDismissible: false,
+        backgroundColor: Theme.of(context).brightness == Brightness.light
+            ? Colors.transparent //Colors.white.withOpacity(0.6)
+            : Colors.transparent,
+        //radius: 50,
+        context: context,
+        builder: (BuildContext context) {
+          return StatefulBuilder(
+              //stream: null,
+              builder: (context, setState5) {
+            return Padding(
+              padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom),
+              //padding: const EdgeInsets.all(8.0),
+              child: ClipRRect(
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40)),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color.fromRGBO(0, 0, 0, 0.6)
+                            : Color.fromRGBO(255, 255, 255, 0.6),
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color.fromRGBO(33, 33, 33, 0)
+                            : Color.fromRGBO(255, 255, 255, 0.8),
+                      ],
+                    )),
+                    height: 496,
+                    // margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+                    padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Expanded(
+                          flex: 0,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  InkWell(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Cancel',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(46, 154, 215, 1),
+                                            fontSize: 17),
+                                      )),
+                                  Spacer(),
+                                  InkWell(
+                                      onTap: () {
+                                        setState2(() {
+                                          if (para == "pad") {
+                                            pad = !pad;
+                                            if (pad == true) val_pads = true;
+                                          } else if (para == 'tampons') {
+                                            tampons = !tampons;
+                                            if (tampons == true)
+                                              val_pads = true;
+                                          } else {
+                                            cloth = !cloth;
+                                            if (cloth == true) val_pads = true;
+                                          }
+                                          setStatus();
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        'Save',
+                                        style: TextStyle(
+                                            color:
+                                                Color.fromRGBO(46, 154, 215, 1),
+                                            fontSize: 17),
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Text('Your Average',
+                                  style: TextStyle(
+                                      fontSize: 28,
+                                      fontWeight: FontWeight.w600)),
+                              SizedBox(height: 3),
+                              Text(
+                                  'This shall be reminded only during your period days',
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400)),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: 35),
+                        Expanded(
+                          child: ScrollConfiguration(
+                            behavior: new ScrollBehavior()
+                              ..buildViewportChrome(
+                                  context, null, AxisDirection.down),
+                            child: SingleChildScrollView(
+                              child: Container(
+                                //padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Once a day';
+                                        setState5(() {
+                                          d11 = !d11;
+                                          d12 = false;
+                                          d13 = false;
+                                          d14 = false;
+                                          d15 = false;
+                                          d16 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Once a day',
+                                                style: d11
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d11, () {
+                                            selectedsanitary = 'Once a day';
+                                            setState5(() {
+                                              d11 = !d11;
+                                              d12 = false;
+                                              d13 = false;
+                                              d14 = false;
+                                              d15 = false;
+                                              d16 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Twice a day';
+
+                                        setState5(() {
+                                          d12 = !d12;
+                                          d11 = false;
+                                          d13 = false;
+                                          d14 = false;
+                                          d15 = false;
+                                          d16 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Twice a day',
+                                                style: d12
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d12, () {
+                                            selectedsanitary = 'Twice a day';
+
+                                            setState5(() {
+                                              d12 = !d12;
+                                              d11 = false;
+                                              d13 = false;
+                                              d14 = false;
+                                              d15 = false;
+                                              d16 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Thrice a day';
+
+                                        setState5(() {
+                                          d13 = !d13;
+                                          d11 = false;
+                                          d12 = false;
+                                          d14 = false;
+                                          d15 = false;
+                                          d16 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(top: 15),
+                                            child: Text('Thrice a day',
+                                                style: d13
+                                                    ? TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w600)
+                                                    : TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? Color.fromRGBO(
+                                                                158,
+                                                                158,
+                                                                158,
+                                                                1)
+                                                            : null)),
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d13, () {
+                                            selectedsanitary = 'Thrice a day';
+
+                                            setState5(() {
+                                              d13 = !d13;
+                                              d11 = false;
+                                              d12 = false;
+                                              d14 = false;
+                                              d15 = false;
+                                              d16 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 39),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = '4 times a day';
+
+                                        setState5(() {
+                                          d14 = !d14;
+                                          d11 = false;
+                                          d13 = false;
+                                          d12 = false;
+                                          d15 = false;
+                                          d16 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('4 times a day',
+                                                    style: d14
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                'Advisable',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        128, 215, 114, 1),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d14, () {
+                                            selectedsanitary = '4 times a day';
+
+                                            setState5(() {
+                                              d14 = !d14;
+                                              d11 = false;
+                                              d13 = false;
+                                              d12 = false;
+                                              d15 = false;
+                                              d16 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Every 5th Hour';
+
+                                        setState5(() {
+                                          d15 = !d15;
+                                          d11 = false;
+                                          d13 = false;
+                                          d12 = false;
+                                          d14 = false;
+                                          d16 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('Every 5th Hour',
+                                                    style: d15
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                              SizedBox(height: 5),
+                                              Text(
+                                                'Advisable',
+                                                style: TextStyle(
+                                                    color: Color.fromRGBO(
+                                                        128, 215, 114, 1),
+                                                    fontSize: 13,
+                                                    fontWeight:
+                                                        FontWeight.w500),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d15, () {
+                                            selectedsanitary = 'Every 5th Hour';
+
+                                            setState5(() {
+                                              d15 = !d15;
+                                              d11 = false;
+                                              d13 = false;
+                                              d12 = false;
+                                              d14 = false;
+                                              d16 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 21),
+                                    GestureDetector(
+                                      onTap: () {
+                                        selectedsanitary = 'Every 2 Hour';
+
+                                        setState5(() {
+                                          d16 = !d16;
+                                          d11 = false;
+                                          d13 = false;
+                                          d12 = false;
+                                          d14 = false;
+                                          d15 = false;
+                                        });
+                                      },
+                                      child: Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('Every 2 Hour',
+                                                    style: d16
+                                                        ? TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w600)
+                                                        : TextStyle(
+                                                            fontSize: 18,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            color: Theme.of(context)
+                                                                        .brightness !=
+                                                                    Brightness
+                                                                        .light
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null)),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          custom_checkbox3(d16, () {
+                                            selectedsanitary = 'Every 2 Hour';
+
+                                            setState5(() {
+                                              d16 = !d16;
+                                              d11 = false;
+                                              d13 = false;
+                                              d12 = false;
+                                              d14 = false;
+                                              d15 = false;
+                                            });
+                                          }),
+                                        ],
+                                      ),
+                                    ),
+                                    SizedBox(height: 20),
+                                    /////////////////
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -2634,8 +3793,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                         Expanded(
                           flex: 0,
                           child: Padding(
-                            padding:
-                                const EdgeInsets.fromLTRB(0, 16, 15, 0),
+                            padding: const EdgeInsets.fromLTRB(0, 16, 15, 0),
                             child: Row(
                               children: <Widget>[
                                 FlatButton(
@@ -2650,8 +3808,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                     child: Text(
                                       'Edit',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(
-                                              46, 154, 215, 1),
+                                          color:
+                                              Color.fromRGBO(46, 154, 215, 1),
                                           fontSize: 17),
                                     )),
                                 Spacer(),
@@ -2670,8 +3828,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                     child: Text(
                                       'Done',
                                       style: TextStyle(
-                                          color: Color.fromRGBO(
-                                              46, 154, 215, 1),
+                                          color:
+                                              Color.fromRGBO(46, 154, 215, 1),
                                           fontSize: 17),
                                     )),
                               ],
@@ -2682,7 +3840,6 @@ class _RemainderAgainState extends State<RemainderAgain> {
                           height: 20,
                         ),
                         Expanded(
-                          
                           child: ScrollConfiguration(
                             behavior: new ScrollBehavior()
                               ..buildViewportChrome(
@@ -2697,19 +3854,14 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                       children: <Widget>[
                                         Text(
                                           'Remind me at',
-                                          style: period_start_now2.hour !=
-                                                      0 &&
-                                                  period_start_now2
-                                                          .minute !=
-                                                      0
+                                          style: period_start_now2.hour != 0 &&
+                                                  period_start_now2.minute != 0
                                               ? TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.w600)
+                                                  fontWeight: FontWeight.w600)
                                               : TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.w400,
+                                                  fontWeight: FontWeight.w400,
                                                   color: Theme.of(context)
                                                               .brightness !=
                                                           Brightness.light
@@ -2740,21 +3892,21 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                 style: TextStyle(
                                                   color: del
                                                       ? Colors.red
-                                                      : Theme.of(context)
+                                                      : Theme.of(
+                                                                      context)
                                                                   .brightness !=
-                                                              Brightness
-                                                                  .light
-                                                          ? period_start_now2.hour ==
+                                                              Brightness.light
+                                                          ? period_start_now2
+                                                                          .hour ==
                                                                       0 &&
                                                                   period_start_now2
                                                                           .minute ==
                                                                       0
-                                                              ? Color
-                                                                  .fromRGBO(
-                                                                      158,
-                                                                      158,
-                                                                      158,
-                                                                      1)
+                                                              ? Color.fromRGBO(
+                                                                  158,
+                                                                  158,
+                                                                  158,
+                                                                  1)
                                                               : Colors.white
                                                           : Colors.black,
                                                   //decoration: TextDecoration.underline,
@@ -2768,12 +3920,10 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                         ? Colors.red
                                                         : Theme.of(context)
                                                                     .brightness !=
-                                                                Brightness
-                                                                    .light
+                                                                Brightness.light
                                                             ? _currentValue2 !=
                                                                     0
-                                                                ? Colors
-                                                                    .white
+                                                                ? Colors.white
                                                                 : Color
                                                                     .fromRGBO(
                                                                         158,
@@ -2824,29 +3974,25 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                 ),
                                               ),
                                               child: CupertinoDatePicker(
-                                                initialDateTime:
-                                                    DateTime.now(),
+                                                initialDateTime: DateTime.now(),
                                                 onDateTimeChanged:
                                                     (DateTime newdate) {
                                                   setState2(() {
                                                     period_start_now2 =
-                                                        TimeOfDay
-                                                            .fromDateTime(
-                                                                newdate);
-                                                    print(
-                                                        period_start_now2);
+                                                        TimeOfDay.fromDateTime(
+                                                            newdate);
+                                                    print(period_start_now2);
                                                   });
 
                                                   print(newdate);
                                                 },
-                                                maximumDate: new DateTime(
-                                                    2021, 12, 30),
+                                                maximumDate:
+                                                    new DateTime(2021, 12, 30),
                                                 minimumYear: 2010,
                                                 maximumYear: 2021,
                                                 minuteInterval: 1,
-                                                mode:
-                                                    CupertinoDatePickerMode
-                                                        .time,
+                                                mode: CupertinoDatePickerMode
+                                                    .time,
                                               ),
                                             ),
                                             //datetime2(),
@@ -2862,12 +4008,10 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                           style: _currentValue2 != 0
                                               ? TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.w600)
+                                                  fontWeight: FontWeight.w600)
                                               : TextStyle(
                                                   fontSize: 18,
-                                                  fontWeight:
-                                                      FontWeight.w400,
+                                                  fontWeight: FontWeight.w400,
                                                   color: Theme.of(context)
                                                               .brightness !=
                                                           Brightness.light
@@ -2896,17 +4040,14 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                       ? Colors.red
                                                       : Theme.of(context)
                                                                   .brightness !=
-                                                              Brightness
-                                                                  .light
-                                                          ? _currentValue2 !=
-                                                                  0
+                                                              Brightness.light
+                                                          ? _currentValue2 != 0
                                                               ? Colors.white
-                                                              : Color
-                                                                  .fromRGBO(
-                                                                      158,
-                                                                      158,
-                                                                      158,
-                                                                      1)
+                                                              : Color.fromRGBO(
+                                                                  158,
+                                                                  158,
+                                                                  158,
+                                                                  1)
                                                           : Colors.black,
                                                   //decoration: TextDecoration.underline,
                                                 ),
@@ -2919,12 +4060,10 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                         ? Colors.red
                                                         : Theme.of(context)
                                                                     .brightness !=
-                                                                Brightness
-                                                                    .light
+                                                                Brightness.light
                                                             ? _currentValue2 !=
                                                                     0
-                                                                ? Colors
-                                                                    .white
+                                                                ? Colors.white
                                                                 : Color
                                                                     .fromRGBO(
                                                                         158,
@@ -2973,42 +4112,35 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                               children: [
                                                 Container(
                                                   width: 55,
-                                                  child:
-                                                      NumberPicker.integer(
-                                                          // textMapper:,
-                                                          selectedTextStyle: TextStyle(
-                                                              color: Theme.of(context)
-                                                                          .brightness ==
-                                                                      Brightness
-                                                                          .light
-                                                                  ? Color.fromRGBO(
-                                                                      51,
-                                                                      51,
-                                                                      51,
-                                                                      1)
-                                                                  : Colors
-                                                                      .white,
-                                                              fontSize: 23,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400),
-                                                          highlightSelectedValue:
-                                                              true,
-                                                          initialValue:
-                                                              _currentValue2,
-                                                          minValue: 0,
-                                                          maxValue: 17,
-                                                          onChanged: (newVal) =>
-                                                              setState2(() =>
-                                                                  _currentValue2 =
-                                                                      newVal)),
+                                                  child: NumberPicker.integer(
+                                                      // textMapper:,
+                                                      selectedTextStyle: TextStyle(
+                                                          color: Theme.of(context)
+                                                                      .brightness ==
+                                                                  Brightness
+                                                                      .light
+                                                              ? Color.fromRGBO(
+                                                                  51, 51, 51, 1)
+                                                              : Colors.white,
+                                                          fontSize: 23,
+                                                          fontWeight:
+                                                              FontWeight.w400),
+                                                      highlightSelectedValue:
+                                                          true,
+                                                      initialValue:
+                                                          _currentValue2,
+                                                      minValue: 0,
+                                                      maxValue: 17,
+                                                      onChanged: (newVal) =>
+                                                          setState2(() =>
+                                                              _currentValue2 =
+                                                                  newVal)),
                                                 ),
                                                 Text('Days',
                                                     style: TextStyle(
                                                         fontSize: 23,
                                                         fontWeight:
-                                                            FontWeight
-                                                                .w300))
+                                                            FontWeight.w300))
                                               ],
                                             ),
                                           )
@@ -3026,8 +4158,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                             textAlign: TextAlign.left,
                                             style: TextStyle(
                                                 fontSize: 15,
-                                                fontWeight:
-                                                    FontWeight.w300)),
+                                                fontWeight: FontWeight.w300)),
                                       ],
                                     ),
                                     TextFormField(
@@ -3049,8 +4180,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                           onTap: () {
                                             setState(() {
                                               _currentValue2 = 0;
-                                              period_start_now2 = TimeOfDay(
-                                                  hour: 0, minute: 0);
+                                              period_start_now2 =
+                                                  TimeOfDay(hour: 0, minute: 0);
 
                                               val2 = false;
                                               showAlertDialog1(

@@ -4,6 +4,7 @@ import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../bottom_navigator.dart';
 import 'globals.dart' as globals;
+import 'globals1.dart' as globals1;
 import 'dart:math';
 import 'post.dart';
 class TextEditingControllerWorkaroud extends TextEditingController {
@@ -70,17 +71,17 @@ void initState() {
       _currentValue4 = (prefs.getInt('val4') ?? 0);
       _currentValue5 = (prefs.getInt('val5') ?? 0);
 
-      globals.currentvalue = (prefs.getInt('val') ?? 0);
-      globals.currentvalue2 = (prefs.getInt('val2') ?? 0);
-      globals.currentvalue3 = (prefs.getInt('val3') ?? 0);
-      globals.currentvalue4 = (prefs.getInt('val4') ?? 0);
-      globals.currentvalue5 = (prefs.getInt('val5') ?? 0);
-
+      globals1.currentvalue =_currentValue;
+      globals1.currentvalue2 = _currentValue2;
+      globals1.currentvalue3 =_currentValue3;
+      globals1.currentvalue4 = _currentValue4;
+      globals1.currentvalue5 = _currentValue5;
 
     });
   }
   void setStatus()
   async{
+    print(_currentValue);
    final prefs = await SharedPreferences.getInstance();
 
    prefs.setInt('val',_currentValue );
