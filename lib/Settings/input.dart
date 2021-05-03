@@ -70,7 +70,7 @@ void initState() {
       _currentValue3 = (prefs.getInt('val3') ?? 0);
       _currentValue4 = (prefs.getInt('val4') ?? 0);
       _currentValue5 = (prefs.getInt('val5') ?? 0);
-
+      
       globals1.currentvalue =_currentValue;
       globals1.currentvalue2 = _currentValue2;
       globals1.currentvalue3 =_currentValue3;
@@ -88,7 +88,7 @@ void initState() {
   prefs.setInt('val2',_currentValue2 );
     prefs.setInt('val3',_currentValue3 );
    prefs.setInt('val4',_currentValue4 );
-      prefs.setInt('val5',_currentValue5 );
+    prefs.setInt('val5',_currentValue5 );
 
 
 

@@ -25,3 +25,39 @@ bool d36=false;
 bool pad=false;
 bool tampons=false;
 bool cloth=false;
+
+//period alert
+bool alert;
+int fromwhentostart;
+String remindermessage;
+var remindmeat;
+
+//periodend
+String reminderEnd;
+bool periodend;
+
+//Ovulation
+bool ovulation;
+int fromwhentostartovu;
+String remindermessageovu;
+var remindmeatovu;
+
+//pills
+bool pills;
+var from;
+var till;
+String nameofpill;
+int numberofpills;
+String remindermessagepills;
+
+//contraception
+bool contraception;
+
+//general updates
+bool settingupdate=false;
+bool sanitaryupdate=false;
+bool periodalertupdate=false;
+bool periodendupdate=false;
+bool ovulationupdate=false;
+bool contraceptionupdate=false;
+bool pillsupdate=false;

@@ -62,7 +62,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
   final _titleController1 = TextEditingController();
   final _titleController2 = TextEditingController();
   final _titleController3 = TextEditingController();
-
+  var pillsdate = '';
   bool conraception = false;
   bool pills = false;
 
@@ -97,9 +97,16 @@ class _RemainderAgainState extends State<RemainderAgain> {
   void getStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
+      //sanitary used
+      selectedsanitary = (prefs.getString('select_sanitary') ?? "Nothing");
+
+      val_pads = (prefs.getBool('val_pad') ?? false);
       pad = (prefs.getBool('pad') ?? false);
       tampons = (prefs.getBool('tampons') ?? false);
       cloth = (prefs.getBool('cloth') ?? false);
+      globals1.pad = pad;
+      globals1.tampons = tampons;
+      globals1.cloth = cloth;
       globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
       globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
       globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
@@ -118,19 +125,57 @@ class _RemainderAgainState extends State<RemainderAgain> {
       globals1.d34 = d34 = (prefs.getBool('4times3') ?? false);
       globals1.d35 = d35 = (prefs.getBool('5hours3') ?? false);
       globals1.d36 = d36 = (prefs.getBool('2hours3') ?? false);
+      //Period alert
+      globals1.remindmeat = (prefs.get('remindmeat') ?? '0');
+
+      globals1.alert = alert = (prefs.getBool('periodalert') ?? false);
+      globals1.fromwhentostart =
+          _currentValue2 = (prefs.getInt('fromwhentost') ?? 0);
+      globals1.remindermessage =
+          _titleController2.text = (prefs.getString('remindermessage') ?? '');
+
+      //periodend
+      globals1.reminderEnd =
+          _titleController_alert.text = (prefs.getString('reminderend') ?? '');
+
+      globals1.periodend =
+          period_alertval = (prefs.getBool('periodendbool') ?? false);
+
+      //ovulation
+      globals1.remindmeatovu = (prefs.get('remindmeatovu') ?? '0');
+
+      globals1.ovulation = val3 = (prefs.getBool('ovulation') ?? false);
+      globals1.fromwhentostartovu =
+          _currentValue3 = (prefs.getInt('fromwhentostovu') ?? 0);
+      globals1.remindermessageovu = _titleController3.text =
+          (prefs.getString('remindermessageovu') ?? '');
+
+      //pills
+      globals1.pills = pills = (prefs.getBool('pills') ?? false);
+      globals1.till = pillsdate = (prefs.getString('till') ?? '');
+      globals1.numberofpills =
+          pill_interval = (prefs.getInt('numberofpills') ?? 0);
+      globals1.nameofpill =
+          pillname.text = (prefs.getString('numberofpills') ?? '');
+      globals1.remindermessagepills =
+          pills_ovul.text = (prefs.getString('remindermessagepills') ?? '');
+
+      //contraception
+      globals1.contraception =
+          conraception = (prefs.getBool('contraception') ?? false);
     });
   }
 
   void setStatus() async {
     final prefs = await SharedPreferences.getInstance();
+    //sanitary used
+    prefs.setString('select_sanitary', selectedsanitary);
 
     prefs.setBool('val_pad', val_pads);
     prefs.setBool('pad', pad);
     prefs.setBool('tampons', tampons);
     prefs.setBool('cloth', cloth);
-    globals1.pad = pad;
-    globals1.tampons = tampons;
-    globals1.cloth = cloth;
+
     prefs.setBool('once1', d11);
     prefs.setBool('twice1', d12);
     prefs.setBool('thrice1', d13);
@@ -149,6 +194,36 @@ class _RemainderAgainState extends State<RemainderAgain> {
     prefs.setBool('4times3', d34);
     prefs.setBool('5hours3', d35);
     prefs.setBool('2hours3', d36);
+    //period alert
+    prefs.setString('remindmeat', period_start_now2.toString());
+
+    prefs.setInt('fromwhentost', _currentValue2);
+    prefs.setBool('periodalert', alert);
+    prefs.setString('remindermessage', _titleController2.text);
+
+    //periodend
+    prefs.setBool('periodendbool', period_alertval);
+    prefs.setString('reminderend', _titleController_alert.text);
+
+    //ovulation
+
+    prefs.setString('remindmeatovu', period_start_now3.toString());
+
+    prefs.setInt('fromwhentostovu', _currentValue3);
+    prefs.setBool('ovulation', val3);
+    prefs.setString('remindermessageovu', _titleController3.text);
+
+    //pills
+    prefs.setBool('pills', pills);
+    prefs.setString('from', DateTime.now().toString());
+    prefs.setString('till', pillsdate);
+    prefs.setInt('numberofpills', pill_interval);
+    prefs.setString('nameofpills', pillname.text);
+    prefs.setString('remindermessagepills', pills_ovul.text);
+
+//contraception
+
+    prefs.setBool('contraception', conraception);
   }
 
   showAlertDialog(String para, Function setState2) {
@@ -450,6 +525,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                               GestureDetector(
                                   onTap: () {
                                     setState(() {
+                                      setStatus();
+                                      globals1.sanitaryupdate = true;
                                       // widget.start_time = period_start_now1;
                                       // widget.start_day = _currentValue1;
                                       // val1 = true;
@@ -478,7 +555,6 @@ class _RemainderAgainState extends State<RemainderAgain> {
                               }
                               cloth = false;
                               tampons = false;
-                              setStatus();
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -511,7 +587,6 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                     }
                                     cloth = false;
                                     tampons = false;
-                                    setStatus();
                                   });
                                 })
                               ],
@@ -607,7 +682,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
 
                                     pad = false;
                                     tampons = false;
-                                    if (cloth) {}
+
                                     // cloth = !cloth;
                                   });
                                 })
@@ -708,6 +783,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                         setState(() {
                                           // period_alert = true;
                                         });
+                                        setStatus();
+                                        globals1.periodendupdate = true;
                                         Navigator.pop(context);
                                       },
                                       child: Text(
@@ -1269,7 +1346,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
     bool del = false;
     String no_pills = '';
     bool boolpill = false;
-    var pillsdate = '';
+
     String diffdate = '0';
     showModalBottomSheet(
         clipBehavior: Clip.none,
@@ -1354,6 +1431,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                           // a11 = false;
                                           // a12 = false;
                                         });
+                                        setStatus();
+                                        globals1.pillsupdate = true;
                                         Navigator.pop(context);
                                       },
                                       child: Text(
@@ -1403,7 +1482,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                         padding: EdgeInsets.only(bottom: 5),
                                         height: 30,
                                         width: 113,
-                                        child: Text('Today',
+                                        child: Text(DateTime.now().toString(),
                                             style: TextStyle(
                                                 color: Theme.of(context)
                                                             .brightness !=
@@ -1978,7 +2057,6 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                             cloth = !cloth;
                                             if (cloth == true) val_pads = true;
                                           }
-                                          setStatus();
                                         });
                                         Navigator.pop(context);
                                       },
@@ -2506,7 +2584,6 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                             cloth = !cloth;
                                             if (cloth == true) val_pads = true;
                                           }
-                                          setStatus();
                                         });
                                         Navigator.pop(context);
                                       },
@@ -3035,7 +3112,6 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                             cloth = !cloth;
                                             if (cloth == true) val_pads = true;
                                           }
-                                          setStatus();
                                         });
                                         Navigator.pop(context);
                                       },
@@ -3823,6 +3899,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                         b11 = false;
                                         b12 = false;
                                       });
+                                      setStatus();
+                                      globals1.periodalertupdate = true;
                                       Navigator.pop(context);
                                     },
                                     child: Text(
@@ -4296,6 +4374,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                         c11 = false;
                                         c12 = false;
                                       });
+                                      setStatus();
+                                      globals1.ovulationupdate = true;
                                       Navigator.pop(context);
                                     },
                                     child: Text(
@@ -4735,6 +4815,8 @@ class _RemainderAgainState extends State<RemainderAgain> {
       });
     else
       showAlertDialog1('contraception', setState);
+    setStatus();
+    globals1.contraceptionupdate = true;
   }
 
   void check2() {

@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:upcloud_tracker/Settings/globals1.dart';
+
 import '../bottom_navigator.dart';
 import './about_screen.dart';
 import './health_kit_screen.dart';
@@ -15,6 +17,7 @@ import 'globals.dart' as globals;
 import 'dart:io' show Platform;
 import 'package:audioplayers/audio_cache.dart';
 import 'post.dart';
+
 class SettingsHomePage extends StatefulWidget {
   @override
   _SettingsHomePageState createState() => _SettingsHomePageState();
@@ -29,14 +32,14 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
       //globals.modestatus;
     });
   }
-  
+
   bool get fe {
     return globals.modestatus;
   }
 
   final player = AudioCache();
   bool _valueS = false;
-  InputState callmethode=new InputState();
+  InputState callmethode = new InputState();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -61,8 +64,13 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
                     InkWell(
                       onTap: () {
                         postSetting();
+                        print(sanitaryupdate);
+                        if (sanitaryupdate == true) postPads();
+                        if (periodalertupdate == true) postPeriodAlert();
+                        if (ovulationupdate == true) postOvulation();
+                        if (pillsupdate == true) postPills();
+                        if (contraceptionupdate == true) postContraception();
                         Navigator.pop(context);
-                      
                       },
                       child: Text(
                         "Done",
@@ -649,8 +657,7 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
             ],
           ),
         ),
-      bottomNavigationBar: BottomNavbar(),
-
+        bottomNavigationBar: BottomNavbar(),
       ),
     );
   }
