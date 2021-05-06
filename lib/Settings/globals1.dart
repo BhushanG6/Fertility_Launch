@@ -1,8 +1,15 @@
-int currentvalue = 0;
+bool install_status=false;
+bool install_status1=false;
+
+var height;
+var weight;
+
+var currentvalue = 0;
 var currentvalue2 = 0;
 var currentvalue3 = 0;
 var currentvalue4 = 0;
-var currentvalue5 = 0;
+var currentvalue5;
+//saniary used
 bool d11=false;
 bool d12=false;
 bool d13=false;

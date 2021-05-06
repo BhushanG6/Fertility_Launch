@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upcloud_tracker/Settings/get.dart';
 import 'package:upcloud_tracker/Settings/globals1.dart';
 
 import '../bottom_navigator.dart';
@@ -33,13 +35,31 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
     });
   }
 
+  void getAllSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if ((prefs.getBool('installStatus1') ?? false) == false) ;
+    {
+      getSettings();
+      getSanitary();
+      getPeriodAlert();
+      getPeriodEnd();
+      getOvulation();
+      getPills();
+      getContraception();
+    }
+  }
+
+  void initState() {
+    super.initState();
+    getAllSettings();
+  }
+
   bool get fe {
     return globals.modestatus;
   }
 
   final player = AudioCache();
   bool _valueS = false;
-  InputState callmethode = new InputState();
   @override
   Widget build(BuildContext context) {
     return SafeArea(

@@ -5,6 +5,7 @@ import 'package:rounded_modal/rounded_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upcloud_tracker/Settings/get.dart';
 import '../bottom_navigator.dart';
 import 'globals.dart' as globals;
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -31,10 +32,10 @@ class RemainderAgain extends StatefulWidget {
       this.str_end,
       this.str_ovul});
   @override
-  _RemainderAgainState createState() => _RemainderAgainState();
+  RemainderAgainState createState() => RemainderAgainState();
 }
 
-class _RemainderAgainState extends State<RemainderAgain> {
+class RemainderAgainState extends State<RemainderAgain> {
   @override
   final _titleController_alert = TextEditingController();
 
@@ -57,6 +58,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
   int _currentValue1 = 9;
   int _currentValue2 = 0;
   int _currentValue3 = 0;
+  String from;
   final pillname = TextEditingController();
   final pills_ovul = TextEditingController();
   final _titleController1 = TextEditingController();
@@ -98,71 +100,119 @@ class _RemainderAgainState extends State<RemainderAgain> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       //sanitary used
-      selectedsanitary = (prefs.getString('select_sanitary') ?? "Nothing");
+      globals1.install_status1 = (prefs.getBool('installStatus1') ?? false);
+      if (globals1.install_status1 == true) {
+        selectedsanitary = (prefs.getString('select_sanitary') ?? "Nothing");
 
-      val_pads = (prefs.getBool('val_pad') ?? false);
-      pad = (prefs.getBool('pad') ?? false);
-      tampons = (prefs.getBool('tampons') ?? false);
-      cloth = (prefs.getBool('cloth') ?? false);
-      globals1.pad = pad;
-      globals1.tampons = tampons;
-      globals1.cloth = cloth;
-      globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
-      globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
-      globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
-      globals1.d14 = d14 = (prefs.getBool('4times1') ?? false);
-      globals1.d15 = d15 = (prefs.getBool('5hours1') ?? false);
-      globals1.d16 = d16 = (prefs.getBool('2hours1') ?? false);
-      globals1.d21 = d21 = (prefs.getBool('once2') ?? false);
-      globals1.d22 = d22 = (prefs.getBool('twice2') ?? false);
-      globals1.d23 = d23 = (prefs.getBool('thrice2') ?? false);
-      globals1.d24 = d24 = (prefs.getBool('4times2') ?? false);
-      globals1.d25 = d25 = (prefs.getBool('5hours2') ?? false);
-      globals1.d26 = d26 = (prefs.getBool('2hours2') ?? false);
-      globals1.d31 = d31 = (prefs.getBool('once3') ?? false);
-      globals1.d32 = d32 = (prefs.getBool('twice3') ?? false);
-      globals1.d33 = d33 = (prefs.getBool('thrice3') ?? false);
-      globals1.d34 = d34 = (prefs.getBool('4times3') ?? false);
-      globals1.d35 = d35 = (prefs.getBool('5hours3') ?? false);
-      globals1.d36 = d36 = (prefs.getBool('2hours3') ?? false);
-      //Period alert
-      globals1.remindmeat = (prefs.get('remindmeat') ?? '0');
+        val_pads = (prefs.getBool('val_pad') ?? false);
+        pad = (prefs.getBool('pad') ?? false);
+        tampons = (prefs.getBool('tampons') ?? false);
+        cloth = (prefs.getBool('cloth') ?? false);
+        if (pad == true) {
+          d21 = false;
+          d22 = false;
+          d23 = false;
+          d24 = false;
+          d25 = false;
+          d26 = false;
+          d31 = false;
+          d32 = false;
+          d33 = false;
+          d34 = false;
+          d35 = false;
+          d36 = false;
+        }
+        if (tampons == true) {
+          d11 = false;
+          d12 = false;
+          d13 = false;
+          d14 = false;
+          d15 = false;
+          d16 = false;
+          d31 = false;
+          d32 = false;
+          d33 = false;
+          d34 = false;
+          d35 = false;
+          d36 = false;
+        }
+        if (cloth == true) {
+          d11 = false;
+          d12 = false;
+          d13 = false;
+          d14 = false;
+          d15 = false;
+          d16 = false;
+          d21 = false;
+          d22 = false;
+          d23 = false;
+          d24 = false;
+          d25 = false;
+          d26 = false;
+        }
+        globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
+        globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
+        globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
+        globals1.d14 = d14 = (prefs.getBool('4times1') ?? false);
+        globals1.d15 = d15 = (prefs.getBool('5hours1') ?? false);
+        globals1.d16 = d16 = (prefs.getBool('2hours1') ?? false);
+        globals1.d21 = d21 = (prefs.getBool('once2') ?? false);
+        globals1.d22 = d22 = (prefs.getBool('twice2') ?? false);
+        globals1.d23 = d23 = (prefs.getBool('thrice2') ?? false);
+        globals1.d24 = d24 = (prefs.getBool('4times2') ?? false);
+        globals1.d25 = d25 = (prefs.getBool('5hours2') ?? false);
+        globals1.d26 = d26 = (prefs.getBool('2hours2') ?? false);
+        globals1.d31 = d31 = (prefs.getBool('once3') ?? false);
+        globals1.d32 = d32 = (prefs.getBool('twice3') ?? false);
+        globals1.d33 = d33 = (prefs.getBool('thrice3') ?? false);
+        globals1.d34 = d34 = (prefs.getBool('4times3') ?? false);
+        globals1.d35 = d35 = (prefs.getBool('5hours3') ?? false);
+        globals1.d36 = d36 = (prefs.getBool('2hours3') ?? false);
+        //Period alert
+        globals1.remindmeat = (prefs.get('remindmeat') ?? '0');
+        print(globals1.remindmeat);
+        globals1.alert = alert = (prefs.getBool('periodalert') ?? false);
+        globals1.fromwhentostart =
+            _currentValue2 = (prefs.getInt('fromwhentost') ?? 0);
+        globals1.remindermessage =
+            _titleController2.text = (prefs.getString('remindermessage') ?? '');
 
-      globals1.alert = alert = (prefs.getBool('periodalert') ?? false);
-      globals1.fromwhentostart =
-          _currentValue2 = (prefs.getInt('fromwhentost') ?? 0);
-      globals1.remindermessage =
-          _titleController2.text = (prefs.getString('remindermessage') ?? '');
+        //periodend
+        globals1.reminderEnd = _titleController_alert.text =
+            (prefs.getString('reminderend') ?? '');
 
-      //periodend
-      globals1.reminderEnd =
-          _titleController_alert.text = (prefs.getString('reminderend') ?? '');
+        globals1.periodend =
+            period_alertval = (prefs.getBool('periodendbool') ?? false);
 
-      globals1.periodend =
-          period_alertval = (prefs.getBool('periodendbool') ?? false);
+        //ovulation
+        globals1.remindmeatovu = (prefs.get('remindmeatovu') ?? '0');
 
-      //ovulation
-      globals1.remindmeatovu = (prefs.get('remindmeatovu') ?? '0');
+        globals1.ovulation = val3 = (prefs.getBool('ovulation') ?? false);
+        globals1.fromwhentostartovu =
+            _currentValue3 = (prefs.getInt('fromwhentostovu') ?? 0);
+        globals1.remindermessageovu = _titleController3.text =
+            (prefs.getString('remindermessageovu') ?? '');
 
-      globals1.ovulation = val3 = (prefs.getBool('ovulation') ?? false);
-      globals1.fromwhentostartovu =
-          _currentValue3 = (prefs.getInt('fromwhentostovu') ?? 0);
-      globals1.remindermessageovu = _titleController3.text =
-          (prefs.getString('remindermessageovu') ?? '');
+        //pills
+        globals1.pills = pills = (prefs.getBool('pills') ?? false);
+          from = (prefs.getString('from') ?? '');
 
-      //pills
-      globals1.pills = pills = (prefs.getBool('pills') ?? false);
-      globals1.till = pillsdate = (prefs.getString('till') ?? '');
-      globals1.numberofpills =
-          pill_interval = (prefs.getInt('numberofpills') ?? 0);
-      globals1.nameofpill =
-          pillname.text = (prefs.getString('numberofpills') ?? '');
-      globals1.remindermessagepills =
-          pills_ovul.text = (prefs.getString('remindermessagepills') ?? '');
+        globals1.till = pillsdate = (prefs.getString('till') ?? '');
+        globals1.numberofpills =
+            pill_interval = (prefs.getInt('numberofpills') ?? 0);
+        globals1.nameofpill =
+            pillname.text = (prefs.getString('nameofpills') ?? '');
+        globals1.remindermessagepills =
+            pills_ovul.text = (prefs.getString('remindermessagepills') ?? '');
 
-      //contraception
-      globals1.contraception =
-          conraception = (prefs.getBool('contraception') ?? false);
+        //contraception
+        globals1.contraception =
+            conraception = (prefs.getBool('contraception') ?? false);
+      } else {
+        setStatus();
+        prefs.setBool('installStatus1', true);
+        getStatus();
+      }
     });
   }
 
@@ -215,7 +265,7 @@ class _RemainderAgainState extends State<RemainderAgain> {
 
     //pills
     prefs.setBool('pills', pills);
-    prefs.setString('from', DateTime.now().toString());
+    prefs.setString('from',  '${DateTime.now().day}'+'/'+ '${DateTime.now().month}'+'/'+'${DateTime.now().year}');
     prefs.setString('till', pillsdate);
     prefs.setInt('numberofpills', pill_interval);
     prefs.setString('nameofpills', pillname.text);
@@ -1395,12 +1445,13 @@ class _RemainderAgainState extends State<RemainderAgain> {
                       height: MediaQuery.of(context).size.height * 0.75,
                       // margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
                       padding: EdgeInsets.fromLTRB(30, 30, 30, 0),
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: <Widget>[
-                            Padding(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Expanded(
+                            flex: 0,
+                            child: Padding(
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 0),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -1445,141 +1496,100 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                 ],
                               ),
                             ),
-                            SizedBox(
-                              height: 35,
-                            ),
-                            Container(
-                              padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
+                          ),
+                          SizedBox(
+                            height: 35,
+                          ),
+                          Expanded(
+                            child: ScrollConfiguration(
+                              behavior: new ScrollBehavior()
+                                ..buildViewportChrome(
+                                    context, null, AxisDirection.down),
+                              child: SingleChildScrollView(
+                                child: Container(
+                                  padding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                                  child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                      Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Text('From',
-                                              style: TextStyle(
-                                                  fontSize: 18,
-                                                  fontWeight: FontWeight.w600)),
-                                          SizedBox(height: 3),
-                                          Text('$diffdate days of medication',
-                                              style: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      26, 147, 111, 1),
-                                                  fontSize: 13,
-                                                  fontWeight: FontWeight.w500)),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      Container(
-                                        alignment: Alignment.center,
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        height: 30,
-                                        width: 113,
-                                        child: Text(DateTime.now().toString(),
-                                            style: TextStyle(
-                                                color: Theme.of(context)
-                                                            .brightness !=
-                                                        Brightness.light
-                                                    ? Colors.white
-                                                    : Colors.black,
-                                                fontSize: 17,
-                                                fontWeight: FontWeight.w600)),
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                          width: 3,
-                                          color: Theme.of(context).brightness !=
-                                                  Brightness.light
-                                              ? Colors.white
-                                              : Colors.black,
-                                        ))),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 10),
-                                  /////////////////
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 10),
-                                            child: Text(
-                                              'Till',
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: diffdate != '0'
-                                                    ? FontWeight.w600
-                                                    : FontWeight.w400,
-                                                color: Theme.of(context)
-                                                            .brightness !=
-                                                        Brightness.light
-                                                    ? diffdate == '0'
-                                                        ? Color.fromRGBO(
-                                                            158, 158, 158, 1)
-                                                        : Colors.white
-                                                    : null,
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                      Spacer(),
-                                      //SizedBox(width:178),
-                                      Container(
-                                        padding: EdgeInsets.only(bottom: 5),
-                                        width: 113,
-                                        height: 30,
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            setState2(() {
-                                              boolpill = !boolpill;
-                                              // a12 = false;
-                                            });
-
-                                            //startPeriodTime1();
-                                          },
-                                          child: Column(
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
                                             children: [
-                                              Text(pillsdate.toString(),
-                                                  overflow: TextOverflow.clip,
+                                              Text('From',
                                                   style: TextStyle(
-                                                      color: Theme.of(context)
-                                                                  .brightness !=
-                                                              Brightness.light
-                                                          ? diffdate == '0'
-                                                              ? Color.fromRGBO(
-                                                                  158,
-                                                                  158,
-                                                                  158,
-                                                                  1)
-                                                              : Colors.white
-                                                          : Colors.black,
-                                                      fontSize: 15,
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w600)),
+                                              SizedBox(height: 3),
+                                              Text(
+                                                  '$diffdate days of medication',
+                                                  style: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          26, 147, 111, 1),
+                                                      fontSize: 13,
                                                       fontWeight:
                                                           FontWeight.w500)),
-                                              //Divider(thickness:3,color:Colors.black),
                                             ],
                                           ),
-                                        ),
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    width: 3,
+                                          Spacer(),
+                                          Container(
+                                            alignment: Alignment.center,
+                                            padding: EdgeInsets.only(bottom: 5),
+                                            height: 30,
+                                            width: 113,
+                                            child: Text(
+                                              from,
+                                                style: TextStyle(
+                                                    color: Theme.of(context)
+                                                                .brightness !=
+                                                            Brightness.light
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    fontSize: 17,
+                                                    fontWeight:
+                                                        FontWeight.w600)),
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                              width: 3,
+                                              color: Theme.of(context)
+                                                          .brightness !=
+                                                      Brightness.light
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            ))),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 10),
+                                      /////////////////
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 10),
+                                                child: Text(
+                                                  'Till',
+                                                  style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: diffdate != '0'
+                                                        ? FontWeight.w600
+                                                        : FontWeight.w400,
                                                     color: Theme.of(context)
                                                                 .brightness !=
                                                             Brightness.light
@@ -1590,377 +1600,459 @@ class _RemainderAgainState extends State<RemainderAgain> {
                                                                 158,
                                                                 1)
                                                             : Colors.white
-                                                        : Colors.black))),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(height: 15),
-                                  boolpill == true
-                                      ? Container(
-                                          //padding: EdgeInsets.only(top:10),
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                              top: BorderSide(
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.light
-                                                    ? Colors.black12
-                                                    : Colors.white38,
-                                              ),
-                                              bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.light
-                                                    ? Colors.black12
-                                                    : Colors.white38,
-                                              ),
-                                            ),
-                                          ),
-                                          height: 180,
-                                          // MediaQuery.of(context)
-                                          //         .copyWith()
-                                          //         .size
-                                          //         .height /
-                                          //     6,
-
-                                          child: CupertinoTheme(
-                                            data: CupertinoThemeData(
-                                              textTheme: CupertinoTextThemeData(
-                                                dateTimePickerTextStyle:
-                                                    TextStyle(
-                                                  fontSize: 22,
-                                                  color: Theme.of(context)
-                                                              .brightness ==
-                                                          Brightness.light
-                                                      ? Colors.black
-                                                      : Colors.white,
+                                                        : null,
+                                                  ),
                                                 ),
                                               ),
-                                            ),
-                                            child: CupertinoDatePicker(
-                                              backgroundColor: Theme.of(context)
-                                                          .brightness ==
-                                                      Brightness.light
-                                                  ? Colors.transparent
-                                                  : Colors.transparent,
-                                              initialDateTime: DateTime.now(),
-                                              onDateTimeChanged:
-                                                  (DateTime newdate) {
-                                                setState2(() {
-                                                  pillsdate = '${newdate.day}' +
-                                                      '/' +
-                                                      '${newdate.month}' +
-                                                      '/' +
-                                                      '${newdate.year}';
-                                                });
-                                                int tempint;
-                                                if (newdate.month.toInt() >=
-                                                    DateTime.now()
-                                                        .month
-                                                        .toInt())
-                                                  tempint = (newdate
-                                                          .day
-                                                          .toInt() -
-                                                      DateTime.now()
-                                                          .day
-                                                          .toInt() +
-                                                      (newdate.month.toInt() -
-                                                              DateTime.now()
-                                                                  .month
-                                                                  .toInt()) *
-                                                          30);
-
-                                                if (tempint < 0)
-                                                  diffdate = '0';
-                                                else
-                                                  diffdate = tempint.toString();
-                                                print(newdate);
-                                              },
-                                              maximumDate:
-                                                  new DateTime(2021, 12, 30),
-                                              minimumYear: 2021,
-                                              maximumYear: 2021,
-                                              minuteInterval: 1,
-                                              mode:
-                                                  CupertinoDatePickerMode.date,
-                                            ),
+                                            ],
                                           ),
-                                          //datetime(),
-                                        )
-                                      : SizedBox(height: 10),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding:
-                                                const EdgeInsets.only(top: 15),
-                                            child: Text('No of Pills/day',
-                                                style: TextStyle(
-                                                    fontSize: 18,
-                                                    fontWeight:
-                                                        pill_interval == 0
-                                                            ? FontWeight.w400
-                                                            : FontWeight.w600,
-                                                    color: Theme.of(context)
-                                                                .brightness !=
-                                                            Brightness.light
-                                                        ? pill_interval == 0
-                                                            ? Color.fromRGBO(
-                                                                158,
-                                                                158,
-                                                                158,
-                                                                1)
-                                                            : null
-                                                        : null)),
+                                          Spacer(),
+                                          //SizedBox(width:178),
+                                          Container(
+                                            padding: EdgeInsets.only(bottom: 5),
+                                            width: 113,
+                                            height: 30,
+                                            child: FlatButton(
+                                              onPressed: () {
+                                                setState2(() {
+                                                  boolpill = !boolpill;
+                                                  // a12 = false;
+                                                });
+
+                                                //startPeriodTime1();
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Text(pillsdate,
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: TextStyle(
+                                                          color: Theme.of(context)
+                                                                      .brightness !=
+                                                                  Brightness
+                                                                      .light
+                                                              ? diffdate == '0'
+                                                                  ? Color
+                                                                      .fromRGBO(
+                                                                          158,
+                                                                          158,
+                                                                          158,
+                                                                          1)
+                                                                  : Colors.white
+                                                              : Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                  //Divider(thickness:3,color:Colors.black),
+                                                ],
+                                              ),
+                                            ),
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        width: 3,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? diffdate == '0'
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : Colors.white
+                                                            : Colors.black))),
                                           ),
                                         ],
                                       ),
-                                      Spacer(),
-                                      Container(
-                                        height: 30,
-                                        width: 113,
-                                        child: FlatButton(
-                                          onPressed: () {
-                                            pills_inside(setState2);
-
-                                            setState2(() {
-                                              //b12 = !b12;
-                                            });
-                                          },
-                                          child: Text('$pill_interval',
-                                              style: TextStyle(
-                                                  fontSize: 17,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Theme.of(context)
-                                                              .brightness !=
-                                                          Brightness.light
-                                                      ? pill_interval == 0
-                                                          ? Color.fromRGBO(
-                                                              158, 158, 158, 1)
-                                                          : Colors.white
-                                                      : Colors.black)),
-                                        ),
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                                bottom: BorderSide(
-                                                    width: 3,
+                                      SizedBox(height: 15),
+                                      boolpill == true
+                                          ? Container(
+                                              //padding: EdgeInsets.only(top:10),
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  top: BorderSide(
                                                     color: Theme.of(context)
-                                                                .brightness !=
+                                                                .brightness ==
                                                             Brightness.light
-                                                        ? pill_interval == 0
-                                                            ? Color.fromRGBO(
-                                                                158,
-                                                                158,
-                                                                158,
-                                                                1)
-                                                            : Colors.white
-                                                        : Colors.black))),
+                                                        ? Colors.black12
+                                                        : Colors.white38,
+                                                  ),
+                                                  bottom: BorderSide(
+                                                    color: Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? Colors.black12
+                                                        : Colors.white38,
+                                                  ),
+                                                ),
+                                              ),
+                                              height: 180,
+                                              // MediaQuery.of(context)
+                                              //         .copyWith()
+                                              //         .size
+                                              //         .height /
+                                              //     6,
+
+                                              child: CupertinoTheme(
+                                                data: CupertinoThemeData(
+                                                  textTheme:
+                                                      CupertinoTextThemeData(
+                                                    dateTimePickerTextStyle:
+                                                        TextStyle(
+                                                      fontSize: 22,
+                                                      color: Theme.of(context)
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? Colors.black
+                                                          : Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: CupertinoDatePicker(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? Colors.transparent
+                                                          : Colors.transparent,
+                                                  initialDateTime:
+                                                      DateTime.now(),
+                                                  onDateTimeChanged:
+                                                      (DateTime newdate) {
+                                                    setState2(() {
+                                                      pillsdate =
+                                                          '${newdate.day}' +
+                                                              '/' +
+                                                              '${newdate.month}' +
+                                                              '/' +
+                                                              '${newdate.year}';
+                                                    });
+                                                    int tempint;
+                                                    if (newdate.month.toInt() >=
+                                                        DateTime.now()
+                                                            .month
+                                                            .toInt())
+                                                      tempint = (newdate
+                                                              .day
+                                                              .toInt() -
+                                                          DateTime.now()
+                                                              .day
+                                                              .toInt() +
+                                                          (newdate.month
+                                                                      .toInt() -
+                                                                  DateTime.now()
+                                                                      .month
+                                                                      .toInt()) *
+                                                              30);
+
+                                                    if (tempint < 0)
+                                                      diffdate = '0';
+                                                    else
+                                                      diffdate =
+                                                          tempint.toString();
+                                                    print(newdate);
+                                                  },
+                                                  maximumDate: new DateTime(
+                                                      2021, 12, 30),
+                                                  minimumYear: 2021,
+                                                  maximumYear: 2021,
+                                                  minuteInterval: 1,
+                                                  mode: CupertinoDatePickerMode
+                                                      .date,
+                                                ),
+                                              ),
+                                              //datetime(),
+                                            )
+                                          : SizedBox(height: 10),
+                                      SizedBox(height: 10),
+                                      Row(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: const EdgeInsets.only(
+                                                    top: 15),
+                                                child: Text('No of Pills/day',
+                                                    style: TextStyle(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            pill_interval == 0
+                                                                ? FontWeight
+                                                                    .w400
+                                                                : FontWeight
+                                                                    .w600,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? pill_interval == 0
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : null
+                                                            : null)),
+                                              ),
+                                            ],
+                                          ),
+                                          Spacer(),
+                                          Container(
+                                            height: 30,
+                                            width: 113,
+                                            child: FlatButton(
+                                              onPressed: () {
+                                                pills_inside(setState2);
+
+                                                setState2(() {
+                                                  //b12 = !b12;
+                                                });
+                                              },
+                                              child: Text('$pill_interval',
+                                                  style: TextStyle(
+                                                      fontSize: 17,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: Theme.of(context)
+                                                                  .brightness !=
+                                                              Brightness.light
+                                                          ? pill_interval == 0
+                                                              ? Color.fromRGBO(
+                                                                  158,
+                                                                  158,
+                                                                  158,
+                                                                  1)
+                                                              : Colors.white
+                                                          : Colors.black)),
+                                            ),
+                                            decoration: BoxDecoration(
+                                                border: Border(
+                                                    bottom: BorderSide(
+                                                        width: 3,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? pill_interval == 0
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : Colors.white
+                                                            : Colors.black))),
+                                          ),
+                                        ],
                                       ),
+                                      SizedBox(height: 15),
+                                      b12 == true
+                                          ? Container(
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  top: BorderSide(
+                                                    color: Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? Colors.black12
+                                                        : Colors.white38,
+                                                  ),
+                                                  bottom: BorderSide(
+                                                    color: Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? Colors.black12
+                                                        : Colors.white38,
+                                                  ),
+                                                ),
+                                              ),
+                                              height: 160,
+                                              width: MediaQuery.of(context)
+                                                  .size
+                                                  .width,
+                                              // MediaQuery.of(context)
+                                              //         .copyWith()
+                                              //         .size
+                                              //         .height /
+                                              //     5.5,
+                                              child: NumberPicker.integer(
+                                                  // textMapper:,
+                                                  selectedTextStyle: TextStyle(
+                                                      color: Color.fromRGBO(
+                                                          51, 51, 51, 1),
+                                                      fontSize: 23,
+                                                      fontWeight:
+                                                          FontWeight.w400),
+                                                  highlightSelectedValue: true,
+                                                  initialValue: _currentValue2,
+                                                  minValue: 0,
+                                                  maxValue: 20,
+                                                  onChanged: (newVal) =>
+                                                      setState2(() => no_pills =
+                                                          newVal.toString())),
+                                            )
+                                          : SizedBox(
+                                              //height: 18,
+                                              ),
+                                      SizedBox(height: 20),
+                                      // Row(
+                                      //   crossAxisAlignment: CrossAxisAlignment.start,
+                                      //   children: [
+                                      //     Column(
+                                      //     mainAxisAlignment: MainAxisAlignment.start,
+                                      //     crossAxisAlignment: CrossAxisAlignment.start,
+                                      //     children: [
+                                      //       Padding(
+                                      // padding: const EdgeInsets.only(top: 10),
+                                      // child: Text('Stages',
+                                      //   style: TextStyle(
+                                      //         fontSize: 18,
+                                      //         fontWeight: FontWeight.w400)),
+                                      //       ),
+                                      //     ],
+                                      //     ),
+                                      //     Spacer(),
+                                      //     Container(
+                                      //     height: 30,
+                                      //     width: 113,
+                                      //     child: FlatButton(
+                                      //       onPressed: () {
+                                      // setState2(() {
+                                      // a12 = !a12;
+                                      // });
+                                      //       },
+                                      //       child: Text(no_stages,
+                                      // style: TextStyle(
+                                      //       color: Colors.black,
+                                      //       fontSize: 17,
+                                      //       fontWeight: FontWeight.w500)),
+                                      //     ),
+                                      //     decoration: BoxDecoration(
+                                      // border:
+                                      //   Border(bottom: BorderSide(width: 3))),
+                                      //     ),
+                                      //   ],
+                                      // ),
+                                      // SizedBox(height: 15),
+                                      // a12 == true
+                                      //     ? Container(
+                                      //       decoration: BoxDecoration(
+                                      // border: Border(
+                                      // top: BorderSide(
+                                      //   color: Theme.of(context).brightness ==
+                                      // Brightness.light
+                                      //         ? Colors.black12
+                                      //         : Colors.white38,
+                                      // ),
+                                      // bottom: BorderSide(
+                                      //   color: Theme.of(context).brightness ==
+                                      // Brightness.light
+                                      //         ? Colors.black12
+                                      //         : Colors.white38,
+                                      // ),
+                                      // ),
+                                      //       ),
+                                      //       height: 160,
+                                      //       width: MediaQuery.of(context).size.width,
+                                      //       // MediaQuery.of(context)
+                                      //       //         .copyWith()
+                                      //       //         .size
+                                      //       //         .height /
+                                      //       //     5.5,
+                                      //       child: NumberPicker.integer(
+                                      // // textMapper:,
+                                      // selectedTextStyle: TextStyle(
+                                      //       color:
+                                      //         Color.fromRGBO(51, 51, 51, 1),
+                                      //       fontSize: 23,
+                                      //       fontWeight: FontWeight.w400),
+                                      // highlightSelectedValue: true,
+                                      // initialValue: _currentValue2,
+                                      // minValue: 0,
+                                      // maxValue: 20,
+                                      // onChanged: (newVal) => setState2(() =>
+                                      //       no_stages = newVal.toString())),
+                                      //     )
+                                      //     : SizedBox(
+                                      //       //height: 18,
+                                      //       ),
+                                      // ///////////////////
+                                      // SizedBox(height: 40),
+                                      Text('Name to the Pills',
+                                          style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400)),
+                                      SizedBox(height: 10),
+                                      TextFormField(
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500),
+                                        decoration: InputDecoration(
+                                          // border: InputBorder(borderSide: ),
+                                          hintText: 'Glass Buster',
+                                          hintStyle: TextStyle(
+                                              color: Color.fromRGBO(
+                                                  114, 114, 114, 1),
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w400),
+                                          fillColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                        ),
+                                        controller: pillname,
+                                      ),
+                                      SizedBox(
+                                        height: 20,
+                                      ),
+                                      Text('Reminder Message',
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w300)),
+                                      SizedBox(height: 10),
+                                      TextFormField(
+                                        style: TextStyle(
+                                            fontSize: 17,
+                                            fontWeight: FontWeight.w500),
+                                        decoration: InputDecoration(
+                                          // border: InputBorder(borderSide: ),
+                                          hintText: 'Ovulation starts soon',
+                                          fillColor: Colors.transparent,
+                                          focusColor: Colors.transparent,
+                                          hoverColor: Colors.transparent,
+                                        ),
+                                        controller: pills_ovul,
+                                      ),
+                                      SizedBox(height: 50),
+                                      if (del == true)
+                                        GestureDetector(
+                                            onTap: () {
+                                              setState(() {
+                                                showAlertDialog1(
+                                                    'pills', setState);
+                                              });
+                                              //Navigator.pop(context);
+                                            },
+                                            child: Center(
+                                                child: Text(
+                                              'Delete this reminder',
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontSize: 17),
+                                            )))
                                     ],
                                   ),
-                                  SizedBox(height: 15),
-                                  b12 == true
-                                      ? Container(
-                                          decoration: BoxDecoration(
-                                            border: Border(
-                                              top: BorderSide(
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.light
-                                                    ? Colors.black12
-                                                    : Colors.white38,
-                                              ),
-                                              bottom: BorderSide(
-                                                color: Theme.of(context)
-                                                            .brightness ==
-                                                        Brightness.light
-                                                    ? Colors.black12
-                                                    : Colors.white38,
-                                              ),
-                                            ),
-                                          ),
-                                          height: 160,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          // MediaQuery.of(context)
-                                          //         .copyWith()
-                                          //         .size
-                                          //         .height /
-                                          //     5.5,
-                                          child: NumberPicker.integer(
-                                              // textMapper:,
-                                              selectedTextStyle: TextStyle(
-                                                  color: Color.fromRGBO(
-                                                      51, 51, 51, 1),
-                                                  fontSize: 23,
-                                                  fontWeight: FontWeight.w400),
-                                              highlightSelectedValue: true,
-                                              initialValue: _currentValue2,
-                                              minValue: 0,
-                                              maxValue: 20,
-                                              onChanged: (newVal) => setState2(
-                                                  () => no_pills =
-                                                      newVal.toString())),
-                                        )
-                                      : SizedBox(
-                                          //height: 18,
-                                          ),
-                                  SizedBox(height: 20),
-                                  // Row(
-                                  //   crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   children: [
-                                  //     Column(
-                                  //     mainAxisAlignment: MainAxisAlignment.start,
-                                  //     crossAxisAlignment: CrossAxisAlignment.start,
-                                  //     children: [
-                                  //       Padding(
-                                  // padding: const EdgeInsets.only(top: 10),
-                                  // child: Text('Stages',
-                                  //   style: TextStyle(
-                                  //         fontSize: 18,
-                                  //         fontWeight: FontWeight.w400)),
-                                  //       ),
-                                  //     ],
-                                  //     ),
-                                  //     Spacer(),
-                                  //     Container(
-                                  //     height: 30,
-                                  //     width: 113,
-                                  //     child: FlatButton(
-                                  //       onPressed: () {
-                                  // setState2(() {
-                                  // a12 = !a12;
-                                  // });
-                                  //       },
-                                  //       child: Text(no_stages,
-                                  // style: TextStyle(
-                                  //       color: Colors.black,
-                                  //       fontSize: 17,
-                                  //       fontWeight: FontWeight.w500)),
-                                  //     ),
-                                  //     decoration: BoxDecoration(
-                                  // border:
-                                  //   Border(bottom: BorderSide(width: 3))),
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  // SizedBox(height: 15),
-                                  // a12 == true
-                                  //     ? Container(
-                                  //       decoration: BoxDecoration(
-                                  // border: Border(
-                                  // top: BorderSide(
-                                  //   color: Theme.of(context).brightness ==
-                                  // Brightness.light
-                                  //         ? Colors.black12
-                                  //         : Colors.white38,
-                                  // ),
-                                  // bottom: BorderSide(
-                                  //   color: Theme.of(context).brightness ==
-                                  // Brightness.light
-                                  //         ? Colors.black12
-                                  //         : Colors.white38,
-                                  // ),
-                                  // ),
-                                  //       ),
-                                  //       height: 160,
-                                  //       width: MediaQuery.of(context).size.width,
-                                  //       // MediaQuery.of(context)
-                                  //       //         .copyWith()
-                                  //       //         .size
-                                  //       //         .height /
-                                  //       //     5.5,
-                                  //       child: NumberPicker.integer(
-                                  // // textMapper:,
-                                  // selectedTextStyle: TextStyle(
-                                  //       color:
-                                  //         Color.fromRGBO(51, 51, 51, 1),
-                                  //       fontSize: 23,
-                                  //       fontWeight: FontWeight.w400),
-                                  // highlightSelectedValue: true,
-                                  // initialValue: _currentValue2,
-                                  // minValue: 0,
-                                  // maxValue: 20,
-                                  // onChanged: (newVal) => setState2(() =>
-                                  //       no_stages = newVal.toString())),
-                                  //     )
-                                  //     : SizedBox(
-                                  //       //height: 18,
-                                  //       ),
-                                  // ///////////////////
-                                  // SizedBox(height: 40),
-                                  Text('Name to the Pills',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400)),
-                                  SizedBox(height: 10),
-                                  TextFormField(
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
-                                    decoration: InputDecoration(
-                                      // border: InputBorder(borderSide: ),
-                                      hintText: 'Glass Buster',
-                                      hintStyle: TextStyle(
-                                          color:
-                                              Color.fromRGBO(114, 114, 114, 1),
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w400),
-                                      fillColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                    ),
-                                    controller: pillname,
-                                  ),
-                                  SizedBox(
-                                    height: 20,
-                                  ),
-                                  Text('Reminder Message',
-                                      style: TextStyle(
-                                          fontSize: 17,
-                                          fontWeight: FontWeight.w300)),
-                                  SizedBox(height: 10),
-                                  TextFormField(
-                                    style: TextStyle(
-                                        fontSize: 17,
-                                        fontWeight: FontWeight.w500),
-                                    decoration: InputDecoration(
-                                      // border: InputBorder(borderSide: ),
-                                      hintText: 'Ovulation starts soon',
-                                      fillColor: Colors.transparent,
-                                      focusColor: Colors.transparent,
-                                      hoverColor: Colors.transparent,
-                                    ),
-                                    controller: pills_ovul,
-                                  ),
-                                  SizedBox(height: 50),
-                                  if (del == true)
-                                    GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            showAlertDialog1('pills', setState);
-                                          });
-                                          //Navigator.pop(context);
-                                        },
-                                        child: Center(
-                                            child: Text(
-                                          'Delete this reminder',
-                                          style: TextStyle(
-                                              color: Colors.red, fontSize: 17),
-                                        )))
-                                ],
+                                ),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   ),

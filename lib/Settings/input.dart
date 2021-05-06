@@ -1,12 +1,17 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upcloud_tracker/Settings/get.dart';
 import '../bottom_navigator.dart';
 import 'globals.dart' as globals;
 import 'globals1.dart' as globals1;
 import 'dart:math';
 import 'post.dart';
+
 class TextEditingControllerWorkaroud extends TextEditingController {
   TextEditingControllerWorkaroud({String text}) : super(text: text);
 
@@ -48,7 +53,7 @@ class InputState extends State<Input> {
   bool status3 = false;
   bool status4 = false;
   bool status5 = false;
-
+  
   String s1 = '5';
   String s2 = '160';
   String s4 = '10';
@@ -57,43 +62,50 @@ class InputState extends State<Input> {
   final _height3Controller = TextEditingControllerWorkaroud(text: '');
   final _weightController = TextEditingControllerWorkaroud(text: '');
   final _heightController21 = TextEditingControllerWorkaroud(text: '');
-void initState() {
+  void initState() {
     super.initState();
     getStatus();
   }
-  void getStatus()
-  async{
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      _currentValue = (prefs.getInt('val') ?? 0);
-      _currentValue2 = (prefs.getInt('val2') ?? 0);
-      _currentValue3 = (prefs.getInt('val3') ?? 0);
-      _currentValue4 = (prefs.getInt('val4') ?? 0);
-      _currentValue5 = (prefs.getInt('val5') ?? 0);
-      
-      globals1.currentvalue =_currentValue;
-      globals1.currentvalue2 = _currentValue2;
-      globals1.currentvalue3 =_currentValue3;
-      globals1.currentvalue4 = _currentValue4;
-      globals1.currentvalue5 = _currentValue5;
 
+  void getStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      globals1.install_status = (prefs.getBool('installStatus') ?? false);
+      if (globals1.install_status == true) {
+        _currentValue = (prefs.getInt('val') ?? 0);
+        _currentValue2 = (prefs.getInt('val2') ?? 0);
+        _currentValue3 = (prefs.getInt('val3') ?? 0);
+        _currentValue4 = (prefs.getInt('val4') ?? 0);
+        _currentValue5 = (prefs.getInt('val5') ?? 0);
+
+        globals1.currentvalue = _currentValue;
+        globals1.currentvalue2 = _currentValue2;
+        globals1.currentvalue3 = _currentValue3;
+        globals1.currentvalue4 = _currentValue4;
+        globals1.currentvalue5 = _currentValue5;
+      } else {
+        setState(() {
+        //getSettings();
+        prefs.setBool('installStatus', true);
+        getStatus();
+        });
+      
+      }
     });
   }
-  void setStatus()
-  async{
+
+  void setStatus() async {
     print(_currentValue);
-   final prefs = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
+    
 
-   prefs.setInt('val',_currentValue );
-  prefs.setInt('val2',_currentValue2 );
-    prefs.setInt('val3',_currentValue3 );
-   prefs.setInt('val4',_currentValue4 );
-    prefs.setInt('val5',_currentValue5 );
-
-
-
-
+    prefs.setInt('val', _currentValue);
+    prefs.setInt('val2', _currentValue2);
+    prefs.setInt('val3', _currentValue3);
+    prefs.setInt('val4', _currentValue4);
+    prefs.setInt('val5', _currentValue5);
   }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -737,13 +749,15 @@ void initState() {
                                     text: 'Sanitary ',
                                     style: TextStyle(
                                       fontSize: 18,
-                                      fontWeight: _currentValue5 > 0
+                                      fontWeight: _currentValue5 != 0
                                           ? FontWeight.w600
                                           : FontWeight.w400,
                                       color: Theme.of(context).brightness ==
                                               Brightness.light
                                           ? Colors.black
-                                          :  _currentValue5 > 0?Color.fromRGBO(255, 98, 98, 1):Colors.white,
+                                          : _currentValue5 > 0
+                                              ? Color.fromRGBO(255, 98, 98, 1)
+                                              : Colors.white,
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
@@ -775,7 +789,9 @@ void initState() {
                                         color: Theme.of(context).brightness ==
                                                 Brightness.light
                                             ? Colors.black
-                                            :_currentValue5 > 0?Color.fromRGBO(255, 98, 98, 1):Colors.white,
+                                            : _currentValue5 > 0
+                                                ? Color.fromRGBO(255, 98, 98, 1)
+                                                : Colors.white,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -844,7 +860,7 @@ void initState() {
                                                   ? Color.fromRGBO(
                                                       51, 51, 51, 1)
                                                   : Color.fromRGBO(
-                                                    255, 98, 98, 1),
+                                                      255, 98, 98, 1),
                                               //,
                                               fontSize: 23,
                                               fontWeight: FontWeight.w400),
@@ -910,7 +926,9 @@ void initState() {
                                       color: Theme.of(context).brightness ==
                                               Brightness.light
                                           ? Colors.black
-                                          :_currentValue > 0?Color.fromRGBO(250, 0, 255, 1):Colors.white,
+                                          : _currentValue > 0
+                                              ? Color.fromRGBO(250, 0, 255, 1)
+                                              : Colors.white,
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
@@ -942,7 +960,9 @@ void initState() {
                                         color: Theme.of(context).brightness ==
                                                 Brightness.light
                                             ? Colors.black
-                                            : _currentValue > 0?Color.fromRGBO(250, 0, 255, 1):Colors.white,
+                                            : _currentValue > 0
+                                                ? Color.fromRGBO(250, 0, 255, 1)
+                                                : Colors.white,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -1069,7 +1089,9 @@ void initState() {
                                       color: Theme.of(context).brightness ==
                                               Brightness.light
                                           ? Colors.black
-                                          :_currentValue2 > 0?Color.fromRGBO(208, 2, 27, 1):Colors.white ,
+                                          : _currentValue2 > 0
+                                              ? Color.fromRGBO(208, 2, 27, 1)
+                                              : Colors.white,
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
@@ -1101,7 +1123,9 @@ void initState() {
                                         color: Theme.of(context).brightness ==
                                                 Brightness.light
                                             ? Colors.black
-                                            : _currentValue2 > 0?Color.fromRGBO(208, 2, 27, 1):Colors.white ,
+                                            : _currentValue2 > 0
+                                                ? Color.fromRGBO(208, 2, 27, 1)
+                                                : Colors.white,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -1224,7 +1248,9 @@ void initState() {
                                       color: Theme.of(context).brightness ==
                                               Brightness.light
                                           ? Colors.black
-                                          : _currentValue3 > 0 ? Color.fromRGBO(80, 227, 194, 1):Colors.white,
+                                          : _currentValue3 > 0
+                                              ? Color.fromRGBO(80, 227, 194, 1)
+                                              : Colors.white,
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
@@ -1256,7 +1282,10 @@ void initState() {
                                         color: Theme.of(context).brightness ==
                                                 Brightness.light
                                             ? Colors.black
-                                            : _currentValue3 > 0?Color.fromRGBO(80, 227, 194, 1):Colors.white,
+                                            : _currentValue3 > 0
+                                                ? Color.fromRGBO(
+                                                    80, 227, 194, 1)
+                                                : Colors.white,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
@@ -1379,7 +1408,9 @@ void initState() {
                                       color: Theme.of(context).brightness ==
                                               Brightness.light
                                           ? Colors.black
-                                          :_currentValue4 > 0?Color.fromRGBO(245, 166, 35, 1):Colors.white  ,
+                                          : _currentValue4 > 0
+                                              ? Color.fromRGBO(245, 166, 35, 1)
+                                              : Colors.white,
                                     ),
                                     children: <TextSpan>[
                                       TextSpan(
@@ -1411,7 +1442,10 @@ void initState() {
                                         color: Theme.of(context).brightness ==
                                                 Brightness.light
                                             ? Colors.black
-                                            : _currentValue4 > 0?Color.fromRGBO(245, 166, 35, 1):Colors.white,
+                                            : _currentValue4 > 0
+                                                ? Color.fromRGBO(
+                                                    245, 166, 35, 1)
+                                                : Colors.white,
                                       ),
                                       children: <TextSpan>[
                                         TextSpan(
