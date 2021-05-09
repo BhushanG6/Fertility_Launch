@@ -1,17 +1,24 @@
 import 'dart:ui';
 
+import 'package:android_alarm_manager/android_alarm_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:rounded_modal/rounded_modal.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upcloud_tracker/Settings/get.dart';
+import 'package:upcloud_tracker/Settings/sharedPrefs.dart';
+import 'package:upcloud_tracker/year/year.dart';
 import '../bottom_navigator.dart';
+import 'Notification/notificationHelper.dart';
 import 'globals.dart' as globals;
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'globals1.dart' as globals1;
+import 'customizedNotification.dart';
 
 class RemainderAgain extends StatefulWidget {
+
   int start_day;
   String str;
   TimeOfDay start_time;
@@ -51,14 +58,15 @@ class RemainderAgainState extends State<RemainderAgain> {
   bool val3 = false;
   bool val_pads = false;
   bool alert = false;
-  TimeOfDay period_start_now1 = TimeOfDay(hour: 10, minute: 10);
-  TimeOfDay period_start_now2 = TimeOfDay(hour: 0, minute: 0);
-  TimeOfDay period_start_now3 = TimeOfDay(hour: 0, minute: 0);
+  var period_start_now1 = TimeOfDay(hour: 10, minute: 10);
+  var period_start_now2 = TimeOfDay(hour: 0, minute: 0);
+  var period_start_now3 = TimeOfDay(hour: 0, minute: 0);
+ int diffdate = 0;
 
   int _currentValue1 = 9;
   int _currentValue2 = 0;
   int _currentValue3 = 0;
-  String from;
+  String from = '';
   final pillname = TextEditingController();
   final pills_ovul = TextEditingController();
   final _titleController1 = TextEditingController();
@@ -90,10 +98,27 @@ class RemainderAgainState extends State<RemainderAgain> {
   bool d34 = false;
   bool d35 = false;
   bool d36 = false;
-
+//pills interval
+  bool d1 = false;
+  bool d2 = false;
+  bool d3 = false;
+  bool d4 = false;
+  bool d5 = false;
+  bool d6 = false;
   void initState() {
     super.initState();
     getStatus();
+    getpillsStatus();
+  }
+
+  getpillsStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    d1 = (prefs.getBool('p1') ?? false);
+    d2 = (prefs.getBool('p2') ?? false);
+    d3 = (prefs.getBool('p3') ?? false);
+    d4 = (prefs.getBool('p4') ?? false);
+    d5 = (prefs.getBool('p5') ?? false);
+    d6 = (prefs.getBool('p6') ?? false);
   }
 
   void getStatus() async {
@@ -108,7 +133,86 @@ class RemainderAgainState extends State<RemainderAgain> {
         pad = (prefs.getBool('pad') ?? false);
         tampons = (prefs.getBool('tampons') ?? false);
         cloth = (prefs.getBool('cloth') ?? false);
-        if (pad == true) {
+       
+        globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
+        globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
+        globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
+        globals1.d14 = d14 = (prefs.getBool('4times1') ?? false);
+        globals1.d15 = d15 = (prefs.getBool('5hours1') ?? false);
+        globals1.d16 = d16 = (prefs.getBool('2hours1') ?? false);
+        globals1.d21 = d21 = (prefs.getBool('once2') ?? false);
+        globals1.d22 = d22 = (prefs.getBool('twice2') ?? false);
+        globals1.d23 = d23 = (prefs.getBool('thrice2') ?? false);
+        globals1.d24 = d24 = (prefs.getBool('4times2') ?? false);
+        globals1.d25 = d25 = (prefs.getBool('5hours2') ?? false);
+        globals1.d26 = d26 = (prefs.getBool('2hours2') ?? false);
+        globals1.d31 = d31 = (prefs.getBool('once3') ?? false);
+        globals1.d32 = d32 = (prefs.getBool('twice3') ?? false);
+        globals1.d33 = d33 = (prefs.getBool('thrice3') ?? false);
+        globals1.d34 = d34 = (prefs.getBool('4times3') ?? false);
+        globals1.d35 = d35 = (prefs.getBool('5hours3') ?? false);
+        globals1.d36 = d36 = (prefs.getBool('2hours3') ?? false);
+        //Period alert
+        period_start_now2 = TimeOfDay(
+            hour: int.parse((prefs.getString('remindmeat')).substring(0, 2)),
+            minute: int.parse((prefs.getString('remindmeat')).substring(3, 5)));
+        print(globals1.remindmeat);
+        globals1.alert = alert = (prefs.getBool('periodalert') ?? false);
+        globals1.fromwhentostart =
+            _currentValue2 = (prefs.getInt('fromwhentost') ?? 0);
+        globals1.remindermessage =
+            _titleController2.text = (prefs.getString('remindermessage') ?? '');
+
+        //periodend
+        globals1.reminderEnd = _titleController_alert.text =
+            (prefs.getString('reminderend') ?? '');
+
+        globals1.periodend =
+            period_alertval = (prefs.getBool('periodendbool') ?? false);
+
+        //ovulation
+        period_start_now3 = TimeOfDay(
+            hour: int.parse((prefs.getString('remindmeatovu')).substring(0, 2)),
+            minute:
+                int.parse((prefs.getString('remindmeatovu')).substring(3, 5)));
+        // period_start_now3=(prefs.get('remindmeatovu'));
+        globals1.ovulation = val3 = (prefs.getBool('ovulation') ?? false);
+        globals1.fromwhentostartovu =
+            _currentValue3 = (prefs.getInt('fromwhentostovu') ?? 0);
+        globals1.remindermessageovu = _titleController3.text =
+            (prefs.getString('remindermessageovu') ?? '');
+
+        //pills
+        globals1.pills = pills = (prefs.getBool('pills') ?? false);
+        from = (prefs.getString('from') ?? '');
+        //from=from.substring(8,9)+'/'+from.substring(5,7)+'/'+from.substring(0,4);
+
+        globals1.till = pillsdate = (prefs.getString('till') ?? '');
+      diffdate=DateTime(int.parse(pillsdate.substring(6,10)),int.parse(pillsdate.substring(3,5)),int.parse(pillsdate.substring(0,2))).difference(DateTime.now()).inDays;
+
+        //pillsdate=pillsdate.substring(8,10)+'/'+pillsdate.substring(5,7)+'/'+pillsdate.substring(0,4);
+        globals1.numberofpills =
+            pill_interval = (prefs.getInt('numberofpills') ?? 0);
+        globals1.nameofpill =
+            pillname.text = (prefs.getString('nameofpills') ?? '');
+        globals1.remindermessagepills =
+            pills_ovul.text = (prefs.getString('remindermessagepills') ?? '');
+
+        //contraception
+        globals1.contraception =
+            conraception = (prefs.getBool('contraception') ?? false);
+      } else {
+        //setStatus();
+        prefs.setBool('installStatus1', true);
+        getStatus();
+      }
+    });
+  }
+
+  void setStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+
+     if (pad == true) {
           d21 = false;
           d22 = false;
           d23 = false;
@@ -150,75 +254,8 @@ class RemainderAgainState extends State<RemainderAgain> {
           d25 = false;
           d26 = false;
         }
-        globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
-        globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
-        globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
-        globals1.d14 = d14 = (prefs.getBool('4times1') ?? false);
-        globals1.d15 = d15 = (prefs.getBool('5hours1') ?? false);
-        globals1.d16 = d16 = (prefs.getBool('2hours1') ?? false);
-        globals1.d21 = d21 = (prefs.getBool('once2') ?? false);
-        globals1.d22 = d22 = (prefs.getBool('twice2') ?? false);
-        globals1.d23 = d23 = (prefs.getBool('thrice2') ?? false);
-        globals1.d24 = d24 = (prefs.getBool('4times2') ?? false);
-        globals1.d25 = d25 = (prefs.getBool('5hours2') ?? false);
-        globals1.d26 = d26 = (prefs.getBool('2hours2') ?? false);
-        globals1.d31 = d31 = (prefs.getBool('once3') ?? false);
-        globals1.d32 = d32 = (prefs.getBool('twice3') ?? false);
-        globals1.d33 = d33 = (prefs.getBool('thrice3') ?? false);
-        globals1.d34 = d34 = (prefs.getBool('4times3') ?? false);
-        globals1.d35 = d35 = (prefs.getBool('5hours3') ?? false);
-        globals1.d36 = d36 = (prefs.getBool('2hours3') ?? false);
-        //Period alert
-        globals1.remindmeat = (prefs.get('remindmeat') ?? '0');
-        print(globals1.remindmeat);
-        globals1.alert = alert = (prefs.getBool('periodalert') ?? false);
-        globals1.fromwhentostart =
-            _currentValue2 = (prefs.getInt('fromwhentost') ?? 0);
-        globals1.remindermessage =
-            _titleController2.text = (prefs.getString('remindermessage') ?? '');
-
-        //periodend
-        globals1.reminderEnd = _titleController_alert.text =
-            (prefs.getString('reminderend') ?? '');
-
-        globals1.periodend =
-            period_alertval = (prefs.getBool('periodendbool') ?? false);
-
-        //ovulation
-        globals1.remindmeatovu = (prefs.get('remindmeatovu') ?? '0');
-
-        globals1.ovulation = val3 = (prefs.getBool('ovulation') ?? false);
-        globals1.fromwhentostartovu =
-            _currentValue3 = (prefs.getInt('fromwhentostovu') ?? 0);
-        globals1.remindermessageovu = _titleController3.text =
-            (prefs.getString('remindermessageovu') ?? '');
-
-        //pills
-        globals1.pills = pills = (prefs.getBool('pills') ?? false);
-          from = (prefs.getString('from') ?? '');
-
-        globals1.till = pillsdate = (prefs.getString('till') ?? '');
-        globals1.numberofpills =
-            pill_interval = (prefs.getInt('numberofpills') ?? 0);
-        globals1.nameofpill =
-            pillname.text = (prefs.getString('nameofpills') ?? '');
-        globals1.remindermessagepills =
-            pills_ovul.text = (prefs.getString('remindermessagepills') ?? '');
-
-        //contraception
-        globals1.contraception =
-            conraception = (prefs.getBool('contraception') ?? false);
-      } else {
-        setStatus();
-        prefs.setBool('installStatus1', true);
-        getStatus();
-      }
-    });
-  }
-
-  void setStatus() async {
-    final prefs = await SharedPreferences.getInstance();
     //sanitary used
+    if(pad || tampons || cloth)
     prefs.setString('select_sanitary', selectedsanitary);
 
     prefs.setBool('val_pad', val_pads);
@@ -245,7 +282,10 @@ class RemainderAgainState extends State<RemainderAgain> {
     prefs.setBool('5hours3', d35);
     prefs.setBool('2hours3', d36);
     //period alert
-    prefs.setString('remindmeat', period_start_now2.toString());
+    prefs.setString(
+        'remindmeat',
+        period_start_now2.toString().substring(10, 13) +
+            period_start_now2.toString().substring(13, 15));
 
     prefs.setInt('fromwhentost', _currentValue2);
     prefs.setBool('periodalert', alert);
@@ -257,15 +297,24 @@ class RemainderAgainState extends State<RemainderAgain> {
 
     //ovulation
 
-    prefs.setString('remindmeatovu', period_start_now3.toString());
-
+    prefs.setString(
+        'remindmeatovu',
+        period_start_now3.toString().substring(10, 13) +
+            period_start_now3.toString().substring(13, 15));
+    print(period_start_now3.minute);
     prefs.setInt('fromwhentostovu', _currentValue3);
     prefs.setBool('ovulation', val3);
     prefs.setString('remindermessageovu', _titleController3.text);
 
     //pills
     prefs.setBool('pills', pills);
-    prefs.setString('from',  '${DateTime.now().day}'+'/'+ '${DateTime.now().month}'+'/'+'${DateTime.now().year}');
+    prefs.setString(
+        'from',
+        '${DateTime.now().day}' +
+            '/' +
+            '${DateTime.now().month}' +
+            '/' +
+            '${DateTime.now().year}');
     prefs.setString('till', pillsdate);
     prefs.setInt('numberofpills', pill_interval);
     prefs.setString('nameofpills', pillname.text);
@@ -951,13 +1000,24 @@ class RemainderAgainState extends State<RemainderAgain> {
 
   /////////////
   void pills_inside(Function setState2) {
-    bool d1 = false;
-    bool d2 = false;
-    bool d3 = false;
-    bool d4 = false;
-    bool d5 = false;
-    bool d6 = false;
     int count = 0;
+
+    setPillsStatus() async {
+      final prefs = await SharedPreferences.getInstance();
+      prefs.setBool('p1', d1);
+      prefs.setBool('p2', d2);
+      prefs.setBool('p3', d3);
+      prefs.setBool('p4', d4);
+      prefs.setBool('p5', d5);
+      prefs.setBool('p6', d6);
+      prefs.setInt('count', count);
+    }
+
+    setpillsCount() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      pill_interval = (prefs.getInt('count') ?? 0);
+    }
+
     showModalBottomSheet(
         barrierColor: Colors.transparent,
         clipBehavior: Clip.none,
@@ -1032,8 +1092,17 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     Spacer(),
                                     InkWell(
                                         onTap: () {
+                                          if (d1 == true) count++;
+                                          if (d2 == true) count++;
+                                          if (d3 == true) count++;
+                                          if (d4 == true) count++;
+                                          if (d5 == true) count++;
+                                          if (d6 == true) count++;
+
+                                          setPillsStatus();
+
                                           setState2(() {
-                                            pill_interval = count;
+                                            setpillsCount();
                                           });
                                           Navigator.pop(context);
                                         },
@@ -1079,7 +1148,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       onTap: () {
                                         setState5(() {
                                           d1 = !d1;
-                                          if (d1 == true) count++;
+                                          //if (d1 == true) count++;
                                         });
                                       },
                                       child: Row(
@@ -1113,7 +1182,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           custom_checkbox3(d1, () {
                                             setState5(() {
                                               d1 = !d1;
-                                              if (d1 == true) count++;
+                                              // if (d1 == true) count++;
                                             });
                                           }),
                                         ],
@@ -1124,7 +1193,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       onTap: () {
                                         setState5(() {
                                           d2 = !d2;
-                                          if (d2 == true) count++;
+                                          //if (d2 == true) count++;
                                         });
                                       },
                                       child: Row(
@@ -1158,7 +1227,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           custom_checkbox3(d2, () {
                                             setState5(() {
                                               d2 = !d2;
-                                              if (d2 == true) count++;
+                                              //if (d2 == true) count++;
                                             });
                                           }),
                                         ],
@@ -1169,7 +1238,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       onTap: () {
                                         setState5(() {
                                           d3 = !d3;
-                                          if (d3 == true) count++;
+                                          // if (d3 == true) count++;
                                         });
                                       },
                                       child: Row(
@@ -1203,7 +1272,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           custom_checkbox3(d3, () {
                                             setState5(() {
                                               d3 = !d3;
-                                              if (d3 == true) count++;
+                                              // if (d3 == true) count++;
                                             });
                                           }),
                                         ],
@@ -1214,7 +1283,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       onTap: () {
                                         setState5(() {
                                           d4 = !d4;
-                                          if (d4 == true) count++;
+                                          //if (d4 == true) count++;
                                         });
                                       },
                                       child: Row(
@@ -1257,7 +1326,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           custom_checkbox3(d4, () {
                                             setState5(() {
                                               d4 = !d4;
-                                              if (d4 == true) count++;
+                                              //if (d4 == true) count++;
                                             });
                                           }),
                                         ],
@@ -1268,7 +1337,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       onTap: () {
                                         setState5(() {
                                           d5 = !d5;
-                                          if (d5 == true) count++;
+                                          //if (d5 == true) count++;
                                         });
                                       },
                                       child: Row(
@@ -1311,7 +1380,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           custom_checkbox3(d5, () {
                                             setState5(() {
                                               d5 = !d5;
-                                              if (d5 == true) count++;
+                                              // if (d5 == true) count++;
                                             });
                                           }),
                                         ],
@@ -1322,7 +1391,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       onTap: () {
                                         setState5(() {
                                           d6 = !d6;
-                                          if (d6 == true) count++;
+                                          //if (d6 == true) count++;
                                         });
                                       },
                                       child: Row(
@@ -1364,7 +1433,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           custom_checkbox3(d6, () {
                                             setState5(() {
                                               d6 = !d6;
-                                              if (d6 == true) count++;
+                                              //  if (d6 == true) count++;
                                             });
                                           }),
                                         ],
@@ -1397,7 +1466,6 @@ class RemainderAgainState extends State<RemainderAgain> {
     String no_pills = '';
     bool boolpill = false;
 
-    String diffdate = '0';
     showModalBottomSheet(
         clipBehavior: Clip.none,
         barrierColor: Color.fromRGBO(73, 73, 73, 0.4),
@@ -1544,15 +1612,14 @@ class RemainderAgainState extends State<RemainderAgain> {
                                             padding: EdgeInsets.only(bottom: 5),
                                             height: 30,
                                             width: 113,
-                                            child: Text(
-                                              from,
+                                            child: Text(from,
                                                 style: TextStyle(
                                                     color: Theme.of(context)
                                                                 .brightness !=
                                                             Brightness.light
                                                         ? Colors.white
                                                         : Colors.black,
-                                                    fontSize: 17,
+                                                    fontSize: 15,
                                                     fontWeight:
                                                         FontWeight.w600)),
                                             decoration: BoxDecoration(
@@ -1587,13 +1654,13 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                   'Till',
                                                   style: TextStyle(
                                                     fontSize: 18,
-                                                    fontWeight: diffdate != '0'
+                                                    fontWeight: diffdate != 0
                                                         ? FontWeight.w600
                                                         : FontWeight.w400,
                                                     color: Theme.of(context)
                                                                 .brightness !=
                                                             Brightness.light
-                                                        ? diffdate == '0'
+                                                        ? diffdate == 0
                                                             ? Color.fromRGBO(
                                                                 158,
                                                                 158,
@@ -1631,7 +1698,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                                       .brightness !=
                                                                   Brightness
                                                                       .light
-                                                              ? diffdate == '0'
+                                                              ? diffdate == 0
                                                                   ? Color
                                                                       .fromRGBO(
                                                                           158,
@@ -1654,7 +1721,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                         color: Theme.of(context)
                                                                     .brightness !=
                                                                 Brightness.light
-                                                            ? diffdate == '0'
+                                                            ? diffdate == 0
                                                                 ? Color
                                                                     .fromRGBO(
                                                                         158,
@@ -1722,36 +1789,21 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                   onDateTimeChanged:
                                                       (DateTime newdate) {
                                                     setState2(() {
-                                                      pillsdate =
-                                                          '${newdate.day}' +
-                                                              '/' +
-                                                              '${newdate.month}' +
-                                                              '/' +
-                                                              '${newdate.year}';
+                                                      pillsdate = newdate.toString().substring(8,10)+'/'+ newdate.toString().substring(5,7)+'/'+ newdate.toString().substring(0,4);
+                                                          // '${newdate.day}' +
+                                                          //     '/' +
+                                                          //     '${newdate.month}' +
+                                                          //     '/' +
+                                                          //     '${newdate.year}';
                                                     });
                                                     int tempint;
-                                                    if (newdate.month.toInt() >=
-                                                        DateTime.now()
-                                                            .month
-                                                            .toInt())
-                                                      tempint = (newdate
-                                                              .day
-                                                              .toInt() -
-                                                          DateTime.now()
-                                                              .day
-                                                              .toInt() +
-                                                          (newdate.month
-                                                                      .toInt() -
-                                                                  DateTime.now()
-                                                                      .month
-                                                                      .toInt()) *
-                                                              30);
+                                                    tempint=newdate.difference(DateTime.now()).inDays;
 
                                                     if (tempint < 0)
-                                                      diffdate = '0';
+                                                      diffdate = 0;
                                                     else
                                                       diffdate =
-                                                          tempint.toString();
+                                                          tempint;
                                                     print(newdate);
                                                   },
                                                   maximumDate: new DateTime(
@@ -3982,7 +4034,24 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     )),
                                 Spacer(),
                                 FlatButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      DateTime endTime = DateTime.now().add(
+                                          new Duration(days: _currentValue2));
+                                      setStartTime(DateTime(
+                                          DateTime.now().year,
+                                          DateTime.now().month,
+                                          DateTime.now().day,
+                                          DateTime.now().hour,
+                                          DateTime.now().minute));
+                                      setEndTime(DateTime(
+                                          endTime.year,
+                                          endTime.month,
+                                          endTime.day,
+                                          period_start_now2.hour,
+                                          period_start_now2.minute));
+                                      WidgetsFlutterBinding.ensureInitialized();
+                                      await AndroidAlarmManager.initialize();
+                                      onTimePeriodic();
                                       setState(() {
                                         alert = true;
                                         widget.end_time = period_start_now2;
@@ -5468,6 +5537,21 @@ class RemainderAgainState extends State<RemainderAgain> {
       ),
     );
   }
-}
 
-void xyz() {}
+  static periodicCallback() {
+    NotificationHelper().showNotificationBtweenInterval();
+  }
+
+  onTimePeriodic() {
+    SharedPreferences.getInstance().then((value) async {
+      var a = value.getBool('oneTimePeriodic') ?? false;
+      if (!a) {
+        await AndroidAlarmManager.periodic(
+            Duration(minutes: 1), 0, periodicCallback);
+        onlyOneTimePeriodic();
+      } else {
+        print("Cannot run more than once");
+      }
+    });
+  }
+}

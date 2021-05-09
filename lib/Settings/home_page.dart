@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upcloud_tracker/Settings/Home.dart';
 import 'package:upcloud_tracker/Settings/get.dart';
 import 'package:upcloud_tracker/Settings/globals1.dart';
 
@@ -37,7 +38,7 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
 
   void getAllSettings() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    if ((prefs.getBool('installStatus1') ?? false) == false) ;
+    if ((prefs.getBool('installStatus1') ?? false) == false)
     {
       getSettings();
       getSanitary();
@@ -83,10 +84,15 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
                     ),
                     InkWell(
                       onTap: () {
+  //                        Navigator.push(
+  //   context,
+  //   MaterialPageRoute(builder: (context) => Home()),
+  // );
                         postSetting();
-                        print(sanitaryupdate);
+                        print('periodendupdate  is $sanitaryupdate');
                         if (sanitaryupdate == true) postPads();
                         if (periodalertupdate == true) postPeriodAlert();
+                        if(periodendupdate==true) postPeriodEnd();
                         if (ovulationupdate == true) postOvulation();
                         if (pillsupdate == true) postPills();
                         if (contraceptionupdate == true) postContraception();

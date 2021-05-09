@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'globals1.dart' as globals1;
@@ -149,7 +150,9 @@ void getPeriodAlert() async {
       responseData['data'][responseData['data'].length - 1]['reminderMessage'];
   //print(responseData);
   //period alert
-    prefs.setString('remindmeat', globals1.remindmeat);
+  //print(globals1.remindmeat);
+  print( globals1.remindmeat);
+    prefs.setString('remindmeat', globals1.remindmeat.toString().substring(0,3)+ globals1.remindmeat.toString().substring(3,5)) ;
 
     prefs.setInt('fromwhentost', globals1.fromwhentostart);
     prefs.setBool('periodalert', globals1.alert);
@@ -197,7 +200,7 @@ void getOvulation() async {
 
       //ovulation
 
-    prefs.setString('remindmeatovu', globals1.remindmeatovu);
+    prefs.setString('remindmeatovu',  globals1.remindmeatovu.toString().substring(0,3)+ globals1.remindmeatovu.toString().substring(3,5));
 
     prefs.setInt('fromwhentostovu',globals1.fromwhentostartovu);
     prefs.setBool('ovulation', globals1.ovulation);
@@ -226,9 +229,10 @@ void getPills() async {
       responseData['data'][responseData['data'].length - 1]['noOfPillsPerDay'];
 
       //pills
+    
     prefs.setBool('pills', globals1.pills);
-    prefs.setString('from', '${DateTime.now().day}'+'/'+'${DateTime.now().month}'+'/'+'${DateTime.now().year}');
-    prefs.setString('till', globals1.till);
+    prefs.setString('from', globals1.from.substring(8,10)+'/'+globals1.from.substring(5,7)+'/'+globals1.from.substring(0,4));
+    prefs.setString('till', globals1.till.substring(8,10)+'/'+ globals1.till.substring(5,7)+'/'+ globals1.till.substring(0,4));
     prefs.setInt('numberofpills', globals1.numberofpills);
     prefs.setString('nameofpills', globals1.nameofpill);
     prefs.setString('remindermessagepills', globals1.remindermessagepills);

@@ -50,6 +50,8 @@ dependencies:
   flutter_swiper: ^1.1.6
   flutter_custom_clippers:
   http:
+  android_alarm_manager: ^0.4.5+11
+  flutter_local_notifications: ^1.4.4+1
 dev_dependencies:
   flutter_test:
     sdk: flutter
