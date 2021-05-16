@@ -18,7 +18,6 @@ import 'globals1.dart' as globals1;
 import 'customizedNotification.dart';
 
 class RemainderAgain extends StatefulWidget {
-
   int start_day;
   String str;
   TimeOfDay start_time;
@@ -61,7 +60,7 @@ class RemainderAgainState extends State<RemainderAgain> {
   var period_start_now1 = TimeOfDay(hour: 10, minute: 10);
   var period_start_now2 = TimeOfDay(hour: 0, minute: 0);
   var period_start_now3 = TimeOfDay(hour: 0, minute: 0);
- int diffdate = 0;
+  int diffdate = 0;
 
   int _currentValue1 = 9;
   int _currentValue2 = 0;
@@ -128,12 +127,16 @@ class RemainderAgainState extends State<RemainderAgain> {
       globals1.install_status1 = (prefs.getBool('installStatus1') ?? false);
       if (globals1.install_status1 == true) {
         selectedsanitary = (prefs.getString('select_sanitary') ?? "Nothing");
-
-        val_pads = (prefs.getBool('val_pad') ?? false);
+        
         pad = (prefs.getBool('pad') ?? false);
         tampons = (prefs.getBool('tampons') ?? false);
         cloth = (prefs.getBool('cloth') ?? false);
-       
+        
+        if(pad || tampons || cloth)
+        val_pads = true;
+        else
+        val_pads=false;
+
         globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
         globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
         globals1.d13 = d13 = (prefs.getBool('thrice1') ?? false);
@@ -188,7 +191,12 @@ class RemainderAgainState extends State<RemainderAgain> {
         //from=from.substring(8,9)+'/'+from.substring(5,7)+'/'+from.substring(0,4);
 
         globals1.till = pillsdate = (prefs.getString('till') ?? '');
-      diffdate=DateTime(int.parse(pillsdate.substring(6,10)),int.parse(pillsdate.substring(3,5)),int.parse(pillsdate.substring(0,2))).difference(DateTime.now()).inDays;
+        diffdate = DateTime(
+                int.parse(pillsdate.substring(6, 10)),
+                int.parse(pillsdate.substring(3, 5)),
+                int.parse(pillsdate.substring(0, 2)))
+            .difference(DateTime.now())
+            .inDays;
 
         //pillsdate=pillsdate.substring(8,10)+'/'+pillsdate.substring(5,7)+'/'+pillsdate.substring(0,4);
         globals1.numberofpills =
@@ -212,51 +220,51 @@ class RemainderAgainState extends State<RemainderAgain> {
   void setStatus() async {
     final prefs = await SharedPreferences.getInstance();
 
-     if (pad == true) {
-          d21 = false;
-          d22 = false;
-          d23 = false;
-          d24 = false;
-          d25 = false;
-          d26 = false;
-          d31 = false;
-          d32 = false;
-          d33 = false;
-          d34 = false;
-          d35 = false;
-          d36 = false;
-        }
-        if (tampons == true) {
-          d11 = false;
-          d12 = false;
-          d13 = false;
-          d14 = false;
-          d15 = false;
-          d16 = false;
-          d31 = false;
-          d32 = false;
-          d33 = false;
-          d34 = false;
-          d35 = false;
-          d36 = false;
-        }
-        if (cloth == true) {
-          d11 = false;
-          d12 = false;
-          d13 = false;
-          d14 = false;
-          d15 = false;
-          d16 = false;
-          d21 = false;
-          d22 = false;
-          d23 = false;
-          d24 = false;
-          d25 = false;
-          d26 = false;
-        }
+    if (pad == true) {
+      d21 = false;
+      d22 = false;
+      d23 = false;
+      d24 = false;
+      d25 = false;
+      d26 = false;
+      d31 = false;
+      d32 = false;
+      d33 = false;
+      d34 = false;
+      d35 = false;
+      d36 = false;
+    }
+    if (tampons == true) {
+      d11 = false;
+      d12 = false;
+      d13 = false;
+      d14 = false;
+      d15 = false;
+      d16 = false;
+      d31 = false;
+      d32 = false;
+      d33 = false;
+      d34 = false;
+      d35 = false;
+      d36 = false;
+    }
+    if (cloth == true) {
+      d11 = false;
+      d12 = false;
+      d13 = false;
+      d14 = false;
+      d15 = false;
+      d16 = false;
+      d21 = false;
+      d22 = false;
+      d23 = false;
+      d24 = false;
+      d25 = false;
+      d26 = false;
+    }
     //sanitary used
-    if(pad || tampons || cloth)
-    prefs.setString('select_sanitary', selectedsanitary);
+    if (pad || tampons || cloth)
+      prefs.setString('select_sanitary', selectedsanitary);
 
     prefs.setBool('val_pad', val_pads);
     prefs.setBool('pad', pad);
@@ -951,14 +959,14 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     SizedBox(height: 22),
                                     TextFormField(
                                       style: TextStyle(
-                                          color: Colors.black,
+                                          color: Theme.of(context).brightness==Brightness.light?Colors.black:Colors.white,
                                           fontSize: 17,
                                           fontWeight: FontWeight.w500),
                                       decoration: InputDecoration(
                                         // border: InputBorder(borderSide: ),
                                         hintText:
                                             'Your Period Cycle has come to an end!!',
-                                        fillColor: Colors.transparent,
+                                        fillColor: Theme.of(context).brightness==Brightness.light?Colors.black:Colors.white,
                                         focusColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
                                       ),
@@ -1465,6 +1473,39 @@ class RemainderAgainState extends State<RemainderAgain> {
     bool del = false;
     String no_pills = '';
     bool boolpill = false;
+    void showdeleteBottom() {
+      showModalBottomSheet(
+        elevation: 0,
+        barrierColor: Colors.transparent,
+        clipBehavior: Clip.hardEdge,
+        backgroundColor: Colors.transparent,
+          context: context,
+          builder: (BuildContext context) {
+            return ClipRect(
+                          child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX:10,sigmaY:10),
+                            child: Container(
+                              height: 70,
+                              decoration: BoxDecoration(color:Theme.of(context).brightness == Brightness.light?Color.fromRGBO(158,158,158,0.1):Color.fromRGBO(255,255,255,0.1)),
+                  child: del
+                      ? GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              showAlertDialog1('pills', setState);
+                            });
+                            //Navigator.pop(context);
+                          },
+                          child: Center(
+                              child: Text(
+                            'Delete this reminder',
+                            style: TextStyle(color: Colors.red, fontSize: 17),
+                          )))
+                      : null,
+                ),
+              ),
+            );
+          });
+    }
 
     showModalBottomSheet(
         clipBehavior: Clip.none,
@@ -1529,6 +1570,8 @@ class RemainderAgainState extends State<RemainderAgain> {
                                         setState2(() {
                                           del = !del;
                                         });
+                                        if(del==true)
+                                        showdeleteBottom();
                                         //Navigator.pop(context);
                                       },
                                       child: Text(
@@ -1789,21 +1832,34 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                   onDateTimeChanged:
                                                       (DateTime newdate) {
                                                     setState2(() {
-                                                      pillsdate = newdate.toString().substring(8,10)+'/'+ newdate.toString().substring(5,7)+'/'+ newdate.toString().substring(0,4);
-                                                          // '${newdate.day}' +
-                                                          //     '/' +
-                                                          //     '${newdate.month}' +
-                                                          //     '/' +
-                                                          //     '${newdate.year}';
+                                                      pillsdate = newdate
+                                                              .toString()
+                                                              .substring(
+                                                                  8, 10) +
+                                                          '/' +
+                                                          newdate
+                                                              .toString()
+                                                              .substring(5, 7) +
+                                                          '/' +
+                                                          newdate
+                                                              .toString()
+                                                              .substring(0, 4);
+                                                      // '${newdate.day}' +
+                                                      //     '/' +
+                                                      //     '${newdate.month}' +
+                                                      //     '/' +
+                                                      //     '${newdate.year}';
                                                     });
                                                     int tempint;
-                                                    tempint=newdate.difference(DateTime.now()).inDays;
+                                                    tempint = newdate
+                                                        .difference(
+                                                            DateTime.now())
+                                                        .inDays;
 
                                                     if (tempint < 0)
                                                       diffdate = 0;
                                                     else
-                                                      diffdate =
-                                                          tempint;
+                                                      diffdate = tempint;
                                                     print(newdate);
                                                   },
                                                   maximumDate: new DateTime(
@@ -1829,30 +1885,36 @@ class RemainderAgainState extends State<RemainderAgain> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
-                                              Padding(
-                                                padding: const EdgeInsets.only(
-                                                    top: 15),
-                                                child: Text('No of Pills/day',
-                                                    style: TextStyle(
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            pill_interval == 0
-                                                                ? FontWeight
-                                                                    .w400
-                                                                : FontWeight
-                                                                    .w600,
-                                                        color: Theme.of(context)
-                                                                    .brightness !=
-                                                                Brightness.light
-                                                            ? pill_interval == 0
-                                                                ? Color
-                                                                    .fromRGBO(
-                                                                        158,
-                                                                        158,
-                                                                        158,
-                                                                        1)
-                                                                : null
-                                                            : null)),
+                                              Column(
+                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                children: [
+                                                  Text('No of Pills/day',
+                                                      style: TextStyle(
+                                                          fontSize: 18,
+                                                          fontWeight:
+                                                              pill_interval == 0
+                                                                  ? FontWeight
+                                                                      .w400
+                                                                  : FontWeight
+                                                                      .w600,
+                                                          color: Theme.of(context)
+                                                                      .brightness !=
+                                                                  Brightness.light
+                                                              ? pill_interval == 0
+                                                                  ? Color
+                                                                      .fromRGBO(
+                                                                          158,
+                                                                          158,
+                                                                          158,
+                                                                          1)
+                                                                  : null
+                                                              : null)),
+                                                  Text('$pill_interval times a day',style: TextStyle(  color: Color.fromRGBO(
+                                                          26, 147, 111, 1),
+                                                      fontSize: 13,
+                                                      fontWeight:
+                                                          FontWeight.w500),)
+                                                ],
                                               ),
                                             ],
                                           ),
@@ -2081,23 +2143,6 @@ class RemainderAgainState extends State<RemainderAgain> {
                                         ),
                                         controller: pills_ovul,
                                       ),
-                                      SizedBox(height: 50),
-                                      if (del == true)
-                                        GestureDetector(
-                                            onTap: () {
-                                              setState(() {
-                                                showAlertDialog1(
-                                                    'pills', setState);
-                                              });
-                                              //Navigator.pop(context);
-                                            },
-                                            child: Center(
-                                                child: Text(
-                                              'Delete this reminder',
-                                              style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontSize: 17),
-                                            )))
                                     ],
                                   ),
                                 ),
@@ -4886,7 +4931,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       decoration: InputDecoration(
                                         // border: InputBorder(borderSide: ),
                                         hintText: 'Ovulation starts soon!',
-                                        fillColor: Colors.black,
+                                        fillColor:Theme.of(context).brightness==Brightness.light? Colors.black:Colors.white,
                                         focusColor: Colors.black,
                                         hoverColor: Colors.black,
                                       ),

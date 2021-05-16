@@ -52,6 +52,12 @@ dependencies:
   http:
   android_alarm_manager: ^0.4.5+11
   flutter_local_notifications: ^1.4.4+1
+  fit_kit:
+  mailto:
+  open_mail_app:
+  url_launcher: ^5.0.3
+  get_it: ^1.0.3+2
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

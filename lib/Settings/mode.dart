@@ -960,7 +960,8 @@ class _ModeState extends State<Mode> {
                   Container(
                     margin: EdgeInsets.all(20),
                     child: Text(
-                        'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd'),
+                        'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd',style: TextStyle(color:Theme.of(context).brightness ==
+                                            Brightness.light?Colors.black:Color.fromRGBO(158,158,158,1)),),
                   ),
                   SizedBox(
                     height: 40,
@@ -1010,7 +1011,8 @@ class _ModeState extends State<Mode> {
                   Container(
                     margin: EdgeInsets.all(20),
                     child: Text(
-                        'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd'),
+                        'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd',style: TextStyle(color:Theme.of(context).brightness ==
+                                            Brightness.light?Colors.black:Color.fromRGBO(158,158,158,1)),),
                   ),
                 ],
               ),

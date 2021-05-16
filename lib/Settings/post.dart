@@ -17,11 +17,11 @@ void postSetting() async {
     "patientId": "asdfwer12423525as",
     "cycleLength": (prefs.getInt('val') ?? 0),
     "periodLength": (prefs.getInt('val2') ?? 0),
-    "ovuationLength": (prefs.getInt('val3') ?? 0),
+    "ovulationLength": (prefs.getInt('val3') ?? 0),
     "sanitaryUsed": (prefs.getInt('val5') ?? 0),
     "pmsLength": (prefs.getInt('val4') ?? 0),
-    "height": 180,
-    "weight": 60,
+    "height": (prefs.getString('height') ?? '170'),
+    "weight": (prefs.getString('weight') ?? '50'),
   };
   print(data);
   // Starting Web API Call.

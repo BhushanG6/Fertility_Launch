@@ -1,11 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.upcloud_tracker">
+
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
   <uses-permission android:name="android.permission.VIBRATE" />
 
      <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="android.permission.INTERNET"/>
+<uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
    <application
         android:label="upcloud_tracker"
         android:icon="@mipmap/ic_launcher">

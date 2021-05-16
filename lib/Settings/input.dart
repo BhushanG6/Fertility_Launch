@@ -72,17 +72,18 @@ class InputState extends State<Input> {
     setState(() {
       globals1.install_status = (prefs.getBool('installStatus') ?? false);
       if (globals1.install_status == true) {
+
+        sfinal = (prefs.getString('height') ?? '');
+        s2 = (prefs.getString('weight') ?? '');
+
         _currentValue = (prefs.getInt('val') ?? 0);
         _currentValue2 = (prefs.getInt('val2') ?? 0);
         _currentValue3 = (prefs.getInt('val3') ?? 0);
         _currentValue4 = (prefs.getInt('val4') ?? 0);
         _currentValue5 = (prefs.getInt('val5') ?? 0);
+        
+       
 
-        globals1.currentvalue = _currentValue;
-        globals1.currentvalue2 = _currentValue2;
-        globals1.currentvalue3 = _currentValue3;
-        globals1.currentvalue4 = _currentValue4;
-        globals1.currentvalue5 = _currentValue5;
       } else {
         setState(() {
         //getSettings();
@@ -97,13 +98,16 @@ class InputState extends State<Input> {
   void setStatus() async {
     print(_currentValue);
     final prefs = await SharedPreferences.getInstance();
-    
+    prefs.setString('height', sfinal);
+    prefs.setString('weight', s2);
+
 
     prefs.setInt('val', _currentValue);
     prefs.setInt('val2', _currentValue2);
     prefs.setInt('val3', _currentValue3);
     prefs.setInt('val4', _currentValue4);
     prefs.setInt('val5', _currentValue5);
+
   }
 
   @override

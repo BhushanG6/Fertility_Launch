@@ -78,7 +78,8 @@ class AboutScreen extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 30),
                 child: Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\n\nMassa placerat duis ultricies lacus sed turpis tincidunt id aliquet. Faucibus turpis in eu mi bibendum.\n\nNunc mattis enim ut tellus. Ac tincidunt vitae semper quis. Aliquet nec ullamcorper sit amet risus nullam eget felis eget. Sed sed risus pretium quam vulputate dignissim suspendisse in.\n\nLorem ipsum dolor sit amet consectetur adipiscing.\n\nAmet volutpat consequat mauris nunc congue nisi vitae suscipit tellus.proin fermentum leo vel. Fringilla est ullamcorper eget nulla facilisi. Eu feugiat pretium nibh ipsum consequat nisl vel pretium.\n\nNec dui nunc mattis enim ut tellus. Phasellus egestas tellus rutrum tellus pellentesque eu tincidunt tortor. Pellentesque pulvinar pellentesque habitant morbi tristique senectus.\n\nEget magna fermentum iaculis eu non diam phasellus. Velit scelerisque in dictum non consectetur. Netus et malesuada.',
-                  style: TextStyle(fontSize: 17),
+                  style: TextStyle(fontSize: 17,color: Theme.of(context).brightness ==
+                                            Brightness.light?Colors.black:Color.fromRGBO(158,158,158,1),),
                 ),
               ),
             ],

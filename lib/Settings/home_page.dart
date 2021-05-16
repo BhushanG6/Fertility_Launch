@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:upcloud_tracker/Settings/Home.dart';
+import 'package:upcloud_tracker/Settings/calls_and_messages_service.dart';
 import 'package:upcloud_tracker/Settings/get.dart';
 import 'package:upcloud_tracker/Settings/globals1.dart';
+import 'package:upcloud_tracker/Settings/service_locator.dart';
 
 import '../bottom_navigator.dart';
 import './about_screen.dart';
@@ -29,6 +31,8 @@ class SettingsHomePage extends StatefulWidget {
 class _SettingsHomePageState extends State<SettingsHomePage> {
   bool p = false;
   bool qw = false;
+  final CallsAndMessagesService _service = locator<CallsAndMessagesService>();
+  final String email='bhushangajare6@gmail.com';
   FutureOr onGoBack(dynamic value) {
     setState(() {
       qw = globals.sw;
@@ -625,7 +629,7 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
               InkWell(
                 onTap: () {
                   _valueS ? player.play('sound.mp3') : null;
-
+                  _service.sendEmail(email);
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(

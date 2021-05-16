@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:upcloud_tracker/Settings/service_locator.dart';
 import './Settings/theme.dart';
 import 'bottom_navigator.dart';
 import 'month/monthly_view.dart';
 import 'globals.dart' as globals;
 import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+void main() {
+setupLocator();
+
+runApp(MyApp());
+} 
 
 class MyApp extends StatefulWidget {
   static const routeName = '/';

@@ -28,6 +28,11 @@ void getSettings() async {
       responseData['data'][responseData['data'].length - 1]['pmsLength'];
   globals1.currentvalue5 =
       responseData['data'][responseData['data'].length - 1]['sanitaryUsed'];
+    
+    prefs.setString('height', globals1.height);
+    prefs.setString('weight', globals1.weight);
+
+
     prefs.setInt('val', globals1.currentvalue);
     prefs.setInt('val2',globals1.currentvalue2);
     prefs.setInt('val3', globals1.currentvalue3);
