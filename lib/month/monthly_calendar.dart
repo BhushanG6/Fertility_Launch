@@ -1,6 +1,10 @@
 import '../slideScreen/firstScreen.dart';
+<<<<<<< HEAD
 // import '../mns/homepage.dart' as mp;
 import '../mns/main.dart' as mns;
+=======
+import '../mns/homepage.dart' as mp;
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import '../widgets/bottom_navbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -132,7 +136,11 @@ class _MonthlyCalendarState extends State<MonthlyCalendar> {
     });
     Navigator.push(
       context,
+<<<<<<< HEAD
       MaterialPageRoute(builder: (context) => mns.MNS()),
+=======
+      MaterialPageRoute(builder: (context) => mp.MyHomePage()),
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
     );
   }
 

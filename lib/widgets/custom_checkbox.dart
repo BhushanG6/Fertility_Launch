@@ -1,10 +1,25 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+bool value1;
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 
 // ignore: must_be_immutable
 class CustomCheckbox extends StatefulWidget {
   bool value;
+<<<<<<< HEAD
   Function abcd;
   CustomCheckbox({this.value, this.abcd});
+=======
+ 
+  Function abcd;
+  CustomCheckbox({this.value, this.abcd});
+  
+  void setValue()
+  {
+    value1=value;
+  }
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
   @override
   _CustomCheckboxState createState() => _CustomCheckboxState();
 }
@@ -12,11 +27,19 @@ class CustomCheckbox extends StatefulWidget {
 class _CustomCheckboxState extends State<CustomCheckbox> {
   @override
   Widget build(BuildContext context) {
+<<<<<<< HEAD
+=======
+    CustomCheckbox obj=new CustomCheckbox();
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
     return GestureDetector(
       onTap: () {
         setState(() {
           widget.value = !widget.value;
           widget.abcd();
+<<<<<<< HEAD
+=======
+          obj.setValue();
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
         });
       },
       child: Container(
@@ -25,6 +48,10 @@ class _CustomCheckboxState extends State<CustomCheckbox> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
+<<<<<<< HEAD
+=======
+              width:3,
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black
                   : Colors.white,
@@ -68,6 +95,10 @@ class _CustomCheckbox2State extends State<CustomCheckbox2> {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
+<<<<<<< HEAD
+=======
+              width:3,
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
               color: Theme.of(context).brightness == Brightness.light
                   ? Colors.black
                   : Colors.white,

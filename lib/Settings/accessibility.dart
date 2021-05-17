@@ -4,6 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:upcloud_tracker/Settings/godark.dart';
+<<<<<<< HEAD
+=======
+import '../bottom_navigator.dart';
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import 'globals.dart' as globals;
 import 'health_kit_screen.dart';
 import 'theme.dart';
@@ -268,6 +272,11 @@ class _AccessibilityState extends State<Accessibility> {
             ],
           ),
         )),
+<<<<<<< HEAD
+=======
+                bottomNavigationBar: BottomNavbar(),
+
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       ),
     );
   }

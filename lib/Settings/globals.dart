@@ -6,6 +6,10 @@ bool sw = false;
 String p12 = '';
 final player = AudioCache();
 bool status = false;
+<<<<<<< HEAD
+=======
+bool popup=false;
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 bool partnerstatus = false;
 bool modestatus = false;
 bool val1 = false;

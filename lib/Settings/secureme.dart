@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+import '../bottom_navigator.dart';
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import '../widgets/custom_checkbox.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -857,6 +861,11 @@ class _SecuremeState extends State<Secureme> {
             ],
           ),
         )),
+<<<<<<< HEAD
+=======
+                bottomNavigationBar: BottomNavbar(),
+
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       ),
     );
   }

@@ -47,8 +47,15 @@ dependencies:
   polygon_clipper: ^1.0.2
   cupertino_icons: ^1.0.0
   flutter_swiper: ^1.1.6
-  loading_indicator: ^1.2.0
-  http: ^0.12.2
+  flutter_custom_clippers:
+  http:
+  android_alarm_manager: ^0.4.5+11
+  flutter_local_notifications: ^1.4.4+1
+  fit_kit:
+  mailto:
+  open_mail_app:
+  url_launcher: ^5.0.3
+  get_it: ^1.0.3+2
 
 dev_dependencies:
   flutter_test:
@@ -67,7 +74,6 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/
     - assets/tests/
     - assets/pills/
     - assets/periods/
@@ -76,6 +82,7 @@ flutter:
     - assets/sound.mp3
     - assets/periods/Spotting-pre.svg
     - assets/periods/Spotting-post.svg
+    - assets/aa/
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

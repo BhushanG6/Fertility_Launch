@@ -21,10 +21,13 @@ import 'package:swipedetector/swipedetector.dart';
 import '../new_widgets/new_widgets.dart';
 import 'package:flutter/material.dart';
 import './monthly_style.dart';
+<<<<<<< HEAD
 import 'cards/constants.dart';
 import 'cards/pageone.dart';
 import 'cards/pagetwo.dart';
 import 'cards/provider.dart/card_provider.dart';
+=======
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import 'monthly_calendar.dart';
 import '../globals.dart' as globals;
 import 'package:flutter_swiper/flutter_swiper.dart';
@@ -689,6 +692,7 @@ class _MonthlyViewState extends State<MonthlyView> {
           31,
         ];
     int daysInMonth = daysPerMonth(widget.year)[widget.month - 1];
+<<<<<<< HEAD
     double height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     final cardp = Provider.of<CardProvider>(context);
@@ -1505,3 +1509,780 @@ class _MonthlyViewState extends State<MonthlyView> {
         //             topRight: Radius.circular(24.0)),
         //       )
         //     : Container(),
+=======
+
+    return Stack(
+      children: [
+        SwipeDetector(
+          child: MonthlyCalendar(
+            minDate: DateTime(widget.year, widget.month, 1),
+            maxDate: DateTime(
+                widget.year,
+                widget.month,
+                DateTime(widget.year, widget.month,
+                                daysPerMonth(widget.year)[widget.month - 1])
+                            .weekday ==
+                        7
+                    // ||DateTime(widget.year, widget.month,
+                    //         daysPerMonth(widget.year)[widget.month - 1]).subtract(Duration(days:2))
+                    //     .weekday ==
+                    // 7
+                    ? daysInMonth + 1
+                    : daysInMonth),
+            month: widget.month,
+            year: widget.year,
+          ),
+          onSwipeRight: () {
+            setState(() {
+              lala2 = true;
+            });
+          },
+          onSwipeLeft: () {
+            setState(() {
+              lala2 = false;
+            });
+          },
+        ),
+        lala2 == true
+            ? SlidingUpPanel(
+                //body: _body(),
+                isDraggable: true,
+                color: Colors.transparent,
+                boxShadow: null,
+                maxHeight: MediaQuery.of(context).size.height,
+                minHeight:
+                    // DateTime(widget.year, widget.month,
+                    //                     daysPerMonth(widget.year)[widget.month - 1])
+                    //                 .weekday ==
+                    //             7
+                    //             ||
+                    ((DateTime(widget.year, widget.month, 1).weekday == 5 ||
+                                DateTime(widget.year, widget.month, 1)
+                                        .weekday ==
+                                    6) &&
+                            (DateTime(
+                                            widget.year,
+                                            widget.month,
+                                            daysPerMonth(
+                                                widget.year)[widget.month - 1])
+                                        .weekday ==
+                                    1 ||
+                                DateTime(
+                                            widget.year,
+                                            widget.month,
+                                            daysPerMonth(
+                                                widget.year)[widget.month - 1])
+                                        .weekday ==
+                                    7))
+                        ? MediaQuery.of(context).size.height / 2.09 + 24
+                        : MediaQuery.of(context).size.height / 2 + 24,
+                parallaxEnabled: false,
+                parallaxOffset: 1,
+                panelBuilder: (sc) {
+                  final controller = PageController(
+                    keepPage: false,
+                    initialPage: 0,
+                  );
+                  return MediaQuery.removeViewInsets(
+                    removeBottom: true,
+                    context: context,
+                    removeTop: true,
+                    child:
+                        // Swiper(
+                        //   itemBuilder: (BuildContext context, int index) {
+                        //     return FirstScreen(widget.month, widget.year);
+                        //     // Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
+                        //   },
+                        //   itemCount: 1,
+                        //   pagination: new SwiperPagination(),
+                        //   control: new SwiperControl(),
+                        // ),
+                        //lp
+                        //Swiper(child: FirstScreen(widget.month, widget.year)),
+                        PageView(
+                      scrollDirection: Axis.horizontal,
+                      controller: controller,
+                      children: [
+                        SwipeDetector(
+                          onSwipeLeft: () {
+                            setState(() {
+                              lala2 = false;
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.rectangle,
+                              borderRadius: BorderRadius.only(
+                                topLeft: Radius.circular(18.0),
+                                topRight: Radius.circular(18.0),
+                              ),
+                            ),
+                            child: Container(
+                              height: MediaQuery.of(context).size.height / 2.5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                    //  topLeft: Radius.circular(24.0),
+                                    //  topRight: Radius.circular(24.0),
+                                    ),
+                              ),
+                              //change heres
+                              child: Scaffold(
+                                backgroundColor: Colors.transparent,
+                                body: Container(
+                                  decoration: BoxDecoration(
+                                    color: Color.fromRGBO(138, 93, 54, 1),
+                                    //Colors.brown,
+                                    borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(30.0),
+                                      topRight: Radius.circular(30.0),
+                                    ),
+                                  ),
+                                  child: ListView(
+                                    controller: sc,
+                                    children: <Widget>[
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: <Widget>[
+                                            Container(
+                                              height: MediaQuery.of(context)
+                                                      .size
+                                                      .height *
+                                                  .15,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  .75,
+                                              child: Text(
+                                                "\n Hello Friend, How was today?\n Was there any sort of trouble\n you faced today with this....",
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 20.0,
+                                                  fontWeight: FontWeight.w400,
+                                                ),
+                                                textAlign: TextAlign.center,
+                                              ),
+                                            ),
+                                            Container(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  .25,
+                                              child: Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height: 20,
+                                                  ),
+                                                  Transform.rotate(
+                                                    angle: -3.14 / 2,
+                                                    child: Transform.scale(
+                                                      scale: 1,
+                                                      child: CupertinoSwitch(
+                                                        activeColor:
+                                                            Color.fromRGBO(
+                                                                176, 17, 17, 1),
+                                                        trackColor:
+                                                            Color.fromRGBO(
+                                                                176, 17, 17, 1),
+                                                        // inactiveThumbColor: Colors.white,
+                                                        // inactiveTrackColor: Colors.white,
+                                                        //activeColor: Colors.white,
+                                                        // materialTapTargetSize
+                                                        //     MaterialTapTargetSize.padded,
+                                                        value:
+                                                            // widget.valu == null
+                                                            //     ? value
+                                                            //     : abcd,
+                                                            globals.lop[globals
+                                                                        .pq] ==
+                                                                    null
+                                                                ? value
+                                                                : globals.lop[
+                                                                    globals.pq],
+                                                        onChanged: (v) =>
+                                                            setState(() {
+                                                          globals.lop[
+                                                                  globals.pq] =
+                                                              !globals.lop[
+                                                                  globals.pq];
+                                                          value = v;
+                                                          //                                   Timer(
+                                                          //   Duration(seconds: 2),
+                                                          //   ()  {
+
+                                                          //   },
+                                                          // );
+                                                        }),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    height: 10,
+                                                  ),
+                                                  globals.lop[globals.pq] ==
+                                                              false ||
+                                                          globals.lop[
+                                                                  globals.pq] ==
+                                                              null
+                                                      ? Text(
+                                                          '\t\t\tLOG\n\tPeriod',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 14,
+                                                          ),
+                                                        )
+                                                      : Text(
+                                                          '\t\tCancel\n\tPeriod',
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontWeight:
+                                                                FontWeight.w400,
+                                                            fontSize: 14,
+                                                          ),
+                                                        ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                          left: 17,
+                                        ),
+                                        child: Stack(
+                                          children: <Widget>[
+                                            Positioned(
+                                              child: Container(
+                                                width: 40.0,
+                                                height: 40.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/images/user1.jpg'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            new Positioned(
+                                              left: 30.0,
+                                              child: Container(
+                                                width: 40.0,
+                                                height: 40.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/images/user0.jpg'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            new Positioned(
+                                              left: 60.0,
+                                              child: Container(
+                                                width: 40.0,
+                                                height: 40.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/images/user1.jpg'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            new Positioned(
+                                              left: 90.0,
+                                              child: Container(
+                                                width: 40.0,
+                                                height: 40.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/images/user0.jpg'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            new Positioned(
+                                              left: 120.0,
+                                              child: Container(
+                                                width: 40.0,
+                                                height: 40.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/images/user1.jpg'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            new Positioned(
+                                              left: 150.0,
+                                              child: Container(
+                                                width: 40.0,
+                                                height: 40.0,
+                                                margin: EdgeInsets.symmetric(
+                                                  horizontal: 2.0,
+                                                ),
+                                                decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                    fit: BoxFit.cover,
+                                                    image: AssetImage(
+                                                        'assets/images/user0.jpg'),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 30.0,
+                                      ),
+                                      Center(
+                                        child: SingleChildScrollView(
+                                          scrollDirection: Axis.horizontal,
+                                          child: Row(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              globals.onTappedSteps
+                                                  ? Column(
+                                                      children: [
+                                                        Container(
+                                                          alignment:
+                                                              Alignment.center,
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 12.0,
+                                                            right: 12.0,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons
+                                                                .directions_walk,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          '\t252\nSteps',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      width: 0,
+                                                    ),
+                                              globals.onTappedRunning
+                                                  ? Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 12.0,
+                                                            right: 12.0,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons
+                                                                .directions_run,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          'Run',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      width: 0,
+                                                    ),
+                                              globals.onTappedSwimming
+                                                  ? Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 12.0,
+                                                            right: 12.0,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.wallpaper,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          'Swim',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      width: 0,
+                                                    ),
+                                              globals.onTappedYoga
+                                                  ? Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 12.0,
+                                                            right: 12.0,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons
+                                                                .accessibility_new,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          'Yoga',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      width: 0,
+                                                    ),
+                                              globals.onTappedCycling
+                                                  ? Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 12.0,
+                                                            right: 12.0,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons
+                                                                .directions_bike,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          'Cycling',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      width: 0,
+                                                    ),
+                                              globals.onTappedGym
+                                                  ? Column(
+                                                      children: [
+                                                        Container(
+                                                          padding:
+                                                              const EdgeInsets
+                                                                  .only(
+                                                            left: 12.0,
+                                                            right: 12.0,
+                                                          ),
+                                                          child: Icon(
+                                                            Icons.donut_small,
+                                                            color: Colors.white,
+                                                            size: 30,
+                                                          ),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 5,
+                                                        ),
+                                                        Text(
+                                                          'Gym',
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  : SizedBox(
+                                                      width: 0,
+                                                    ),
+                                              GestureDetector(
+                                                onTap: () {
+                                                  sheet();
+                                                  //here
+                                                  // Navigator.push(
+                                                  //   context,
+                                                  //   MaterialPageRoute(
+                                                  //       builder: (context) =>
+                                                  //           AddMore(widget.month, widget.year)),
+                                                  // );
+                                                },
+                                                child: Container(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                    left: 12.0,
+                                                    right: 12.0,
+                                                  ),
+                                                  child: Icon(
+                                                    Icons.add,
+                                                    color: Colors.white,
+                                                    size: 30,
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        height: 40,
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            width: 10.0,
+                                            height: 10.0,
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 2.0),
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 4,
+                                          ),
+                                          Container(
+                                            width: 10.0,
+                                            height: 10.0,
+                                            margin: EdgeInsets.symmetric(
+                                                vertical: 10.0,
+                                                horizontal: 2.0),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                border: Border.all(
+                                                    color: Colors.white)),
+                                          ),
+                                        ],
+                                      ),
+                                      settings_globals.sw == true
+                                          ? InkWell(
+                                              onTap: () {
+                                                print('Inside Inimacy');
+                                                print('${globals.pq}');
+                                                globals.li[globals.pq].addAll({
+                                                  'intimacy':
+                                                      globals.icons['intimacy']
+                                                });
+                                                print('Done');
+                                                print(
+                                                    '${globals.li[globals.pq]['intimacy']}');
+                                              },
+                                              child: Container(
+                                                height: 60,
+                                                padding: EdgeInsets.only(
+                                                    left: 21.0,
+                                                    //right: 30.0,
+                                                    top: 14.0),
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.only(
+                                                    topLeft:
+                                                        Radius.circular(24),
+                                                    topRight:
+                                                        Radius.circular(24),
+                                                  ),
+                                                  color: Color.fromRGBO(
+                                                      138, 93, 54, 1),
+                                                  border: Border.all(
+                                                      color: Colors.white),
+                                                ),
+                                                child: Text('Intimacy',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                        color: Colors.white)),
+                                                // BottomCard(
+                                                //   //type: card.type,
+                                                //   height: 60,
+                                                //   maxDragHeight: 0,
+                                                //   //card.maxDragHeight.toDouble(),
+                                                //   child: cardcontent(
+                                                //     heading: 'Intimacy',
+                                                //     heading2: 'card.heading2',
+                                                //     child: SizedBox(),
+                                                //   ),
+                                                //   hasBorder: true,
+                                                //   col: Theme.of(context)
+                                                //               .brightness ==
+                                                //           Brightness.light
+                                                //       ? Colors.white
+                                                //       : Color.fromRGBO(
+                                                //           208, 2, 27, 1),
+                                                // ),
+                                              ),
+                                            )
+                                          : SizedBox(),
+                                    ],
+                                  ),
+                                ),
+                                
+                              ),
+                            ),
+                          ),
+                        ),
+                        //FirstScreen(widget.month, widget.year)),
+                      ],
+                    ),
+                  );
+                },
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(24.0),
+                    topRight: Radius.circular(24.0)),
+              )
+            : GestureDetector(
+                onHorizontalDragStart: _onHorizontalDragStartHandler,
+                onDoubleTap: () {
+                  setState(() {
+                    hideCardsList.isEmpty
+                        ? hideCardsList.add('Tests')
+                        : hideCardsList.clear();
+                    print(hideCardsList);
+                  });
+                },
+                child: ChangeNotifierProvider<HeightTracker>(
+                  create: (_) => HeightTracker(),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 50),
+                    child: Stack(
+                      // define the cards
+                      children: _bottomCardsList(
+                          maxHeight:
+                              (MediaQuery.of(context).size.height / 2) - 20,
+                          hideCards: hideCardsList,
+                          cards: [
+                            UniqueCard(
+                              heading: 'Pills',
+                              heading2: '',
+                              type: CardType.Pills,
+                              content: Pills(),
+                              maxDragHeight: 150.0,
+                            ),
+                            UniqueCard(
+                              heading: 'Notes',
+                              heading2: '',
+                              type: CardType.Notes,
+                              content: Notes(),
+                              maxDragHeight: 200.0,
+                            ),
+                            UniqueCard(
+                              heading: 'Tests',
+                              heading2: '',
+                              type: CardType.Tests,
+                              content: Tests(),
+                              maxDragHeight: 100.0,
+                            ),
+                            UniqueCard(
+                              heading: 'Vaginal',
+                              heading2: 'Discharge',
+                              type: CardType.Discharge,
+                              content: null,
+                              maxDragHeight: 150.0,
+                            ),
+                            UniqueCard(
+                              heading: 'Blood',
+                              heading2: 'Flow',
+                              type: CardType.BloodFlow,
+                              content: Transform.translate(
+                                child: BloodFlow(),
+                                offset: Offset(0, 10),
+                              ),
+                              maxDragHeight: 255.0,
+                            ),
+                          ]),
+                    ),
+                  ),
+                ),
+              ),
+        //SecondScreen(),
+        //SecondScreen(),
+        // Positioned(
+        //   bottom: 1,
+        //   left: 0,
+        //   right: 0,
+        //   child: BottomNavbar(
+        //     currentIndex: 3,
+        //   ),
+        // ),
+      ],
+    );
+  }
+}
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2

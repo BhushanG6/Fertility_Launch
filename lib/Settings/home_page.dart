@@ -1,6 +1,17 @@
 import 'dart:async';
+<<<<<<< HEAD
 import 'package:upcloud_tracker/mns/main.dart';
 
+=======
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:upcloud_tracker/Settings/Home.dart';
+import 'package:upcloud_tracker/Settings/calls_and_messages_service.dart';
+import 'package:upcloud_tracker/Settings/get.dart';
+import 'package:upcloud_tracker/Settings/globals1.dart';
+import 'package:upcloud_tracker/Settings/service_locator.dart';
+
+import '../bottom_navigator.dart';
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import './about_screen.dart';
 import './health_kit_screen.dart';
 import './mode.dart';
@@ -15,6 +26,10 @@ import 'accessibility.dart';
 import 'globals.dart' as globals;
 import 'dart:io' show Platform;
 import 'package:audioplayers/audio_cache.dart';
+<<<<<<< HEAD
+=======
+import 'post.dart';
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 
 class SettingsHomePage extends StatefulWidget {
   @override
@@ -24,6 +39,11 @@ class SettingsHomePage extends StatefulWidget {
 class _SettingsHomePageState extends State<SettingsHomePage> {
   bool p = false;
   bool qw = false;
+<<<<<<< HEAD
+=======
+  final CallsAndMessagesService _service = locator<CallsAndMessagesService>();
+  final String email='bhushangajare6@gmail.com';
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
   FutureOr onGoBack(dynamic value) {
     setState(() {
       qw = globals.sw;
@@ -31,6 +51,28 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
     });
   }
 
+<<<<<<< HEAD
+=======
+  void getAllSettings() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if ((prefs.getBool('installStatus1') ?? false) == false)
+    {
+      getSettings();
+      getSanitary();
+      getPeriodAlert();
+      getPeriodEnd();
+      getOvulation();
+      getPills();
+      getContraception();
+    }
+  }
+
+  void initState() {
+    super.initState();
+    getAllSettings();
+  }
+
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
   bool get fe {
     return globals.modestatus;
   }
@@ -40,13 +82,21 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
+<<<<<<< HEAD
+=======
+      top: true,
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       child: Scaffold(
         body: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Padding(
+<<<<<<< HEAD
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
+=======
+                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 30),
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -59,16 +109,37 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
                     ),
                     InkWell(
                       onTap: () {
+<<<<<<< HEAD
                          Navigator.push(
     context,
     MaterialPageRoute(builder: (context) => MNS()),
   );
                         //Navigator.pop(context);
+=======
+  //                        Navigator.push(
+  //   context,
+  //   MaterialPageRoute(builder: (context) => Home()),
+  // );
+                        postSetting();
+                        print('periodendupdate  is $sanitaryupdate');
+                        if (sanitaryupdate == true) postPads();
+                        if (periodalertupdate == true) postPeriodAlert();
+                        if(periodendupdate==true) postPeriodEnd();
+                        if (ovulationupdate == true) postOvulation();
+                        if (pillsupdate == true) postPills();
+                        if (contraceptionupdate == true) postContraception();
+                        Navigator.pop(context);
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                       },
                       child: Text(
                         "Done",
                         style: TextStyle(
+<<<<<<< HEAD
                           fontSize: 15,
+=======
+                          color: Color.fromRGBO(234, 93, 237, 1),
+                          fontSize: 17,
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -84,7 +155,11 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
                   child: Stack(
                     children: <Widget>[
                       Positioned(
+<<<<<<< HEAD
                         left: 45,
+=======
+                        left: 60,
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                         top: 40,
                         child: Container(
                           height: 90,
@@ -144,7 +219,11 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
                       // ),
                       Positioned(
                         top: 60,
+<<<<<<< HEAD
                         left: 10,
+=======
+                        left: 30,
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                         child: Text(
                           "5'3''",
                           style: TextStyle(fontSize: 18),
@@ -591,7 +670,11 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
               InkWell(
                 onTap: () {
                   _valueS ? player.play('sound.mp3') : null;
+<<<<<<< HEAD
 
+=======
+                  _service.sendEmail(email);
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                   // Navigator.push(
                   //   context,
                   //   MaterialPageRoute(
@@ -649,6 +732,10 @@ class _SettingsHomePageState extends State<SettingsHomePage> {
             ],
           ),
         ),
+<<<<<<< HEAD
+=======
+        bottomNavigationBar: BottomNavbar(),
+>>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       ),
     );
   }
