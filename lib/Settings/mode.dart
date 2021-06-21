@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-=======
 import 'dart:ui';
 
 import '../bottom_navigator.dart';
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import '../widgets/custom_container.dart';
 
 import '../widgets/custom_checkbox.dart';
@@ -28,12 +25,8 @@ class _ModeState extends State<Mode> {
   bool notpreg = false;
   bool nopreg = false;
   bool babyborn = false;
-<<<<<<< HEAD
-
-=======
   bool temp = false;
   String preg_month = 'No';
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
   void check1() {
     setState(() {
       notpreg = !notpreg;
@@ -52,10 +45,6 @@ class _ModeState extends State<Mode> {
     });
   }
 
-<<<<<<< HEAD
-  void startAddNewTransaction() {
-    showModalBottomSheet(
-=======
   Widget custom_checkbox(bool value, Function abcd) {
     return Transform.translate(
       offset: Offset(0, -8),
@@ -155,269 +144,11 @@ class _ModeState extends State<Mode> {
       clipBehavior: Clip.none,
       barrierColor: Color.fromRGBO(73, 73, 73, 0.4),
       elevation: 0,
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
         topLeft: Radius.circular(40),
         topRight: Radius.circular(40),
       )),
-<<<<<<< HEAD
-      isScrollControlled: true,
-      isDismissible: false,
-      backgroundColor: Theme.of(context).brightness == Brightness.light
-          ? Colors.white
-          : Colors.black,
-      //radius: 50,
-      context: context,
-      builder: (BuildContext context) {
-        return StatefulBuilder(builder: (BuildContext context, setState) {
-          return GestureDetector(
-            onTap: () {
-              globals.status ? globals.player.play('sound.mp3') : null;
-            },
-            child: Padding(
-              padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom),
-              child: Container(
-                height: widget.st == false && rememberMe2 == true
-                    ? MediaQuery.of(context).size.height * 0.6
-                    : MediaQuery.of(context).size.height * 0.9,
-                width: MediaQuery.of(context).size.width,
-                margin: EdgeInsets.fromLTRB(0, 20, 0, 20),
-                padding: EdgeInsets.all(15),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    Row(
-                      children: <Widget>[
-                        FlatButton(
-                            onPressed: () {
-                              globals.status
-                                  ? globals.player.play('sound.mp3')
-                                  : null;
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Cancel',
-                              style: TextStyle(color: Colors.blue),
-                            )),
-                        Spacer(),
-                        FlatButton(
-                            onPressed: () {
-                              globals.status
-                                  ? globals.player.play('sound.mp3')
-                                  : null;
-                              setState(() {
-                                widget.st = !widget.st;
-                              });
-                              Navigator.pop(context);
-                            },
-                            child: Text(
-                              'Save',
-                              style: TextStyle(color: Colors.blue),
-                            )),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Container(
-                        padding: EdgeInsets.fromLTRB(15, 0, 15, 0),
-                        child: Column(
-                          children: [
-                            widget.st == false && rememberMe2 == true
-                                ? Column(
-                                    children: [
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: <Widget>[
-                                          Text(
-                                            'Current Month',
-                                          ),
-                                          Text(
-                                            '$_currentValue month',
-                                          ),
-                                        ],
-                                      ),
-                                      SizedBox(height: 40),
-                                      //Adding divider
-                                      Row(children: <Widget>[
-                                        Expanded(
-                                          child: Container(
-                                              child: Divider(
-                                            thickness: 0.3,
-                                            color:
-                                                Theme.of(context).brightness ==
-                                                        Brightness.light
-                                                    ? Color.fromRGBO(0, 0, 0, 1)
-                                                    : Colors.white38,
-                                          )),
-                                        ),
-                                      ]),
-                                    ],
-                                  )
-                                : SizedBox(),
-                            widget.st == false && rememberMe2 == true
-                                ? Container(
-                                    height: 174,
-                                    width: MediaQuery.of(context).size.width,
-                                    child: NumberPicker.integer(
-                                        selectedTextStyle: TextStyle(
-                                            color:
-                                                Color.fromRGBO(51, 51, 51, 1),
-                                            fontSize: 23,
-                                            fontWeight: FontWeight.w400),
-                                        initialValue: _currentValue,
-                                        minValue: 0,
-                                        maxValue: 17,
-                                        onChanged: (newValue) => setState(() {
-                                              _currentValue = newValue;
-                                            })),
-                                    decoration: BoxDecoration(
-                                      border: Border(
-                                        bottom: BorderSide(
-                                          width: 0.3,
-                                          color: Theme.of(context).brightness ==
-                                                  Brightness.light
-                                              ? Color.fromRGBO(0, 0, 0, 1)
-                                              : Colors.white38,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : SizedBox(
-                                    child: Column(
-                                      children: <Widget>[
-                                        // SizedBox(
-                                        //   height: 40,
-                                        // ),
-                                        Row(
-                                          children: <Widget>[
-                                            Text('Not Pregnant'),
-                                            Spacer(),
-                                            GestureDetector(
-                                              child: CustCont(value: notpreg),
-                                              onTap: () {
-                                                setState(() {
-                                                  notpreg = !notpreg;
-                                                  if (notpreg == true) {
-                                                    nopreg = false;
-                                                    babyborn = false;
-                                                    preg = false;
-                                                  }
-                                                  //widget.abcd();
-                                                });
-                                              },
-                                            ),
-                                            // CustomCheckbox(
-                                            //     value: notpreg, abcd: check1),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 32,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Text('I\'m no longer pregant'),
-                                            Spacer(),
-                                            GestureDetector(
-                                              child: CustCont(value: nopreg),
-                                              onTap: () {
-                                                setState(() {
-                                                  nopreg = !nopreg;
-                                                  if (nopreg == true) {
-                                                    notpreg = false;
-                                                    babyborn = false;
-                                                    preg = false;
-                                                  }
-                                                  //widget.abcd();
-                                                });
-                                              },
-                                            ),
-                                            // CustomCheckbox(
-                                            //     value: nopreg, abcd: check2),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 32,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Text('The baby is born'),
-                                            Spacer(),
-                                            GestureDetector(
-                                              child: CustCont(value: babyborn),
-                                              onTap: () {
-                                                setState(() {
-                                                  babyborn = !babyborn;
-                                                  if (babyborn == true) {
-                                                    notpreg = false;
-                                                    preg = false;
-                                                    nopreg = false;
-                                                  }
-                                                  //widget.abcd();
-                                                });
-                                              },
-                                            ),
-                                            // CustomCheckbox(
-                                            //     value: babyborn, abcd: check3),
-                                          ],
-                                        ),
-                                        SizedBox(
-                                          height: 32,
-                                        ),
-                                        Row(
-                                          children: <Widget>[
-                                            Text('I\'m pregnant'),
-                                            Spacer(),
-                                            GestureDetector(
-                                              child: CustCont(value: preg),
-                                              onTap: () {
-                                                setState(() {
-                                                  preg = !preg;
-                                                  if (preg == true) {
-                                                    notpreg = false;
-                                                    babyborn = false;
-                                                    nopreg = false;
-                                                  }
-                                                  //widget.abcd();
-                                                });
-                                              },
-                                            ),
-                                            // CustomCheckbox(
-                                            //     value: babyborn, abcd: check3),
-                                          ],
-                                        ),
-                                        SizedBox(height: 30),
-                                        preg == true
-                                            ? Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: <Widget>[
-                                                      Text(
-                                                        'Current Month',
-                                                      ),
-                                                      Text(
-                                                        '$_currentValue month',
-                                                      ),
-                                                    ],
-                                                  ),
-                                                  SizedBox(height: 10),
-                                                  Container(
-                                                    height: 174,
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                            .size
-                                                            .width,
-                                                    child: NumberPicker.integer(
-                                                        selectedTextStyle:
-                                                            TextStyle(
-=======
       isScrollControlled: false,
       isDismissible: false,
       backgroundColor: Theme.of(context).brightness == Brightness.light
@@ -578,68 +309,12 @@ class _ModeState extends State<Mode> {
                                                     child: NumberPicker
                                                         .integer(
                                                             selectedTextStyle: TextStyle(
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                                                                 color: Color
                                                                     .fromRGBO(
                                                                         51,
                                                                         51,
                                                                         51,
                                                                         1),
-<<<<<<< HEAD
-                                                                fontSize: 23,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w400),
-                                                        initialValue:
-                                                            _currentValue,
-                                                        minValue: 0,
-                                                        maxValue: 17,
-                                                        onChanged: (newValue) =>
-                                                            setState(() {
-                                                              _currentValue =
-                                                                  newValue;
-                                                            })),
-                                                    decoration: BoxDecoration(
-                                                      border: Border(
-                                                        top: BorderSide(
-                                                          width: 0.3,
-                                                          color: Theme.of(context)
-                                                                      .brightness ==
-                                                                  Brightness
-                                                                      .light
-                                                              ? Color.fromRGBO(
-                                                                  0, 0, 0, 1)
-                                                              : Colors.white38,
-                                                        ),
-                                                        bottom: BorderSide(
-                                                          width: 0.3,
-                                                          color: Theme.of(context)
-                                                                      .brightness ==
-                                                                  Brightness
-                                                                      .light
-                                                              ? Color.fromRGBO(
-                                                                  0, 0, 0, 1)
-                                                              : Colors.white38,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ],
-                                              )
-                                            : SizedBox(),
-                                      ],
-                                    ),
-                                  ),
-                          ],
-                        )),
-                  ],
-                ),
-              ),
-            ),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
-=======
                                                                 fontSize:
                                                                     23,
                                                                 fontWeight:
@@ -1147,7 +822,6 @@ class _ModeState extends State<Mode> {
             );
           }),
         );
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       },
     );
   }
@@ -1157,11 +831,7 @@ class _ModeState extends State<Mode> {
       if (globals.sw == false) {
         globals.sw = true;
       } else if (globals.sw == true) {
-<<<<<<< HEAD
-        globals.sw = false;
-=======
         showAlertDialog('partner_mode');
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       }
       // rememberMe = !rememberMe;
       // if (rememberMe) {
@@ -1179,18 +849,9 @@ class _ModeState extends State<Mode> {
   void _onRememberMeChanged_2() {
     if (rememberMe2 && widget.st) {
       startAddNewTransaction();
-<<<<<<< HEAD
-      rememberMe2 = !rememberMe2;
-    } else {
-      rememberMe2 = !rememberMe2;
-      if (rememberMe2) {
-        startAddNewTransaction();
-      }
-=======
       // rememberMe2 = !rememberMe2;
     } else {
       startAddNewTransaction();
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
     }
   }
 
@@ -1272,9 +933,6 @@ class _ModeState extends State<Mode> {
                     children: <Widget>[
                       Text(
                         'Partner Mode',
-<<<<<<< HEAD
-                        style: TextStyle(fontSize: 22),
-=======
                         style: globals.sw
                             ? TextStyle(
                                 fontSize: 22, fontWeight: FontWeight.w600)
@@ -1285,20 +943,14 @@ class _ModeState extends State<Mode> {
                                         Brightness.light
                                     ? Color.fromRGBO(158, 158, 158, 1)
                                     : null),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                       ),
                       SizedBox(
                         width: 40,
                       ),
                       Transform.translate(
                         offset: Offset(0, -3),
-<<<<<<< HEAD
-                        child: CustomCheckbox2(
-                            value: globals.sw, abcd: _onRememberMeChanged),
-=======
                         child:
                             custom_checkbox(globals.sw, _onRememberMeChanged),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                       )
                     ],
                   ),
@@ -1308,12 +960,8 @@ class _ModeState extends State<Mode> {
                   Container(
                     margin: EdgeInsets.all(20),
                     child: Text(
-<<<<<<< HEAD
-                        'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd'),
-=======
                         'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd',style: TextStyle(color:Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:Color.fromRGBO(158,158,158,1)),),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                   ),
                   SizedBox(
                     height: 40,
@@ -1321,11 +969,6 @@ class _ModeState extends State<Mode> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-<<<<<<< HEAD
-                      Text(
-                        'Pregnancy Mode',
-                        style: TextStyle(fontSize: 22),
-=======
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -1351,20 +994,14 @@ class _ModeState extends State<Mode> {
                             ),
                           ),
                         ],
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                       ),
                       SizedBox(
                         width: 40,
                       ),
                       Transform.translate(
                         offset: Offset(0, -3),
-<<<<<<< HEAD
-                        child: CustomCheckbox(
-                            value: rememberMe2, abcd: _onRememberMeChanged_2),
-=======
                         child: custom_checkbox(
                             rememberMe2, _onRememberMeChanged_2),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                       )
                     ],
                   ),
@@ -1374,22 +1011,15 @@ class _ModeState extends State<Mode> {
                   Container(
                     margin: EdgeInsets.all(20),
                     child: Text(
-<<<<<<< HEAD
-                        'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd'),
-=======
                         'aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd aassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsndaassas sjnsdjsd sjdnsjnds dsjdnsjnd sjdnsnd',style: TextStyle(color:Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:Color.fromRGBO(158,158,158,1)),),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                   ),
                 ],
               ),
             ),
           ],
         )),
-<<<<<<< HEAD
-=======
         bottomNavigationBar: BottomNavbar(),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       ),
     );
   }

@@ -46,7 +46,7 @@ class NotificationHelper {
             ));
   }
 
-  Future<void> showNotificationBtweenInterval() async {
+  Future<void> showNotificationBtweenInterval(String channelId,String channelName,String channelDescription) async {
     await initSharedPrefs();
     await notificationCompare();
 
@@ -62,9 +62,9 @@ class NotificationHelper {
 
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
-      'channel_Id',
-      'Channel Name',
-      'Channel Description',
+      channelId,
+      channelName,
+      channelDescription,
       importance: Importance.Max,
       priority: Priority.High,
       enableVibration: true,

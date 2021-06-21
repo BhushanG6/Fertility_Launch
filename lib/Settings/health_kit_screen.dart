@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-<<<<<<< HEAD
-import 'dart:io' show Platform;
-=======
 import 'package:upcloud_tracker/Settings/health_kit.dart';
 import 'dart:io' show Platform;
 import '../bottom_navigator.dart';
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
 import 'globals.dart' as globals;
 
 class HealthKitScreen extends StatefulWidget {
@@ -91,24 +87,17 @@ class _HealthKitScreenState extends State<HealthKitScreen> {
                 children: [
                   Text(
                     "Connect to the Health App",
-<<<<<<< HEAD
-                    style: TextStyle(fontSize: 17),
-=======
                     style: TextStyle(fontSize: 17,color: Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:_isSelected?Colors.white:Color.fromRGBO(158,158,158,1)),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                   ),
                   Transform.translate(
                     offset: Offset(0, -2),
                     child: GestureDetector(
                       onTap: () {
-<<<<<<< HEAD
-=======
                         Navigator. push(
 context,
 MaterialPageRoute(builder: (context) => HomePage()),
 );
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                         globals.status
                             ? globals.player.play('sound.mp3')
                             : null;
@@ -122,16 +111,11 @@ MaterialPageRoute(builder: (context) => HomePage()),
                         decoration: BoxDecoration(
                           //color: Colors.red,
                           border: Border(
-<<<<<<< HEAD
-                            bottom: BorderSide(
-                              color: Colors.black,
-=======
                             
                             bottom: BorderSide(
                               width: 3,
                               color:Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:_isSelected?Colors.white:Color.fromRGBO(158,158,158,1),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                             ),
                           ),
                         ),
@@ -154,12 +138,8 @@ MaterialPageRoute(builder: (context) => HomePage()),
               child: Text(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Egestas sed temp.',
                 style: TextStyle(
-<<<<<<< HEAD
-                  color: Colors.grey,
-=======
                   color: Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:Color.fromRGBO(158,158,158,1),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                   fontSize: 15,
                 ),
               ),
@@ -183,12 +163,8 @@ MaterialPageRoute(builder: (context) => HomePage()),
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w600,
-<<<<<<< HEAD
-                              color: Colors.black),
-=======
                               color:Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:Colors.white),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                         ),
                         TextSpan(
                           text: " App",
@@ -222,12 +198,8 @@ MaterialPageRoute(builder: (context) => HomePage()),
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w600,
-<<<<<<< HEAD
-                              color: Colors.black),
-=======
                               color: Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:Colors.white),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                         ),
                         TextSpan(
                           text: " tab",
@@ -268,12 +240,8 @@ MaterialPageRoute(builder: (context) => HomePage()),
                           style: TextStyle(
                               fontSize: 17,
                               fontWeight: FontWeight.w600,
-<<<<<<< HEAD
-                              color: Colors.black),
-=======
                               color: Theme.of(context).brightness ==
                                             Brightness.light?Colors.black:Colors.white)
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                         ),
                         TextSpan(
                           text: " in the list of apps",
@@ -306,23 +274,16 @@ MaterialPageRoute(builder: (context) => HomePage()),
                       }),
                   Text(
                     "Turn on all settings",
-<<<<<<< HEAD
-                    style: TextStyle(fontSize: 16, color: Colors.grey),
-=======
                     style: TextStyle(fontSize: 16, color:Theme.of(context).brightness ==
                                             Brightness.light?_valueSettings?Colors.black:Colors.grey:_valueSettings?Colors.white:Color.fromRGBO(158,158,158,1)),
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
                   ),
                 ],
               ),
             ),
           ],
         ),
-<<<<<<< HEAD
-=======
                 bottomNavigationBar: BottomNavbar(),
 
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
       ),
     );
   }

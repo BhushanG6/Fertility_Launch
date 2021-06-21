@@ -6,6 +6,8 @@ import 'package:upcloud_tracker/Settings/theme.dart';
 import '../constants.dart';
 import '../provider.dart/card_provider.dart';
 import '../utilities.dart';
+import '../postapi.dart';
+import '../cardglobal.dart';
 
 ///
 /// A swipe-able card interface for other cards to use.
@@ -75,6 +77,10 @@ class _SwipableCardState extends State<SwipableCard> {
 
     isOpen = cardProvider.openedCardIndex == widget.index;
 
+    bool isopenfun() {
+      return isOpen;
+    }
+
     double textHeight = (height - kBottomNavigationBarHeight - 0) / 10;
 
     final themeProvider = Provider.of<ThemeNotifier>(context);
@@ -85,7 +91,15 @@ class _SwipableCardState extends State<SwipableCard> {
       topPadding += isOpen ? height / 4 : 0;
     }
     return AnimatedPositioned(
-      top: (isOpen && !widget.satationary ? 0 : topPadding),
+      top: (isOpen && !widget.satationary
+          ? widget.index == 4 || widget.index == 3
+              ? getTopPaddingOfCard(
+                    1,
+                    height,
+                  ) +
+                  height / 6
+              : 0
+          : topPadding),
       duration: kDuration,
       child: widget.satationary
           ? restOfWidget(width, height, textHeight, themeProvider.darkTheme)
@@ -111,6 +125,51 @@ class _SwipableCardState extends State<SwipableCard> {
                   onVerticalDragUp(cardProvider);
                 } else {
                   onVerticalDragDown(cardProvider);
+                  switch (widget.index) {
+                    case 0:
+                      {
+                        if(!(flow['Light']==flowData['light'] && flow['Medium']==flowData['medium'] && flow['Heavy']==flowData['heavy'] &&  flow['Spotted']==flowData['spotting']))
+                        if (flowchange == true) postFlow();
+                        flowchange = false;
+                      }
+                      break;
+                    case 1:
+                      {
+                        if(!(selectval['Creamy']==disData['creamy'] && selectval['Watery']==disData['watery'] && selectval['Dry']==disData['dry'] &&  selectval['Sticky']==disData['sticky'] &&  selectval['Egg']==disData['eggWhite']))
+
+                        if (dischargechange == true) postDischarge();
+                        dischargechange = false;
+                      }
+                      break;
+                    case 2:
+                      {
+                        if(!(ovu['Positive']==testovData['positive'] && ovu['Negative']==testovData['negative'] && preg['Positive']==testprData['positive'] &&  preg['Negative']==testprData['negative']))
+
+                        if (testchange == true) postTest();
+                        testchange = false;
+                      }
+                      break;
+                    case 3:
+                      {
+                        if(note!=noteData['note'])
+                        if (notechange == true) postNote();
+                        notechange = false;
+                      }
+                      break;
+                    case 4:
+                      {
+                      if(!(pill['Taken']==pillData['taken'] && pill['Missed']==pillData['missed'] && pill['Late']==pillData['late'] &&  pill['Double']==pillData['double']))
+
+                        if (pillchange == true) postPill();
+                        pillchange = false;
+                      }
+                      break;
+                    default:
+                      {
+                        //Body of default case
+                      }
+                      break;
+                  }
                 }
               },
               child: restOfWidget(
@@ -124,20 +183,20 @@ class _SwipableCardState extends State<SwipableCard> {
     Color color;
     if (isOpen) {
       color = isDark
-          ? Colors.white.withOpacity(0.5)
-          : Colors.black.withOpacity(0.5);
+          ? Colors.white.withOpacity(0.9)
+          : Colors.black.withOpacity(0.9);
     } else {
       color = isDark ? Colors.white : Colors.black;
     }
     return Container(
       width: width,
-      height: height,
+      height: widget.index == 4 ? height * 0.6 : height,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(radius),
         child: BackdropFilter(
           filter: ImageFilter.blur(
-            sigmaX: isOpen ? 5 : 0,
-            sigmaY: isOpen ? 5 : 0,
+            sigmaX: isOpen ? 15 : 0,
+            sigmaY: isOpen ? 15 : 0,
           ),
           child: AnimatedContainer(
             duration: kDuration,
@@ -162,17 +221,27 @@ class _SwipableCardState extends State<SwipableCard> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 if (widget.title != null)
-                  Container(
-                    height: textHeight,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(30, 25, 0, 0),
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          widget.title,
+                          widget.title.split(' ')[0] + ' ',
                           style: TextStyle(
                               fontWeight:
                                   isOpen ? FontWeight.w900 : FontWeight.w600,
                               fontSize: 22),
+                        ),
+                        Text(
+                          widget.title.split(' ').length == 1
+                              ? ''
+                              : widget.title.split(' ')[1],
+                          style: TextStyle(
+                              fontWeight:
+                                  isOpen ? FontWeight.w900 : FontWeight.w600,
+                              fontSize: 22,
+                              color: isOpen ? widget.borderColor : null),
                         ),
                       ],
                     ),

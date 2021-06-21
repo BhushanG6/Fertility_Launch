@@ -6,5 +6,5 @@ double getTopPaddingOfCard(int index, double totalHight,
   totalHight -= (isbottomNavBar ? kBottomNavigationBarHeight : 0) + topPadding;
 
   // return topPadding + totalHight / 2 + (totalHight / 10) * (index);
-  return ((totalHight - kBottomNavigationBarHeight) / 10) * (index);
+  return ((totalHight - kBottomNavigationBarHeight) / 9) * (index);
 }

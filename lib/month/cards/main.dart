@@ -1,10 +1,15 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:upcloud_tracker/Settings/home_page.dart';
+import 'package:upcloud_tracker/mns/main.dart';
+import 'package:upcloud_tracker/report/main.dart';
 
 import 'constants.dart';
 import 'pagetwo.dart';
 import 'pageone.dart';
 import 'provider.dart/card_provider.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -40,59 +45,46 @@ class BodyWidget extends StatelessWidget {
 
     return Scaffold(
       body: PageView(
+        physics: BouncingScrollPhysics(),
+     allowImplicitScrolling: true,
+    scrollDirection: Axis.vertical,
         children: [
-          Stack(
+                   
+
+          PageView(
             children: [
-              CounterWidget(),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: AnimatedContainer(
-                  duration: kDuration,
-                  height: height,
-                  child: OverflowBox(
-                    maxWidth: width,
-                    child: PageView(
-                      children: [
-                        PageOne(),
-                        PageTwo(),
-                      ],
+              Stack(
+                children: [
+                  CounterWidget(),
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: AnimatedContainer(
+                      duration: kDuration,
+                      height: height,
+                      child: OverflowBox(
+                        maxWidth: width,
+                        child: PageView(
+                          children: [
+                            PageOne(),
+                            PageTwo(),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
+             MNS(),
             ],
           ),
-          Container(
-            color: Colors.white,
-          )
+           MyApp(),
         ],
       ),
-      bottomNavigationBar: Container(
-        height: kBottomNavigationBarHeight,
-        child: BottomNavigationBar(
-          elevation: 0,
-          unselectedItemColor: Colors.grey,
-          selectedItemColor: Colors.black,
-          items: [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.circle),
-              label: "Element",
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.lightbulb), label: "Element"),
-            BottomNavigationBarItem(icon: Icon(Icons.mail), label: "Element"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.import_contacts), label: "Element"),
-            BottomNavigationBarItem(
-                backgroundColor: Colors.orange,
-                icon: Icon(Icons.square_foot),
-                label: "Element"),
-          ],
-        ),
-      ),
+   
     );
   }
 }
+
 
 class CounterWidget extends StatefulWidget {
   @override
@@ -103,34 +95,62 @@ class _CounterWidgetState extends State<CounterWidget> {
   int count = 0;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          count++;
-        });
-      },
-      child: Center(
-        child: Container(
-          color: Colors.blue,
-          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Expanded(
-              child: Container(
-                child: Center(
-                    child: Text(
-                  "$count",
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                )),
-              ),
+    return Stack(
+      children: [
+          GestureDetector(
+             onTap: () {
+               Navigator.push(
+      context,
+      PageTransition(
+        type: PageTransitionType.topToBottom,
+        child: SettingsHomePage(),
+        inheritTheme: true,
+        ctx: context),
+);
+        },
+                      child: Align(
+              alignment: Alignment.topRight,
+                        child: Icon(
+      Icons.circle,
+      color: Colors.red,
+      size: 24.0,
+      semanticLabel: 'Text to announce in accessibility modes',
+    ),
             ),
-            Expanded(
-              flex: 1,
-              child: Container(),
-            )
-          ]),
-        ),
-      ),
+          ),
+        // Padding(
+        //   padding: const EdgeInsets.only(top:30),
+        //   child: GestureDetector(
+        //     onTap: () {
+        //       setState(() {
+        //         count++;
+        //       });
+        //     },
+        //     child: Center(
+        //       child: Container(
+        //         color: Colors.blue,
+        //         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        //           Expanded(
+        //             child: Container(
+        //               child: Center(
+        //                   child: Text(
+        //                 "$count",
+        //                 style: TextStyle(
+        //                   fontSize: 20,
+        //                 ),
+        //               )),
+        //             ),
+        //           ),
+        //           Expanded(
+        //             flex: 1,
+        //             child: Container(),
+        //           )
+        //         ]),
+        //       ),
+        //     ),
+        //   ),
+        // ),
+      ],
     );
   }
 }

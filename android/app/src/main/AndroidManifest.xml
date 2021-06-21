@@ -1,9 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.upcloud_tracker">
-<<<<<<< HEAD
-     <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-=======
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 <uses-permission android:name="android.permission.WAKE_LOCK"/>
@@ -12,7 +8,6 @@
      <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <uses-permission android:name="android.permission.INTERNET"/>
 <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION"/>
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
    <application
         android:label="upcloud_tracker"
         android:icon="@mipmap/ic_launcher">
@@ -50,8 +45,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-<<<<<<< HEAD
-=======
             <service
     android:name="io.flutter.plugins.androidalarmmanager.AlarmService"
     android:permission="android.permission.BIND_JOB_SERVICE"
@@ -72,6 +65,5 @@
 </intent-filter>
 </receiver>
 <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver"/>
->>>>>>> 5cfd5e8b9c4222842c43888a34e783a1847cdfc2
     </application>
 </manifest>

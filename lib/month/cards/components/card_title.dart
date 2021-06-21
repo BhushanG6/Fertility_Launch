@@ -10,6 +10,7 @@ class CardTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+     
         child: AnimatedDefaultTextStyle(
       duration: kDuration,
       style: TextStyle(
