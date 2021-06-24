@@ -46,7 +46,7 @@ class NotificationHelper {
             ));
   }
 
-  Future<void> showNotificationBtweenInterval(String channelId,String channelName,String channelDescription) async {
+  Future<void> showNotificationBtweenInterval() async {
     await initSharedPrefs();
     await notificationCompare();
 
@@ -62,9 +62,9 @@ class NotificationHelper {
 
     AndroidNotificationDetails androidNotificationDetails =
         AndroidNotificationDetails(
-      channelId,
-      channelName,
-      channelDescription,
+      'channel_Id',
+      'Channel Name',
+      'Channel Description',
       importance: Importance.Max,
       priority: Priority.High,
       enableVibration: true,
@@ -133,4 +133,53 @@ class NotificationHelper {
   Future initSharedPrefs() async {
     sharedPreferences = await SharedPreferences.getInstance();
   }
+
+
+
+ Future<void>  show_Notification_Over_An_Interval({int numberofdaysprior,
+ DateTime targetday,int offset,String messagebody,String messagetitle}) async{
+
+
+     AndroidNotificationDetails androidNotificationDetails =
+        AndroidNotificationDetails(
+      'channel_Id',
+      'Channel Name',
+      'Channel Description',
+      importance: Importance.Max,
+      priority: Priority.High,
+      enableVibration: true,
+      enableLights: true,
+      ticker: 'test ticker',
+      playSound: true,
+    );
+
+    IOSNotificationDetails iosNotificationDetails = IOSNotificationDetails();
+    NotificationDetails notificationDetails =
+        NotificationDetails(androidNotificationDetails, iosNotificationDetails);
+  
+  DateTime startDay = targetday.subtract(Duration(days: numberofdaysprior));
+  print('startday is $startDay');
+  DateTime currentday=DateTime.now();
+  DateTime nextday;
+  nextday=startDay;
+ for(int i=0+offset;i<=numberofdaysprior+offset;i++){
+  print('nextday per schedule is $nextday , i= $i , max limit : $numberofdaysprior+$offset ');
+  if(nextday.isAfter(currentday))
+  {flutterLocalNotificationsPlugin.schedule(i, messagetitle,messagebody,nextday, notificationDetails);
+  print('scheduled for day: $nextday') ;}
+  else print('not scheduled for $nextday as date is before currentday');
+ nextday=nextday.add(Duration(days:1));
+ }
+
+
+
+ }
+
+Future<void> cancell_Notification_Interval(int numberofdaysprior,int offset){
+   
+   for(int i=0+offset;i<=numberofdaysprior+offset;i++){
+     flutterLocalNotificationsPlugin.cancel(i);
+     print('cancelled schedule for id: $i');
+   }
+ }
 }

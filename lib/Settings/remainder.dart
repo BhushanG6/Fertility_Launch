@@ -19,6 +19,7 @@ import 'customizedNotification.dart';
 
 class RemainderAgain extends StatefulWidget {
   int start_day;
+  
   String str;
   TimeOfDay start_time;
   int end_day;
@@ -44,7 +45,29 @@ class RemainderAgain extends StatefulWidget {
 class RemainderAgainState extends State<RemainderAgain> {
   @override
   final _titleController_alert = TextEditingController();
-  String channelId,channelName,channelDescription;
+  
+  // added variables
+
+  // offset
+  int period_offset = 0;
+  int period_end_offset = 19;
+  int ovulation_offset = 20;
+  int pills_offset = 40;
+
+  DateTime period_day =
+      DateTime.now().add(Duration(days: 10)); // assumes period happens in 10 days from current day
+  DateTime ovulaiton_day =
+      DateTime.now().add(Duration(days: 5)); //assumes ovulation happens in 5 days from current day
+
+  bool from_datepicker=false;
+  String frompillsdate ='';
+  
+  DateTime from_datepill;
+  DateTime till_datepill;  
+   
+
+  // added varables ends 
+
   bool pad = false;
   bool period_alert = false;
   bool period_alertval = false;
@@ -127,15 +150,15 @@ class RemainderAgainState extends State<RemainderAgain> {
       globals1.install_status1 = (prefs.getBool('installStatus1') ?? false);
       if (globals1.install_status1 == true) {
         selectedsanitary = (prefs.getString('select_sanitary') ?? "Nothing");
-        
+
         pad = (prefs.getBool('pad') ?? false);
         tampons = (prefs.getBool('tampons') ?? false);
         cloth = (prefs.getBool('cloth') ?? false);
-        
-        if(pad || tampons || cloth)
-        val_pads = true;
+
+        if (pad || tampons || cloth)
+          val_pads = true;
         else
-        val_pads=false;
+          val_pads = false;
 
         globals1.d11 = d11 = (prefs.getBool('once1') ?? false);
         globals1.d12 = d12 = (prefs.getBool('twice1') ?? false);
@@ -885,7 +908,34 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       )),
                                   Spacer(),
                                   GestureDetector(
-                                      onTap: () {
+                                      onTap: () async {
+                                       
+                                  if (period_alertval) {
+                                           // shows 
+                                       DateTime targetDay = DateTime(
+                                            period_day.year,
+                                            period_day.month,
+                                            period_day.day,
+                                            22,
+                                            0);
+
+                                        String remmsg = _titleController_alert.text ==
+                                                ''
+                                            ? "Your Period Cycle has come to an end!!"
+                                            : _titleController_alert.text
+                                                .trim();
+
+
+                                          await NotificationHelper()
+                                              .show_Notification_Over_An_Interval(
+                                                  messagetitle:
+                                                      'Period End Alert',
+                                                  messagebody: remmsg,
+                                                  numberofdaysprior: 0,
+                                                  targetday: targetDay,
+                                                  offset: period_end_offset);
+                                        }
+
                                         print(period_alertval);
                                         setState(() {
                                           // period_alert = true;
@@ -959,14 +1009,21 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     SizedBox(height: 22),
                                     TextFormField(
                                       style: TextStyle(
-                                          color: Theme.of(context).brightness==Brightness.light?Colors.black:Colors.white,
+                                          color: Theme.of(context).brightness ==
+                                                  Brightness.light
+                                              ? Colors.black
+                                              : Colors.white,
                                           fontSize: 17,
                                           fontWeight: FontWeight.w500),
                                       decoration: InputDecoration(
                                         // border: InputBorder(borderSide: ),
                                         hintText:
                                             'Your Period Cycle has come to an end!!',
-                                        fillColor: Theme.of(context).brightness==Brightness.light?Colors.black:Colors.white,
+                                        fillColor:
+                                            Theme.of(context).brightness ==
+                                                    Brightness.light
+                                                ? Colors.black
+                                                : Colors.white,
                                         focusColor: Colors.transparent,
                                         hoverColor: Colors.transparent,
                                       ),
@@ -975,13 +1032,17 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     SizedBox(height: 50),
                                     if (del == true)
                                       GestureDetector(
-                                          onTap: () {
-                                            setState(() {
-                                              showAlertDialog1(
-                                                  'period_end', setState);
-                                            });
+                                          onTap: () async {
+                                            print('deleting notification');
+                                            await NotificationHelper()
+                                                .cancell_Notification_Interval(
+                                                    0, period_end_offset);
+                                            // setState(() {
+                                            //   showAlertDialog1(
+                                            //       'period_end', setState);
+                                            // });
 
-                                            //Navigator.pop(context);
+                                            Navigator.pop(context);
                                           },
                                           child: Center(
                                               child: Text(
@@ -1475,25 +1536,33 @@ class RemainderAgainState extends State<RemainderAgain> {
     bool boolpill = false;
     void showdeleteBottom() {
       showModalBottomSheet(
-        elevation: 0,
-        barrierColor: Colors.transparent,
-        clipBehavior: Clip.hardEdge,
-        backgroundColor: Colors.transparent,
+          elevation: 0,
+          barrierColor: Colors.transparent,
+          clipBehavior: Clip.hardEdge,
+          backgroundColor: Colors.transparent,
           context: context,
           builder: (BuildContext context) {
             return ClipRect(
-                          child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX:10,sigmaY:10),
-                            child: Container(
-                              height: 70,
-                              decoration: BoxDecoration(color:Theme.of(context).brightness == Brightness.light?Color.fromRGBO(158,158,158,0.1):Color.fromRGBO(255,255,255,0.1)),
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  height: 70,
+                  decoration: BoxDecoration(
+                      color: Theme.of(context).brightness == Brightness.light
+                          ? Color.fromRGBO(158, 158, 158, 0.1)
+                          : Color.fromRGBO(255, 255, 255, 0.1)),
                   child: del
                       ? GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              showAlertDialog1('pills', setState);
-                            });
-                            //Navigator.pop(context);
+                          onTap: () async {
+                            print('deleting remainder');
+                            await NotificationHelper()
+                                .cancell_Notification_Interval(
+                                    diffdate, pills_offset);
+                                
+                            // setState(() {
+                            //   showAlertDialog1('pills', setState);
+                            // });
+                            Navigator.pop(context);
                           },
                           child: Center(
                               child: Text(
@@ -1570,8 +1639,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                         setState2(() {
                                           del = !del;
                                         });
-                                        if(del==true)
-                                        showdeleteBottom();
+                                        if (del == true) showdeleteBottom();
                                         //Navigator.pop(context);
                                       },
                                       child: Text(
@@ -1583,7 +1651,23 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       )),
                                   Spacer(),
                                   InkWell(
-                                      onTap: () {
+                                      onTap: ()  async  {
+                                        if(diffdate > 0  && pill_interval >0){
+                                          String message = pills_ovul.text == ''?'Remember to take pills':pills_ovul.text.trim();
+                                          //setting notification to morning 9 am on start day
+                                          DateTime morningDate = DateTime(till_datepill.year,
+                                          till_datepill.month,till_datepill.day,9,0);   
+                                         
+                                         String name_pill = pillname.text == ''?'Glass Buster':pillname.text.trim();   
+                                         
+                                          await NotificationHelper().show_Notification_Over_An_Interval(
+                                            messagetitle: 'Pills $name_pill $pill_interval times a day',
+                                            messagebody: message,
+                                            offset: pills_offset,
+                                            targetday: morningDate,
+                                            numberofdaysprior: diffdate,
+                                          );
+                                        }
                                         setState(() {
                                           if (pills == false) pills = !pills;
 
@@ -1623,6 +1707,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
+
                                       Row(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
@@ -1650,35 +1735,172 @@ class RemainderAgainState extends State<RemainderAgain> {
                                             ],
                                           ),
                                           Spacer(),
+
+
                                           Container(
-                                            alignment: Alignment.center,
                                             padding: EdgeInsets.only(bottom: 5),
-                                            height: 30,
                                             width: 113,
-                                            child: Text(from,
-                                                style: TextStyle(
-                                                    color: Theme.of(context)
-                                                                .brightness !=
-                                                            Brightness.light
-                                                        ? Colors.white
-                                                        : Colors.black,
-                                                    fontSize: 15,
-                                                    fontWeight:
-                                                        FontWeight.w600)),
+                                            height: 30,
+                                            child: FlatButton(
+                                              onPressed: () {
+                                                setState2(() {
+                                                  from_datepicker = !from_datepicker;
+                                                  // a12 = false;
+                                                });
+
+                                                //startPeriodTime1();
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Text(frompillsdate,
+                                                      overflow:
+                                                          TextOverflow.clip,
+                                                      style: TextStyle(
+                                                          color: Theme.of(context)
+                                                                      .brightness !=
+                                                                  Brightness
+                                                                      .light
+                                                              ? diffdate == 0
+                                                                  ? Color
+                                                                      .fromRGBO(
+                                                                          158,
+                                                                          158,
+                                                                          158,
+                                                                          1)
+                                                                  : Colors.white
+                                                              : Colors.black,
+                                                          fontSize: 15,
+                                                          fontWeight:
+                                                              FontWeight.w500)),
+                                                  //Divider(thickness:3,color:Colors.black),
+                                                ],
+                                              ),
+                                            ),
                                             decoration: BoxDecoration(
                                                 border: Border(
                                                     bottom: BorderSide(
-                                              width: 3,
-                                              color: Theme.of(context)
-                                                          .brightness !=
-                                                      Brightness.light
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            ))),
+                                                        width: 3,
+                                                        color: Theme.of(context)
+                                                                    .brightness !=
+                                                                Brightness.light
+                                                            ? diffdate == 0
+                                                                ? Color
+                                                                    .fromRGBO(
+                                                                        158,
+                                                                        158,
+                                                                        158,
+                                                                        1)
+                                                                : Colors.white
+                                                            : Colors.black))),
                                           ),
+
+
+
                                         ],
                                       ),
-                                      SizedBox(height: 10),
+                                      SizedBox(height: 15),
+                                      from_datepicker?       
+                                            Container(
+                                              //padding: EdgeInsets.only(top:10),
+                                              decoration: BoxDecoration(
+                                                border: Border(
+                                                  top: BorderSide(
+                                                    color: Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? Colors.black12
+                                                        : Colors.white38,
+                                                  ),
+                                                  bottom: BorderSide(
+                                                    color: Theme.of(context)
+                                                                .brightness ==
+                                                            Brightness.light
+                                                        ? Colors.black12
+                                                        : Colors.white38,
+                                                  ),
+                                                ),
+                                              ),
+                                              height: 180,
+                                              // MediaQuery.of(context)
+                                              //         .copyWith()
+                                              //         .size
+                                              //         .height /
+                                              //     6,
+
+                                              child: CupertinoTheme(
+                                                data: CupertinoThemeData(
+                                                  textTheme:
+                                                      CupertinoTextThemeData(
+                                                    dateTimePickerTextStyle:
+                                                        TextStyle(
+                                                      fontSize: 22,
+                                                      color: Theme.of(context)
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? Colors.black
+                                                          : Colors.white,
+                                                    ),
+                                                  ),
+                                                ),
+                                                child: CupertinoDatePicker(
+                                                  backgroundColor:
+                                                      Theme.of(context)
+                                                                  .brightness ==
+                                                              Brightness.light
+                                                          ? Colors.transparent
+                                                          : Colors.transparent,
+                                                  initialDateTime:
+                                                      DateTime.now(),
+                                                  onDateTimeChanged:
+                                                      (DateTime newdate) {
+                                                    setState2(() {
+                                                      from_datepill =newdate;
+                                                      frompillsdate = newdate
+                                                              .toString()
+                                                              .substring(
+                                                                  8, 10) +
+                                                          '/' +
+                                                          newdate
+                                                              .toString()
+                                                              .substring(5, 7) +
+                                                          '/' +
+                                                          newdate
+                                                              .toString()
+                                                              .substring(0, 4);
+                                                      
+                                                    });
+
+                                                    // int tempint;
+                                                    // tempint = newdate
+                                                    //     .difference(
+                                                    //         DateTime.now())
+                                                    //     .inDays;
+
+                                                    // if (tempint < 0)
+                                                    //   diffdate = 0;
+                                                    // else
+                                                    //   diffdate = tempint;
+                                                    // print(newdate);
+
+                                                     setState(() {
+                                                      int diff= till_datepill.difference(from_datepill).inDays;
+                                                      if(diff>0)diffdate = diff;
+                                                      else diffdate =0;
+                                                    });
+                                                
+                                                  },
+                                                  maximumDate: new DateTime(
+                                                      2021, 12, 30),
+                                                  minimumYear: 2021,
+                                                  maximumYear: 2021,
+                                                  minuteInterval: 1,
+                                                  mode: CupertinoDatePickerMode
+                                                      .date,
+                                                ),
+                                              ),
+                                              //datetime(),
+                                            )
+                                          : SizedBox(height: 10),
                                       /////////////////
                                       Row(
                                         crossAxisAlignment:
@@ -1718,6 +1940,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           ),
                                           Spacer(),
                                           //SizedBox(width:178),
+                                          
                                           Container(
                                             padding: EdgeInsets.only(bottom: 5),
                                             width: 113,
@@ -1774,6 +1997,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                                 : Colors.white
                                                             : Colors.black))),
                                           ),
+
                                         ],
                                       ),
                                       SizedBox(height: 15),
@@ -1832,6 +2056,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                   onDateTimeChanged:
                                                       (DateTime newdate) {
                                                     setState2(() {
+                                                      till_datepill=newdate;
                                                       pillsdate = newdate
                                                               .toString()
                                                               .substring(
@@ -1850,17 +2075,25 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                       //     '/' +
                                                       //     '${newdate.year}';
                                                     });
-                                                    int tempint;
-                                                    tempint = newdate
-                                                        .difference(
-                                                            DateTime.now())
-                                                        .inDays;
 
-                                                    if (tempint < 0)
-                                                      diffdate = 0;
-                                                    else
-                                                      diffdate = tempint;
-                                                    print(newdate);
+                                                    // int tempint;
+                                                    // tempint = newdate
+                                                    //     .difference(
+                                                    //         DateTime.now())
+                                                    //     .inDays;
+
+                                                    // if (tempint < 0)
+                                                    //   diffdate = 0;
+                                                    // else
+                                                    //   diffdate = tempint;
+                                                    // print(newdate);
+
+                                                    setState(() {
+                                                      int diff= till_datepill.difference(from_datepill).inDays;
+                                                      if(diff>0)diffdate = diff;
+                                                      else diffdate =0;
+                                                    });
+                                                  
                                                   },
                                                   maximumDate: new DateTime(
                                                       2021, 12, 30),
@@ -1874,6 +2107,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                               //datetime(),
                                             )
                                           : SizedBox(height: 10),
+                                          
                                       SizedBox(height: 10),
                                       Row(
                                         crossAxisAlignment:
@@ -1886,7 +2120,8 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Column(
-                                                crossAxisAlignment: CrossAxisAlignment.start,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
                                                 children: [
                                                   Text('No of Pills/day',
                                                       style: TextStyle(
@@ -1899,8 +2134,10 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                                       .w600,
                                                           color: Theme.of(context)
                                                                       .brightness !=
-                                                                  Brightness.light
-                                                              ? pill_interval == 0
+                                                                  Brightness
+                                                                      .light
+                                                              ? pill_interval ==
+                                                                      0
                                                                   ? Color
                                                                       .fromRGBO(
                                                                           158,
@@ -1909,11 +2146,15 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                                           1)
                                                                   : null
                                                               : null)),
-                                                  Text('$pill_interval times a day',style: TextStyle(  color: Color.fromRGBO(
-                                                          26, 147, 111, 1),
-                                                      fontSize: 13,
-                                                      fontWeight:
-                                                          FontWeight.w500),)
+                                                  Text(
+                                                    '$pill_interval times a day',
+                                                    style: TextStyle(
+                                                        color: Color.fromRGBO(
+                                                            26, 147, 111, 1),
+                                                        fontSize: 13,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  )
                                                 ],
                                               ),
                                             ],
@@ -2016,89 +2257,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                               //height: 18,
                                               ),
                                       SizedBox(height: 20),
-                                      // Row(
-                                      //   crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   children: [
-                                      //     Column(
-                                      //     mainAxisAlignment: MainAxisAlignment.start,
-                                      //     crossAxisAlignment: CrossAxisAlignment.start,
-                                      //     children: [
-                                      //       Padding(
-                                      // padding: const EdgeInsets.only(top: 10),
-                                      // child: Text('Stages',
-                                      //   style: TextStyle(
-                                      //         fontSize: 18,
-                                      //         fontWeight: FontWeight.w400)),
-                                      //       ),
-                                      //     ],
-                                      //     ),
-                                      //     Spacer(),
-                                      //     Container(
-                                      //     height: 30,
-                                      //     width: 113,
-                                      //     child: FlatButton(
-                                      //       onPressed: () {
-                                      // setState2(() {
-                                      // a12 = !a12;
-                                      // });
-                                      //       },
-                                      //       child: Text(no_stages,
-                                      // style: TextStyle(
-                                      //       color: Colors.black,
-                                      //       fontSize: 17,
-                                      //       fontWeight: FontWeight.w500)),
-                                      //     ),
-                                      //     decoration: BoxDecoration(
-                                      // border:
-                                      //   Border(bottom: BorderSide(width: 3))),
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      // SizedBox(height: 15),
-                                      // a12 == true
-                                      //     ? Container(
-                                      //       decoration: BoxDecoration(
-                                      // border: Border(
-                                      // top: BorderSide(
-                                      //   color: Theme.of(context).brightness ==
-                                      // Brightness.light
-                                      //         ? Colors.black12
-                                      //         : Colors.white38,
-                                      // ),
-                                      // bottom: BorderSide(
-                                      //   color: Theme.of(context).brightness ==
-                                      // Brightness.light
-                                      //         ? Colors.black12
-                                      //         : Colors.white38,
-                                      // ),
-                                      // ),
-                                      //       ),
-                                      //       height: 160,
-                                      //       width: MediaQuery.of(context).size.width,
-                                      //       // MediaQuery.of(context)
-                                      //       //         .copyWith()
-                                      //       //         .size
-                                      //       //         .height /
-                                      //       //     5.5,
-                                      //       child: NumberPicker.integer(
-                                      // // textMapper:,
-                                      // selectedTextStyle: TextStyle(
-                                      //       color:
-                                      //         Color.fromRGBO(51, 51, 51, 1),
-                                      //       fontSize: 23,
-                                      //       fontWeight: FontWeight.w400),
-                                      // highlightSelectedValue: true,
-                                      // initialValue: _currentValue2,
-                                      // minValue: 0,
-                                      // maxValue: 20,
-                                      // onChanged: (newVal) => setState2(() =>
-                                      //       no_stages = newVal.toString())),
-                                      //     )
-                                      //     : SizedBox(
-                                      //       //height: 18,
-                                      //       ),
-                                      // ///////////////////
-                                      // SizedBox(height: 40),
+                                     
                                       Text('Name to the Pills',
                                           style: TextStyle(
                                               fontSize: 18,
@@ -2136,7 +2295,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                             fontWeight: FontWeight.w500),
                                         decoration: InputDecoration(
                                           // border: InputBorder(borderSide: ),
-                                          hintText: 'Ovulation starts soon',
+                                          hintText: 'Remember to take pills',
                                           fillColor: Colors.transparent,
                                           focusColor: Colors.transparent,
                                           hoverColor: Colors.transparent,
@@ -4082,24 +4241,44 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     onPressed: () async {
                                       DateTime endTime = DateTime.now().add(
                                           new Duration(days: _currentValue2));
-                                      setStartTime(DateTime(
-                                          DateTime.now().year,
-                                          DateTime.now().month,
-                                          DateTime.now().day,
-                                         period_start_now2.hour,
-                                         period_start_now2.minute));
-                                      setEndTime(DateTime(
-                                          endTime.year,
-                                          endTime.month,
-                                          endTime.day,
+
+                                      // targetDay day when period starts or Endtime
+                                      var targetDay = DateTime(
+                                          period_day.year,
+                                          period_day.month,
+                                          period_day.day,
                                           period_start_now2.hour,
-                                          period_start_now2.minute));
-                                      WidgetsFlutterBinding.ensureInitialized();
-                                      await AndroidAlarmManager.initialize();
-                                      onTimePeriodic();
-                                      channelId='periodAlert';
-                                      channelName='period';
-                                      channelDescription='Notification for periodalert';
+                                          period_start_now2.minute);
+
+                                      String remaindermsg =
+                                          _titleController2.text == ''
+                                              ? 'Your Period starts soon':_titleController2.text.trim();
+
+                                      await NotificationHelper()
+                                          .show_Notification_Over_An_Interval(
+                                              messagetitle: 'Period Alert',
+                                              messagebody: remaindermsg,
+                                              numberofdaysprior: _currentValue2,
+                                              offset: period_offset,
+                                              targetday: targetDay);
+
+                                      // setStartTime(DateTime(
+                                      //     DateTime.now().year,
+                                      //     DateTime.now().month,
+                                      //     DateTime.now().day,
+                                      //     DateTime.now().hour,
+                                      //     DateTime.now().minute));
+
+                                      // setEndTime(DateTime(
+                                      //     endTime.year,
+                                      //     endTime.month,
+                                      //     endTime.day,
+                                      //     period_start_now2.hour,
+                                      //     period_start_now2.minute));
+
+                                     // WidgetsFlutterBinding.ensureInitialized();
+                                     // await AndroidAlarmManager.initialize();
+                                     //  onTimePeriodic();
                                       setState(() {
                                         alert = true;
                                         widget.end_time = period_start_now2;
@@ -4108,6 +4287,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                         b11 = false;
                                         b12 = false;
                                       });
+
                                       setStatus();
                                       globals1.periodalertupdate = true;
                                       Navigator.pop(context);
@@ -4465,16 +4645,21 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     if (del == true)
                                       GestureDetector(
                                           onTap: () {
+                                            print('deleting remainder');
+                                            NotificationHelper()
+                                                .cancell_Notification_Interval(
+                                                    _currentValue2,
+                                                    period_offset);
                                             setState(() {
                                               _currentValue2 = 0;
                                               period_start_now2 =
                                                   TimeOfDay(hour: 0, minute: 0);
 
                                               val2 = false;
-                                              showAlertDialog1(
-                                                  'period_alert', setState);
+                                              // showAlertDialog1(
+                                              //     'period_alert', setState);
                                             });
-                                            //Navigator.pop(context);
+                                            Navigator.pop(context);
                                           },
                                           child: Center(
                                               child: Text(
@@ -4575,7 +4760,27 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     )),
                                 Spacer(),
                                 FlatButton(
-                                    onPressed: () {
+                                    onPressed: () async {
+                                      DateTime targetDay = DateTime(
+                                          ovulaiton_day.year,
+                                          ovulaiton_day.month,
+                                          ovulaiton_day.day,
+                                          period_start_now3.hour,
+                                          period_start_now3.minute);
+
+                                      String remmsg =
+                                          _titleController3.text == ''
+                                              ? 'Ovulation starts soon!'
+                                              : _titleController3.text.trim();
+
+                                      await NotificationHelper()
+                                          .show_Notification_Over_An_Interval(
+                                              messagetitle: 'Ovulation Alert',
+                                              offset: ovulation_offset,
+                                              messagebody: remmsg,
+                                              numberofdaysprior: _currentValue3,
+                                              targetday: targetDay);
+
                                       setState(() {
                                         widget.ovul_time = period_start_now3;
                                         widget.ovul_day = _currentValue3;
@@ -4934,7 +5139,11 @@ class RemainderAgainState extends State<RemainderAgain> {
                                       decoration: InputDecoration(
                                         // border: InputBorder(borderSide: ),
                                         hintText: 'Ovulation starts soon!',
-                                        fillColor:Theme.of(context).brightness==Brightness.light? Colors.black:Colors.white,
+                                        fillColor:
+                                            Theme.of(context).brightness ==
+                                                    Brightness.light
+                                                ? Colors.black
+                                                : Colors.white,
                                         focusColor: Colors.black,
                                         hoverColor: Colors.black,
                                       ),
@@ -4943,7 +5152,13 @@ class RemainderAgainState extends State<RemainderAgain> {
                                     SizedBox(height: 50),
                                     if (del == true)
                                       GestureDetector(
-                                          onTap: () {
+                                          onTap: () async {
+                                            print('deleting remainder');
+                                            await NotificationHelper()
+                                                .cancell_Notification_Interval(
+                                                    _currentValue3,
+                                                    ovulation_offset);
+
                                             setState(() {
                                               val3 = false;
                                               _currentValue3 = 0;
@@ -5362,7 +5577,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                         158, 158, 158, 1)
                                                     : null),
                                       ),
-                                      if (period_alertval == true)
+                                       if (period_alertval == true)
                                         Text(
                                           widget.end_time != null &&
                                                   widget.end_day != null
@@ -5375,6 +5590,17 @@ class RemainderAgainState extends State<RemainderAgain> {
                                           style: TextStyle(color: Colors.red),
                                           textAlign: TextAlign.left,
                                         ),
+                                      // Text(
+                                      //   widget.ovul_time != null &&
+                                      //           widget.ovul_day != null
+                                      //       ? widget.ovul_time.format(context) +
+                                      //           ' - ' +
+                                      //           widget.ovul_day.toString() +
+                                      //           ' days'
+                                      //       : '',
+                                      //   style: TextStyle(color: Colors.red),
+                                      //   textAlign: TextAlign.left,
+                                      // ),
                                     ],
                                   ),
                                   Spacer(),
@@ -5423,7 +5649,7 @@ class RemainderAgainState extends State<RemainderAgain> {
                                                         158, 158, 158, 1)
                                                     : null),
                                       ),
-                                      
+                                     
                                     ],
                                   ),
                                   Spacer(),
@@ -5576,8 +5802,8 @@ class RemainderAgainState extends State<RemainderAgain> {
     );
   }
 
-   periodicCallback() {
-    NotificationHelper().showNotificationBtweenInterval(channelId,channelName,channelDescription);
+  static periodicCallback() {
+    NotificationHelper().showNotificationBtweenInterval();
   }
 
   onTimePeriodic() {
